@@ -1,6 +1,7 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import { getLocalStorage } from "@/lib/storage";
+import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 
 export type User = {
   id: string;
@@ -13,6 +14,7 @@ export type User = {
 type AuthContextType = {
   user: User | null;
   isLogin: boolean;
+  isAuthLoading: boolean;
   setUser: (user: User | null) => void;
 };
 
@@ -21,6 +23,16 @@ export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUserState] = useState<User | null>(null);
   const [isLogin, setIsLogin] = useState<boolean>(false);
+  const [isAuthLoading, setIsAuthLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const storedUser = getLocalStorage<User>("user");
+    if (storedUser) {
+      setUserState(storedUser);
+      setIsLogin(true);
+    }
+    setIsAuthLoading(false); // Finished checking
+  }, []);
 
   const setUser = (newUser: User | null) => {
     setUserState(newUser);
@@ -33,7 +45,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  return <AuthContext.Provider value={{ user, setUser, isLogin }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ user, setUser, isLogin, isAuthLoading }}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {
