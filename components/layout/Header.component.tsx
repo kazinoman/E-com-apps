@@ -6,11 +6,11 @@ import { usePathname, useRouter } from "next/navigation";
 import { User, ShoppingBag, Menu, Search, Home as HomeIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/UserInfoContext";
-import { Button } from "../ui/button";
 import { CartButton } from "../common/CartButton";
 import Link from "next/link";
 import { PageUrls } from "@/constants/PageUrls";
 import { ThemeToggle } from "../common/ThemeToggleButton";
+import { Container } from "../common/Container";
 
 export function Header() {
   const pathname = usePathname();
@@ -29,8 +29,8 @@ export function Header() {
   return (
     <>
       {/* Desktop Header */}
-      <header className="border-b border-[#EAE4E3]  bg-header">
-        <div className="hidden md:flex items-center justify-between mx-auto max-w-7xl h-[var(--header-height)] sticky top-0 z-50">
+      <header className="border-b border-[#EAE4E3] bg-header">
+        <Container className="hidden h-[var(--header-height)] sticky top-0 z-50">
           {/* Replaced Link with button + router.push */}
           <button onClick={() => router.push("/")} className="text-4xl font-bold text-primary tracking-tighter">
             LUXE
@@ -75,7 +75,7 @@ export function Header() {
               <CartButton cartCount={10} />
             </div>
           </div>
-        </div>
+        </Container>
       </header>
 
       {/* Mobile Header */}

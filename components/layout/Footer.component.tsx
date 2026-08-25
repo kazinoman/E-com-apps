@@ -3,12 +3,13 @@
 import Link from "next/link";
 import { Globe, MessageSquare } from "lucide-react";
 import { FiInstagram } from "react-icons/fi";
+import { Container } from "../common/Container";
 
 export function Footer() {
   return (
-    <footer className="bg-header pt-16 pb-[calc(2rem+68px)] md:pb-8 px-8 md:px-0 mt-auto text-muted-foreground">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-        <div className="space-y-6">
+    <footer className="bg-header pt-16 md:pb-8 mt-auto text-muted-foreground">
+      <Container className="grid grid-cols-1 items-start md:grid-cols-4 gap-12 mb-16">
+        <div className="flex flex-col gap-4">
           <Link href="/" className="text-4xl font-bold text-primary tracking-tighter">
             LUXE
           </Link>
@@ -121,7 +122,7 @@ export function Footer() {
             </a>
           </div>
         </div>
-      </div>
+      </Container>
 
       <div className="border-t border-[#DCD6D6] pt-8 text-center">
         <p className="text-[13px] text-[#6B6565]">
