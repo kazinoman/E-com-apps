@@ -45,7 +45,7 @@ const SignUpForm = () => {
       }
 
       setUser(result.data);
-      router.push("/");
+      router.push("/login");
     });
   };
 

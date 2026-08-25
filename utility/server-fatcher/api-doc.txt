@@ -1,0 +1,233 @@
+Next.js Server-Side API Architecture
+Complete Reference Guide: Axios, Zod, and HTTP-Only Cookies
+
+This document contains the complete procedure for setting up a robust, type-safe, and fully server-side API fetching architecture in Next.js 15/16. It covers dynamic cookie injection, standardizing HTTP requests, and handling protected routes.
+
+-------------------------------------
+1. Axios Configuration & Interceptors
+-------------------------------------
+This layer initializes Axios and uses Next.js cookies() to dynamically read the HTTP-only cookie and attach it to outbound requests to your external backend.
+
+import axios from "axios";
+import { cookies } from "next/headers";
+
+export const api = axios.create({
+  baseURL: process.env.API_BASE_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+api.interceptors.request.use(async (config) => {
+  // 1. Get the Next.js cookie store
+  const cookieStore = await cookies();
+  
+  // 2. Look for the specific HTTP-only cookie
+  const sessionToken = cookieStore.get("buyer_session")?.value;
+
+  if (sessionToken) {
+    // Inject the cookie manually for server-to-server request
+    config.headers.Cookie = `buyer_session=${sessionToken}`;
+  }
+
+  return config;
+});
+
+-------------------------------
+2. The Generic Server Fetcher
+-------------------------------
+This generic utility acts as a wrapper around Axios. It utilizes TypeScript generics for GET/DELETE (compile-time safety) and enforces Zod schemas for POST/PUT/PATCH (runtime safety).
+
+import { z } from "zod";
+import { api } from "./axios";
+import { AxiosRequestConfig } from "axios";
+
+// Options for GET and DELETE (No schema, no body)
+interface FetchOptions {
+  url: string;
+  config?: AxiosRequestConfig;
+}
+
+// Options for POST, PUT, and PATCH (Requires data AND schema)
+interface FetchOptionsWithData<T, D> {
+  url: string;
+  data: D;
+  schema: z.ZodSchema<T>;
+  config?: AxiosRequestConfig;
+}
+
+export const serverApi = {
+  get: async <T>({ url, config }: FetchOptions): Promise<T> => {
+    const response = await api.get<T>(url, config);
+    return response.data; 
+  },
+
+  delete: async <T>({ url, config }: FetchOptions): Promise<T> => {
+    const response = await api.delete<T>(url, config);
+    return response.data;
+  },
+
+  post: async <T, D>({ url, data, schema, config }: FetchOptionsWithData<T, D>): Promise<T> => {
+    const response = await api.post(url, data, config);
+    return schema.parse(response.data);
+  },
+
+  put: async <T, D>({ url, data, schema, config }: FetchOptionsWithData<T, D>): Promise<T> => {
+    const response = await api.put(url, data, config);
+    return schema.parse(response.data);
+  },
+  
+  patch: async <T, D>({ url, data, schema, config }: FetchOptionsWithData<T, D>): Promise<T> => {
+    const response = await api.patch(url, data, config);
+    return schema.parse(response.data);
+  },
+};
+
+------------------------------
+3. Zod Schemas & Types
+------------------------------
+Maintain a single source of truth for your data structures. Zod schemas validate the payload at runtime, and inferred types are used throughout the application.
+
+import { z } from "zod";
+
+export const ProductResponseSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  price: z.number(),
+  inStock: z.boolean(),
+});
+
+export type Product = z.infer<typeof ProductResponseSchema>;
+export type CreateProductPayload = Omit<Product, "id">;
+
+-----------------------------------
+4. The Service Layer (CRUD Examples)
+-----------------------------------
+Here is how to utilize the fetcher to perform full CRUD operations, handling URL parameters and body payloads correctly.
+
+import { serverApi } from "@/lib/api/fetcher";
+import { ProductResponseSchema, Product, CreateProductPayload } from "@/schemas/product.schema";
+
+// 1. GET with URL Parameters
+export const getProducts = async (page: number, category: string) => {
+  return serverApi.get<Product[]>({
+    url: "/products",
+    config: {
+      params: { page, category },
+    },
+  });
+};
+
+// 2. POST with Body Payload
+export const createProduct = async (newProduct: CreateProductPayload) => {
+  return serverApi.post<Product, CreateProductPayload>({
+    url: "/products",
+    data: newProduct,
+    schema: ProductResponseSchema,
+  });
+};
+
+// 3. PUT with Path Variable and Body Payload
+export const updateProduct = async (id: string, updateData: Partial<Product>) => {
+  return serverApi.put<Product, Partial<Product>>({
+    url: `/products/${id}`, 
+    data: updateData,
+    schema: ProductResponseSchema,
+  });
+};
+
+// 4. DELETE
+export const deleteProduct = async (id: string) => {
+  return serverApi.delete<{ success: boolean; message: string }>({
+    url: `/products/${id}`,
+  });
+};
+
+* Best Practice: Always wrap calls to these service functions in try/catch blocks when executing them inside Server Actions, as Axios throws an error for non-2xx status codes.
+
+-----------------------------------------------
+5. Authentication: Setting the HTTP-Only Cookie
+-----------------------------------------------
+To securely log a user in, intercept the set-cookie header from the external API response and manually set it within the Next.js environment.
+
+"use server";
+
+import { auth } from "@/lib/api/apiUrls";
+import { api } from "@/lib/api/axios";
+import { cookies } from "next/headers";
+
+export async function login({ email, password }: { email: string; password: string }) {
+  try {
+    const response = await api.post(auth.login, { email, password });
+    const setCookieHeader = response.headers["set-cookie"];
+
+    if (setCookieHeader) {
+      const cookieString = Array.isArray(setCookieHeader) ? setCookieHeader[0] : setCookieHeader;
+      const match = cookieString.match(/buyer_session=([^;]+)/);
+
+      if (match) {
+        const cookieStore = await cookies();
+        cookieStore.set("buyer_session", match[1], {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production", 
+          sameSite: "lax",
+          path: "/",
+          maxAge: 60 * 60 * 24 * 30,
+        });
+      }
+    }
+    return { success: true, data: response.data, message: "Login successful" };
+    
+  } catch (error: any) {
+    if (error.response) {
+      return { success: false, message: error.response.data?.message || "Invalid credentials" };
+    }
+    return { success: false, message: "Connection error" };
+  }
+}
+
+-----------------------------------
+6. Protecting Routes with a Layout
+-----------------------------------
+To guard authenticated sections (e.g., /dashboard, /cart), use a Route Group (protected) and a dedicated layout component that verifies the token's validity before rendering the children.
+
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { serverApi } from "@/lib/api/fetcher";
+import { z } from "zod";
+
+const UserProfileSchema = z.object({
+  id: z.string(),
+  email: z.string(),
+  name: z.string(),
+});
+
+export default async function ProtectedLayout({ children }: { children: React.ReactNode }) {
+  // 1. FAST CHECK: Does the cookie exist?
+  const cookieStore = await cookies();
+  const sessionToken = cookieStore.get("buyer_session")?.value;
+
+  if (!sessionToken) {
+    redirect("/login");
+  }
+
+  // 2. ROBUST CHECK: Is it valid on the backend?
+  let isAuthenticated = false;
+
+  try {
+    // Axios interceptor automatically attaches the cookie!
+    await serverApi.get({
+      url: "/auth/me",
+      schema: UserProfileSchema,
+    });
+    isAuthenticated = true;
+  } catch (error) {
+    isAuthenticated = false;
+  }
+
+  if (!isAuthenticated) {
+    redirect("/login");
+  }
+
+  return <div className="protected-layout-wrapper">{children}</div>;
+}

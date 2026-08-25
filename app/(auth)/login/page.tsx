@@ -1,4 +1,5 @@
-import LoginComponent from "@/features/Auth/LoginComponent";
+import dynamic from "next/dynamic";
+const LoginComponent = dynamic(() => import("@/features/Auth/LoginComponent"), { ssr: true });
 
 const LoginPage = () => {
   return (
