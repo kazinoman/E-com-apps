@@ -10,6 +10,7 @@ import { Button } from "../ui/button";
 import { CartButton } from "../common/CartButton";
 import Link from "next/link";
 import { PageUrls } from "@/constants/PageUrls";
+import { ThemeToggle } from "../common/ThemeToggleButton";
 
 export function Header() {
   const pathname = usePathname();
@@ -28,7 +29,7 @@ export function Header() {
   return (
     <>
       {/* Desktop Header */}
-      <header className="border-b border-[#EAE4E3] bg-[#FCFAF9]">
+      <header className="border-b border-[#EAE4E3]  bg-header">
         <div className="hidden md:flex items-center justify-between mx-auto max-w-7xl h-[var(--header-height)] sticky top-0 z-50">
           {/* Replaced Link with button + router.push */}
           <button onClick={() => router.push("/")} className="text-4xl font-bold text-primary tracking-tighter">
@@ -56,6 +57,8 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-6">
+            <ThemeToggle />
+
             {isAuthLoading ? (
               <div className="w-20 h-8 bg-gray-200 animate-pulse rounded" />
             ) : (
