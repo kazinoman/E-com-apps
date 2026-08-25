@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+
 import { User, ShoppingBag, Menu, Search, Home as HomeIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/UserInfoContext";
 import { Button } from "../ui/button";
+import { CartButton } from "../common/CartButton";
 
 export function Header() {
   const pathname = usePathname();
@@ -69,12 +71,7 @@ export function Header() {
               </Link>
             )}
 
-            <button className="text-primary hover:text-primary-hover transition-colors relative">
-              <ShoppingBag size={24} strokeWidth={1.5} />
-              <span className="absolute -top-1.5 -right-2 bg-primary text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-                2
-              </span>
-            </button>
+            <CartButton cartCount={10} />
           </div>
         </div>
       </header>
@@ -89,9 +86,7 @@ export function Header() {
           LUXE
         </Link>
 
-        <button className="text-primary relative shadow-sm">
-          <ShoppingBag size={24} strokeWidth={1.5} />
-        </button>
+        <CartButton cartCount={10} />
       </header>
 
       {/* Mobile Bottom Nav */}
