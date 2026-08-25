@@ -2,7 +2,7 @@ import React from "react";
 
 const MyProfile = () => {
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md mt-10 dark:bg-gray-800">
+    <div className=" bg-white rounded-lg shadow-md p-10  dark:bg-gray-800 w-full">
       <h1 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">My Profile</h1>
       <form className="flex flex-col gap-4">
         <div>
