@@ -1,6 +1,8 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useState, useEffect, useRef } from "react";
+import { useDebounce } from "@/hooks/useDebounce";
 import { User, ShoppingBag, Menu, Search, Heart, ArrowRightLeft, SlidersHorizontal, Home as HomeIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/UserInfoContext";
@@ -13,7 +15,40 @@ import { Container } from "../common/Container";
 export function Header() {
   const pathname = usePathname();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { user, isAuthLoading } = useAuth();
+
+  const [searchTerm, setSearchTerm] = useState(searchParams?.get("title") || "");
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+  const isTyping = useRef(false);
+
+  useEffect(() => {
+    if (!isTyping.current) {
+      setSearchTerm(searchParams?.get("title") || "");
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    // Only execute the search push if the user has actually stopped typing 
+    // AND the change originated from their typing, not an external URL change
+    if (isTyping.current && searchTerm === debouncedSearchTerm) {
+      const currentTitle = searchParams?.get("title") || "";
+      if (debouncedSearchTerm !== currentTitle) {
+        const newParams = new URLSearchParams(searchParams?.toString() || "");
+        if (debouncedSearchTerm.trim()) {
+          newParams.set("title", debouncedSearchTerm.trim());
+          newParams.set("page", "1");
+          router.push(`/search?${newParams.toString()}`);
+        } else {
+          newParams.delete("title");
+          if (pathname === "/search") {
+            router.push(`/search?${newParams.toString()}`);
+          }
+        }
+      }
+      isTyping.current = false;
+    }
+  }, [debouncedSearchTerm, searchTerm, pathname, router, searchParams]);
 
   const navLinks = [
     { name: "Home", href: "/" },
@@ -40,6 +75,11 @@ export function Header() {
             </div>
             <input 
               type="text" 
+              value={searchTerm}
+              onChange={(e) => {
+                isTyping.current = true;
+                setSearchTerm(e.target.value);
+              }}
               placeholder="Search Product Name" 
               className="w-full h-[46px] pl-12 pr-12 bg-[#F6F7F9] dark:bg-secondary/50 border border-transparent rounded-lg focus:outline-none focus:ring-1 focus:ring-primary focus:border-transparent text-[15px] transition-all text-foreground"
             />

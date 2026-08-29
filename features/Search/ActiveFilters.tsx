@@ -22,6 +22,7 @@ export function ActiveFilters({ total }: { total: number }) {
     const filters: { key: string; label: string; value: string }[] = [];
     
     if (searchParams.get("search")) filters.push({ key: "search", label: "search", value: searchParams.get("search")! });
+    if (searchParams.get("title")) filters.push({ key: "title", label: "title", value: searchParams.get("title")! });
     if (searchParams.get("category")) filters.push({ key: "category", label: "category", value: searchParams.get("category")! });
     if (searchParams.get("subCategory")) filters.push({ key: "subCategory", label: "subcategory", value: searchParams.get("subCategory")! });
     
