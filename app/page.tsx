@@ -23,7 +23,6 @@ export default function Home() {
     <div className="flex flex-col flex-1 bg-zinc-50 font-sans dark:bg-black pb-20">
       <main className="flex flex-1 w-full flex-col dark:bg-black">
         <HeroSlider />
-        
         <Container className="mt-12 space-y-4 flex flex-col ">
           <SectionSlider title="Featured Products">
             {DUMMY_PRODUCTS.map((item) => (
