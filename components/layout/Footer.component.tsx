@@ -1,132 +1,109 @@
 "use client";
 
 import Link from "next/link";
-import { Globe, MessageSquare } from "lucide-react";
-import { FiInstagram } from "react-icons/fi";
+// import { Facebook, Instagram, Twitter } from "lucide-react";
 import { Container } from "../common/Container";
 
 export function Footer() {
   return (
-    <footer className="bg-header pt-16 md:pb-8 mt-auto text-muted-foreground">
-      <Container className="grid grid-cols-1 items-start md:grid-cols-4 gap-12 mb-16">
-        <div className="flex flex-col gap-4">
-          <Link href="/" className="text-4xl font-bold text-primary tracking-tighter">
-            LUXE
+    <footer className="bg-[#333333] pt-16 pb-6 mt-auto text-white">
+      <Container className="grid grid-cols-2 lg:grid-cols-6 gap-x-8 gap-y-12 mb-12 items-start">
+        {/* Column 1: Branding and Newsletter */}
+        <div className="flex flex-col gap-6 col-span-2">
+          <Link href="/" className="text-3xl font-black text-white tracking-tight">
+            Zaag
           </Link>
-          <p className="text-[14px] text-muted-foreground leading-relaxed max-w-sm">
-            Crafting timeless elegance for the modern individual. A global atelier of fine garments and curated
-            accessories.
-          </p>
-        </div>
-
-        <div className="space-y-6 ">
-          <h3 className="text-[14px] font-semibold text-primary uppercase tracking-wider">The Maison</h3>
-          <ul className="space-y-4 ">
-            <li>
-              <Link
-                href="#"
-                className="text-[14px] text-muted-foreground hover:text-primary underline-offset-4 hover:underline transition-all"
-              >
-                Our Story
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="#"
-                className="text-[14px] text-muted-foreground hover:text-primary underline-offset-4 hover:underline transition-all"
-              >
-                Atelier
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="#"
-                className="text-[14px] text-muted-foreground hover:text-primary underline-offset-4 hover:underline transition-all"
-              >
-                Sustainability
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="#"
-                className="text-[14px] text-muted-foreground hover:text-primary underline-offset-4 hover:underline transition-all"
-              >
-                Careers
-              </Link>
-            </li>
-          </ul>
-        </div>
-
-        <div className="space-y-6">
-          <h3 className="text-[14px] font-semibold text-primary uppercase tracking-wider">Customer Care</h3>
-          <ul className="space-y-4">
-            <li>
-              <Link
-                href="#"
-                className="text-[14px] text-muted-foreground hover:text-primary underline-offset-4 hover:underline transition-all"
-              >
-                Shipping & Returns
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="#"
-                className="text-[14px] text-muted-foreground hover:text-primary underline-offset-4 hover:underline transition-all"
-              >
-                Store Locator
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="#"
-                className="text-[14px] text-muted-foreground hover:text-primary underline-offset-4 hover:underline transition-all"
-              >
-                Size Guide
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="#"
-                className="text-[14px] text-muted-foreground hover:text-primary underline-offset-4 hover:underline transition-all"
-              >
-                Privacy Policy
-              </Link>
-            </li>
-          </ul>
-        </div>
-
-        <div className="space-y-6">
-          <h3 className="text-[14px] font-semibold text-primary uppercase tracking-wider">Contact</h3>
-          <ul className="space-y-4">
-            <li>
-              <a
-                href="mailto:concierge@luxe.com"
-                className="text-[14px] text-muted-foreground hover:text-primary underline-offset-4 hover:underline transition-all"
-              >
-                concierge@luxe.com
+          
+          <div className="flex flex-col gap-3">
+            <span className="text-[13px] text-gray-300">Follow us on social media</span>
+            {/* <div className="flex gap-4">
+              <a href="#" className="text-white hover:text-gray-300 transition-colors">
+                <Facebook size={20} fill="currentColor" strokeWidth={0} />
               </a>
-            </li>
-            <li>
-              <span className="text-[14px] text-muted-foreground">+1 800 LUXE ART</span>
-            </li>
-          </ul>
-          <div className="flex gap-4 pt-2">
-            <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-              <Globe size={20} strokeWidth={1.5} />
-            </a>
-            <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-              <FiInstagram size={20} strokeWidth={1.5} />
-            </a>
-            <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-              <MessageSquare size={20} strokeWidth={1.5} />
-            </a>
+              <a href="#" className="text-white hover:text-gray-300 transition-colors">
+                <Instagram size={20} strokeWidth={1.5} />
+              </a>
+              <a href="#" className="text-white hover:text-gray-300 transition-colors">
+                <Twitter size={20} fill="currentColor" strokeWidth={0} />
+              </a>
+            </div> */}
           </div>
+
+          <div className="flex flex-col gap-3 mt-2">
+            <span className="text-[13px] text-gray-300">Subscribe to our newsletter</span>
+            <div className="flex h-[38px] w-full max-w-[280px]">
+              <input 
+                type="email" 
+                placeholder="username@email.com" 
+                className="w-full bg-[#474747] text-sm px-3 rounded-l-sm text-gray-200 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-white border-none"
+              />
+              <button className="bg-white text-[#333333] px-5 text-sm font-medium rounded-r-sm hover:bg-gray-100 transition-colors">
+                Sign up
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Column 2: Our company */}
+        <div className="flex flex-col gap-5">
+          <h3 className="text-[14px] font-medium text-white">Our company</h3>
+          <ul className="flex flex-col gap-3">
+            {["About us", "Brands list", "Site maps", "Sign in", "Sign up"].map((item) => (
+              <li key={item}>
+                <Link href="#" className="text-[13px] text-[#A6A6A6] hover:text-white transition-colors">
+                  {item}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Column 3: Products */}
+        <div className="flex flex-col gap-5">
+          <h3 className="text-[14px] font-medium text-white">Products</h3>
+          <ul className="flex flex-col gap-3">
+            {["All products", "Top rated", "Best sellers", "New arrivals", "Popular this week", "Deals of the week"].map((item) => (
+              <li key={item}>
+                <Link href="#" className="text-[13px] text-[#A6A6A6] hover:text-white transition-colors">
+                  {item}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Column 4: Categories */}
+        <div className="flex flex-col gap-5">
+          <h3 className="text-[14px] font-medium text-white">Categories</h3>
+          <ul className="flex flex-col gap-3">
+            {["Food", "Fashion", "Electronics", "Accessories", "Smartphones", "Smart watches"].map((item) => (
+              <li key={item}>
+                <Link href="#" className="text-[13px] text-[#A6A6A6] hover:text-white transition-colors">
+                  {item}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Column 5: Help & support */}
+        <div className="flex flex-col gap-5">
+          <h3 className="text-[14px] font-medium text-white">Help & support</h3>
+          <ul className="flex flex-col gap-3">
+            {["FAQ", "Contact us", "How to order", "Customer support", "Return policy", "Privacy policy", "Terms & conditions"].map((item) => (
+              <li key={item}>
+                <Link href="#" className="text-[13px] text-[#A6A6A6] hover:text-white transition-colors">
+                  {item}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
       </Container>
 
-      <div className="border-t border-[#DCD6D6] pt-8 text-center">
-        <p className="text-[13px] text-[#6B6565]">
-          © {new Date().getFullYear()} LUXE INTERNATIONAL. ALL RIGHTS RESERVED.
+      <div className="border-t border-[#474747] pt-6 text-center">
+        <p className="text-[12px] text-[#A6A6A6]">
+          Copyright 2023 by Zaag Sys LTD.
         </p>
       </div>
     </footer>
