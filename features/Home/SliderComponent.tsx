@@ -4,7 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useEffect } from "react";
 
 // Import Swiper styles
 import "swiper/css";
@@ -52,51 +53,76 @@ const defaultSlides: SlideData[] = [
 ];
 
 export function HeroSlider({ slides = defaultSlides }: HeroSliderProps) {
+  const [isMounted, setIsMounted] = useState(false);
+  
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   return (
     <div className="w-full relative group">
-      <Swiper
-        modules={[Navigation, Pagination, Autoplay]}
-        spaceBetween={0}
-        slidesPerView={1}
-        navigation
-        pagination={{ clickable: true }}
-        autoplay={{ delay: 5000, disableOnInteraction: false }}
-        loop={true}
-        className="w-full h-[300px] sm:h-[400px] md:h-[500px] custom-swiper"
-      >
-        {slides.map((slide) => (
-          <SwiperSlide key={slide.id}>
-            <div className={`w-full h-full flex flex-col md:flex-row items-center justify-between px-10 md:px-24 lg:px-32 ${slide.backgroundColor}`}>
-              {/* Left Content */}
-              <div className="flex-1 flex flex-col items-center md:items-start justify-center text-white space-y-4 md:space-y-6 pt-10 md:pt-0 z-10 text-center md:text-left">
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
-                  {slide.title}
-                </h1>
-                <Link 
-                  href={slide.linkUrl} 
-                  className="flex items-center justify-center md:justify-start gap-2 text-sm sm:text-base md:text-lg font-medium hover:opacity-80 transition-opacity"
-                >
-                  {slide.linkText} <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
-                </Link>
-              </div>
+      {/* Custom Navigation */}
+      <button className="hero-slider-prev absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-10 w-11 h-11 flex items-center justify-center rounded-xl bg-white/15 hover:bg-white/25 text-white transition-all cursor-pointer backdrop-blur-sm [&.swiper-button-disabled]:opacity-30 [&.swiper-button-disabled]:cursor-not-allowed">
+        <ChevronLeft size={20} />
+      </button>
+      
+      <button className="hero-slider-next absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-10 w-11 h-11 flex items-center justify-center rounded-xl bg-white/15 hover:bg-white/25 text-white transition-all cursor-pointer backdrop-blur-sm [&.swiper-button-disabled]:opacity-30 [&.swiper-button-disabled]:cursor-not-allowed">
+        <ChevronRight size={20} />
+      </button>
 
-              {/* Right Image */}
-              <div className="flex-1 relative w-full h-1/2 md:h-full flex items-center justify-center pb-8 md:pb-0">
-                <div className="relative w-4/5 h-4/5 md:w-3/4 md:h-3/4 max-w-[400px]">
-                  <Image
-                    src={slide.image}
-                    alt={slide.title}
-                    fill
-                    className="object-contain drop-shadow-2xl"
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    priority
-                  />
+      {isMounted && (
+        <Swiper
+          modules={[Navigation, Pagination, Autoplay]}
+          spaceBetween={0}
+          slidesPerView={1}
+          navigation={{
+            prevEl: '.hero-slider-prev',
+            nextEl: '.hero-slider-next',
+          }}
+          pagination={{
+            clickable: true,
+            renderBullet: function (index, className) {
+              return `<span class="${className} w-1.5 h-1.5 mx-1.5 rounded-full bg-white/50 transition-all duration-300 inline-block cursor-pointer [&.swiper-pagination-bullet-active]:w-4 [&.swiper-pagination-bullet-active]:bg-white [&.swiper-pagination-bullet-active]:rounded-md"></span>`;
+            },
+          }}
+          autoplay={{ delay: 5000, disableOnInteraction: false }}
+          loop={true}
+          className="w-full h-[300px] sm:h-[400px] md:h-[500px]"
+        >
+          {slides.map((slide) => (
+            <SwiperSlide key={slide.id}>
+              <div className={`w-full h-full flex flex-col md:flex-row items-center justify-between px-16 md:px-28 lg:px-36 ${slide.backgroundColor}`}>
+                {/* Left Content */}
+                <div className="flex-1 flex flex-col items-center md:items-start justify-center text-white space-y-4 md:space-y-6 pt-10 md:pt-0 z-10 text-center md:text-left">
+                  <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
+                    {slide.title}
+                  </h1>
+                  <Link 
+                    href={slide.linkUrl} 
+                    className="flex items-center justify-center md:justify-start gap-2 text-sm sm:text-base md:text-lg font-medium hover:opacity-80 transition-opacity"
+                  >
+                    {slide.linkText} <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
+                  </Link>
+                </div>
+
+                {/* Right Image */}
+                <div className="flex-1 relative w-full h-1/2 md:h-full flex items-center justify-center pb-8 md:pb-0">
+                  <div className="relative w-4/5 h-4/5 md:w-3/4 md:h-3/4 max-w-[400px]">
+                    <Image
+                      src={slide.image}
+                      alt={slide.title}
+                      fill
+                      className="object-contain drop-shadow-2xl"
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      priority
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      )}
     </div>
   );
 }
