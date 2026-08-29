@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-// import { Facebook, Instagram, Twitter } from "lucide-react";
+import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
 import { Container } from "../common/Container";
 
 export function Footer() {
@@ -16,17 +16,17 @@ export function Footer() {
           
           <div className="flex flex-col gap-3">
             <span className="text-[13px] text-gray-300">Follow us on social media</span>
-            {/* <div className="flex gap-4">
-              <a href="#" className="text-white hover:text-gray-300 transition-colors">
-                <Facebook size={20} fill="currentColor" strokeWidth={0} />
+            <div className="flex gap-4 mt-1">
+              <a href="#" className="text-[#A6A6A6] hover:text-white transition-colors">
+                <FaFacebook size={20} />
               </a>
-              <a href="#" className="text-white hover:text-gray-300 transition-colors">
-                <Instagram size={20} strokeWidth={1.5} />
+              <a href="#" className="text-[#A6A6A6] hover:text-white transition-colors">
+                <FaInstagram size={20} />
               </a>
-              <a href="#" className="text-white hover:text-gray-300 transition-colors">
-                <Twitter size={20} fill="currentColor" strokeWidth={0} />
+              <a href="#" className="text-[#A6A6A6] hover:text-white transition-colors">
+                <FaTwitter size={20} />
               </a>
-            </div> */}
+            </div>
           </div>
 
           <div className="flex flex-col gap-3 mt-2">

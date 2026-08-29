@@ -1,139 +1,102 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import { ArrowRight } from "lucide-react";
 
-const slides = [
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
+export interface SlideData {
+  id: string | number;
+  title: string;
+  linkText: string;
+  linkUrl: string;
+  image: string;
+  backgroundColor: string;
+}
+
+interface HeroSliderProps {
+  slides?: SlideData[];
+}
+
+const defaultSlides: SlideData[] = [
   {
     id: 1,
-    image: "https://picsum.photos/seed/luxe-banner-1/1920/1080",
-    title: "The Autumn Collection",
-    subtitle: "Discover timeless elegance carefully crafted for the shifting seasons.",
+    title: "Wireless Headphone",
+    linkText: "Shop now",
+    linkUrl: "#",
+    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1000&auto=format&fit=crop",
+    backgroundColor: "bg-[#4895EF]",
   },
   {
     id: 2,
-    image: "https://picsum.photos/seed/luxe-banner-2/1920/1080",
-    title: "Modern Craftsmanship",
-    subtitle: "Where traditional tailoring meets contemporary design.",
+    title: "Smart Watch Series 9",
+    linkText: "Shop now",
+    linkUrl: "#",
+    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1000&auto=format&fit=crop",
+    backgroundColor: "bg-[#FF7B54]",
   },
   {
     id: 3,
-    image: "https://picsum.photos/seed/luxe-banner-3/1920/1080",
-    title: "Evening Atelier",
-    subtitle: "Sophisticated silhouettes for your most memorable nights.",
-  },
+    title: "Premium Camera Lens",
+    linkText: "Shop now",
+    linkUrl: "#",
+    image: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=1000&auto=format&fit=crop",
+    backgroundColor: "bg-[#2ECC71]",
+  }
 ];
 
-export function HeroSlider() {
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
-    }, 5000); // Auto-slide every 5 seconds
-
-    return () => clearInterval(timer);
-  }, []);
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
-  };
-
-  const goToSlide = (index: number) => {
-    setCurrentSlide(index);
-  };
-
+export function HeroSlider({ slides = defaultSlides }: HeroSliderProps) {
   return (
-    <div className="relative w-full h-[800px] overflow-hidden group">
-      {/* Slides */}
-      {slides.map((slide, index) => (
-        <div
-          key={slide.id}
-          className={cn(
-            "absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out",
-            index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0",
-          )}
-        >
-          {/* Background Image */}
-          <Image
-            src={slide.image}
-            alt={slide.title}
-            fill
-            className="object-cover"
-            priority={index === 0}
-            referrerPolicy="no-referrer"
-          />
-
-          {/* Overlay Gradient */}
-          <div className="absolute inset-0 bg-black/40" />
-
-          {/* Slide Content */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white p-4">
-            <h1
-              className={cn(
-                "text-5xl md:text-7xl font-bold tracking-tight mb-6 transition-all duration-700 delay-300",
-                index === currentSlide ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8",
-              )}
-            >
-              {slide.title}
-            </h1>
-            <p
-              className={cn(
-                "text-lg md:text-xl font-medium max-w-2xl transition-all duration-700 delay-500",
-                index === currentSlide ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8",
-              )}
-            >
-              {slide.subtitle}
-            </p>
-            <button
-              className={cn(
-                "mt-8 px-8 py-3 bg-white text-primary font-semibold text-sm hover:bg-[#F2EDEC] transition-all duration-700 delay-700",
-                index === currentSlide ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8",
-              )}
-            >
-              Explore Now
-            </button>
-          </div>
-        </div>
-      ))}
-
-      {/* Navigation Arrows */}
-      <button
-        onClick={prevSlide}
-        className="absolute left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-center bg-white/10 hover:bg-white/20 text-white rounded-full backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300"
-        aria-label="Previous slide"
+    <div className="w-full relative group">
+      <Swiper
+        modules={[Navigation, Pagination, Autoplay]}
+        spaceBetween={0}
+        slidesPerView={1}
+        navigation
+        pagination={{ clickable: true }}
+        autoplay={{ delay: 5000, disableOnInteraction: false }}
+        loop={true}
+        className="w-full h-[300px] sm:h-[400px] md:h-[500px] custom-swiper"
       >
-        <ChevronLeft size={24} />
-      </button>
-      <button
-        onClick={nextSlide}
-        className="absolute right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-center bg-white/10 hover:bg-white/20 text-white rounded-full backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300"
-        aria-label="Next slide"
-      >
-        <ChevronRight size={24} />
-      </button>
+        {slides.map((slide) => (
+          <SwiperSlide key={slide.id}>
+            <div className={`w-full h-full flex flex-col md:flex-row items-center justify-between px-10 md:px-24 lg:px-32 ${slide.backgroundColor}`}>
+              {/* Left Content */}
+              <div className="flex-1 flex flex-col items-center md:items-start justify-center text-white space-y-4 md:space-y-6 pt-10 md:pt-0 z-10 text-center md:text-left">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
+                  {slide.title}
+                </h1>
+                <Link 
+                  href={slide.linkUrl} 
+                  className="flex items-center justify-center md:justify-start gap-2 text-sm sm:text-base md:text-lg font-medium hover:opacity-80 transition-opacity"
+                >
+                  {slide.linkText} <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
+                </Link>
+              </div>
 
-      {/* Pagination Dots */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => goToSlide(index)}
-            className={cn(
-              "h-1.5 rounded-full transition-all duration-300",
-              index === currentSlide ? "bg-white w-6" : "bg-white/50 hover:bg-white/80 w-1.5",
-            )}
-            aria-label={`Go to slide ${index + 1}`}
-          />
+              {/* Right Image */}
+              <div className="flex-1 relative w-full h-1/2 md:h-full flex items-center justify-center pb-8 md:pb-0">
+                <div className="relative w-4/5 h-4/5 md:w-3/4 md:h-3/4 max-w-[400px]">
+                  <Image
+                    src={slide.image}
+                    alt={slide.title}
+                    fill
+                    className="object-contain drop-shadow-2xl"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    priority
+                  />
+                </div>
+              </div>
+            </div>
+          </SwiperSlide>
         ))}
-      </div>
+      </Swiper>
     </div>
   );
 }
