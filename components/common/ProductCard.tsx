@@ -48,20 +48,20 @@ export function ProductCard({
   };
 
   return (
-    <Link href={`/product/${id}`} className="group flex flex-col h-full w-full min-w-[200px] bg-white dark:bg-zinc-900 border border-[#F0F0F0] dark:border-zinc-800 rounded-2xl p-2.5 hover:shadow-lg transition-shadow duration-300">
+    <Link href={`/products/${id}`} className="group flex flex-col h-full w-full min-w-[200px] bg-white dark:bg-zinc-900 border border-[#F0F0F0] dark:border-zinc-800 rounded-2xl p-2.5 hover:shadow-lg transition-shadow duration-300">
       {/* Image Container */}
       <div className="relative w-full aspect-[4/4.5] bg-[#F6F6F9] dark:bg-zinc-800 rounded-xl flex items-center justify-center p-6 overflow-hidden">
         {/* Wishlist Button */}
         {isLogin && (
-          <button 
+          <button
             onClick={handleWishlistClick}
             className={cn(
               "absolute top-3 right-3 p-1.5 rounded-full bg-white dark:bg-zinc-900 shadow-sm z-20 transition-all duration-300",
               isWished ? "opacity-100" : "opacity-100 lg:opacity-0 lg:group-hover:opacity-100"
             )}
           >
-            <Heart 
-              className={cn("w-[18px] h-[18px]", isWished ? "fill-[#FF4D4F] text-[#FF4D4F]" : "text-gray-400 hover:text-[#FF4D4F]")} 
+            <Heart
+              className={cn("w-[18px] h-[18px]", isWished ? "fill-[#FF4D4F] text-[#FF4D4F]" : "text-gray-400 hover:text-[#FF4D4F]")}
             />
           </button>
         )}
@@ -72,10 +72,10 @@ export function ProductCard({
           </div>
         )}
         <div className="relative w-full h-full transform group-hover:scale-105 transition-transform duration-500">
-          <Image 
-            src={image} 
-            alt={title} 
-            fill 
+          <Image
+            src={image}
+            alt={title}
+            fill
             className="object-contain drop-shadow-sm mix-blend-multiply dark:mix-blend-normal"
             sizes="(max-width: 768px) 50vw, 25vw"
           />
