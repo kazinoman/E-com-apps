@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, X, ZoomIn, ZoomOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface ProductGalleryProps {
@@ -13,6 +13,11 @@ interface ProductGalleryProps {
 
 export const ProductGallery = ({ images, activeIndex: externalIndex, onActiveIndexChange }: ProductGalleryProps) => {
   const [internalIndex, setInternalIndex] = useState(0);
+  const [isZoomModalOpen, setIsZoomModalOpen] = useState(false);
+  const [zoomLevel, setZoomLevel] = useState(1);
+
+  const handleZoomIn = () => setZoomLevel((prev) => Math.min(prev + 0.5, 4));
+  const handleZoomOut = () => setZoomLevel((prev) => Math.max(prev - 0.5, 0.5));
 
   const activeIndex = externalIndex ?? internalIndex;
   const setActiveIndex = onActiveIndexChange ?? setInternalIndex;
@@ -30,12 +35,18 @@ export const ProductGallery = ({ images, activeIndex: externalIndex, onActiveInd
   return (
     <div className="flex flex-col gap-6">
       {/* Main Image */}
-      <div className="relative aspect-square w-full rounded-2xl bg-slate-50 flex items-center justify-center p-8 overflow-hidden group">
+      <div 
+        className="relative aspect-square w-full rounded-2xl bg-slate-50 flex items-center justify-center overflow-hidden group cursor-pointer"
+        onClick={() => {
+          setZoomLevel(1);
+          setIsZoomModalOpen(true);
+        }}
+      >
         <Image
           src={images[activeIndex]}
           alt={`Product image ${activeIndex + 1}`}
           fill
-          className="object-contain p-8 mix-blend-multiply"
+          className="object-cover mix-blend-multiply"
           priority
         />
         
@@ -93,6 +104,51 @@ export const ProductGallery = ({ images, activeIndex: externalIndex, onActiveInd
           <ChevronRight className="w-5 h-5" />
         </button>
       </div>
+
+      {/* Zoom Modal */}
+      {isZoomModalOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm">
+          {/* Close button */}
+          <button 
+            onClick={() => setIsZoomModalOpen(false)}
+            className="absolute top-6 right-6 text-white hover:text-gray-300 z-[110] bg-white/10 hover:bg-white/20 p-2 rounded-full transition-all"
+            aria-label="Close modal"
+          >
+            <X className="w-6 h-6" />
+          </button>
+          
+          {/* Zoom controls */}
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-4 bg-white/10 px-6 py-3 rounded-full z-[110] text-white backdrop-blur-md border border-white/20 shadow-lg">
+            <button onClick={handleZoomOut} className="hover:text-gray-300 transition-colors p-1 bg-white/5 hover:bg-white/10 rounded-full" aria-label="Zoom out">
+              <ZoomOut className="w-6 h-6" />
+            </button>
+            <span className="font-medium text-sm w-12 text-center select-none">{Math.round(zoomLevel * 100)}%</span>
+            <button onClick={handleZoomIn} className="hover:text-gray-300 transition-colors p-1 bg-white/5 hover:bg-white/10 rounded-full" aria-label="Zoom in">
+              <ZoomIn className="w-6 h-6" />
+            </button>
+          </div>
+
+          {/* Image container */}
+          <div className="w-full h-full overflow-auto no-scrollbar flex items-center justify-center p-4">
+            <div 
+              className="relative transition-transform duration-200 ease-out origin-center"
+              style={{ 
+                transform: `scale(${zoomLevel})`,
+                width: '80vw',
+                height: '80vh'
+              }}
+            >
+              <Image
+                src={images[activeIndex]}
+                alt={`Zoomed product image ${activeIndex + 1}`}
+                fill
+                className="object-contain"
+                priority
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

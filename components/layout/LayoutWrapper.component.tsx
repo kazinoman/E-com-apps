@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { usePathname } from "next/navigation";
 import { Header } from "./Header.component";
 import { Footer } from "./Footer.component";
@@ -12,7 +13,11 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
 
   return (
     <>
-      {!hideLayout && <Header />}
+      {!hideLayout && (
+        <Suspense fallback={<div className="h-20 bg-background" />}>
+          <Header />
+        </Suspense>
+      )}
       <main className="flex-1 flex flex-col">{children}</main>
       {!hideLayout && <StoreFeatures />}
       {!hideLayout && <Footer />}
