@@ -12,6 +12,7 @@ import { PageUrls } from "@/constants/PageUrls";
 import { ThemeToggle } from "../common/ThemeToggleButton";
 import { Container } from "../common/Container";
 import { useCart } from "@/contexts/CartContext";
+import { MegaMenu } from "./MegaMenu";
 
 export function Header() {
   const pathname = usePathname();
@@ -126,28 +127,17 @@ export function Header() {
       {/* Desktop Header Bottom Bar */}
       <div className="hidden md:block bg-[#333333] text-white">
         <Container className="h-[52px] flex items-center justify-between">
-          <nav className="flex items-center gap-8">
-            {navLinks.map((link) => {
-              const isActive = pathname === link.href;
-              return (
-                <button
-                  key={link.name}
-                  onClick={() => router.push(link.href)}
-                  className={cn(
-                    "text-[14px] font-medium transition-colors py-1",
-                    isActive ? "text-white" : "text-[#B3B3B3] hover:text-white",
-                  )}
-                >
-                  {link.name}
-                </button>
-              );
-            })}
-          </nav>
+          <MegaMenu />
 
-          <button onClick={() => router.push("/cart")} className="flex items-center gap-2 text-[14px] font-medium text-[#B3B3B3] cursor-pointer hover:text-white transition-colors">
-            <ShoppingBag size={20} strokeWidth={1.5} />
-            <span>৳ {cartTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} <span className="text-[#808080]">({cartItemCount} items)</span></span>
-          </button>
+          <div className="flex items-center gap-6">
+            <button onClick={() => router.push("/track-order")} className="flex items-center gap-2 text-[14px] font-medium text-[#B3B3B3] cursor-pointer hover:text-white transition-colors">
+              Track Order
+            </button>
+            <button onClick={() => router.push("/cart")} className="flex items-center gap-2 text-[14px] font-medium text-[#B3B3B3] cursor-pointer hover:text-white transition-colors">
+              <ShoppingBag size={20} strokeWidth={1.5} />
+              <span>৳ {cartTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} <span className="text-[#808080]">({cartItemCount} items)</span></span>
+            </button>
+          </div>
         </Container>
       </div>
 

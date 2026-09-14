@@ -121,17 +121,17 @@ export default function CheckoutPage() {
             <div className="space-y-5">
               <div>
                 <label className="block text-[14px] font-medium text-gray-700 dark:text-gray-300 mb-2">Full name</label>
-                <Input className="pl-4 rounded-md bg-[#F9FAFB] border-gray-200" placeholder="username" value={fullName} onChange={(e) => setFullName(e.target.value)} />
+                <Input className="pl-4 rounded-md bg-[#F9FAFB] dark:bg-gray-900 border-gray-200 dark:border-gray-800 dark:text-gray-200" placeholder="username" value={fullName} onChange={(e) => setFullName(e.target.value)} />
               </div>
 
               <div>
                 <label className="block text-[14px] font-medium text-gray-700 dark:text-gray-300 mb-2">Phone number</label>
-                <Input className="pl-4 rounded-md bg-[#F9FAFB] border-gray-200" placeholder="+880 - 1234567890" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                <Input className="pl-4 rounded-md bg-[#F9FAFB] dark:bg-gray-900 border-gray-200 dark:border-gray-800 dark:text-gray-200" placeholder="+880 - 1234567890" value={phone} onChange={(e) => setPhone(e.target.value)} />
               </div>
 
               <div>
                 <label className="block text-[14px] font-medium text-gray-700 dark:text-gray-300 mb-2">Email (Optional)</label>
-                <Input className="pl-4 rounded-md bg-[#F9FAFB] border-gray-200" placeholder="username@mail.com" value={email} onChange={(e) => setEmail(e.target.value)} />
+                <Input className="pl-4 rounded-md bg-[#F9FAFB] dark:bg-gray-900 border-gray-200 dark:border-gray-800 dark:text-gray-200" placeholder="username@mail.com" value={email} onChange={(e) => setEmail(e.target.value)} />
               </div>
 
               <div>
@@ -219,22 +219,22 @@ export default function CheckoutPage() {
                       <div className="space-y-4">
                         <div>
                           <label className="block text-[12px] text-[#8C93A3] mb-1">Card number</label>
-                          <Input className="pl-4 rounded-md bg-[#F9FAFB] border-gray-200 h-10" placeholder="e.g. 123456789" value={cardNumber} onChange={(e) => setCardNumber(e.target.value)} />
+                          <Input className="pl-4 rounded-md bg-[#F9FAFB] dark:bg-gray-900 border-gray-200 dark:border-gray-800 dark:text-gray-200 h-10" placeholder="e.g. 123456789" value={cardNumber} onChange={(e) => setCardNumber(e.target.value)} />
                         </div>
                         <div className="flex gap-4">
                           <div className="flex-1">
                             <label className="block text-[12px] text-[#8C93A3] mb-1">CVC/CVV</label>
-                            <Input className="pl-4 rounded-md bg-[#F9FAFB] border-gray-200 h-10" placeholder="e.g. 123" value={cvc} onChange={(e) => setCvc(e.target.value)} />
+                            <Input className="pl-4 rounded-md bg-[#F9FAFB] dark:bg-gray-900 border-gray-200 dark:border-gray-800 dark:text-gray-200 h-10" placeholder="e.g. 123" value={cvc} onChange={(e) => setCvc(e.target.value)} />
                           </div>
                           <div className="flex-1">
                             <label className="block text-[12px] text-[#8C93A3] mb-1">Expiry date</label>
                             <div className="flex gap-2">
-                              <select className="w-full h-10 px-3 bg-[#F9FAFB] border border-gray-200 rounded-md text-[13px] outline-none" value={expiryMonth} onChange={(e) => setExpiryMonth(e.target.value)}>
+                              <select className="w-full h-10 px-3 bg-[#F9FAFB] dark:bg-gray-900 border border-gray-200 dark:border-gray-800 dark:text-gray-200 rounded-md text-[13px] outline-none" value={expiryMonth} onChange={(e) => setExpiryMonth(e.target.value)}>
                                 <option value="">MM</option>
                                 <option value="01">01</option>
                                 <option value="02">02</option>
                               </select>
-                              <select className="w-full h-10 px-3 bg-[#F9FAFB] border border-gray-200 rounded-md text-[13px] outline-none" value={expiryYear} onChange={(e) => setExpiryYear(e.target.value)}>
+                              <select className="w-full h-10 px-3 bg-[#F9FAFB] dark:bg-gray-900 border border-gray-200 dark:border-gray-800 dark:text-gray-200 rounded-md text-[13px] outline-none" value={expiryYear} onChange={(e) => setExpiryYear(e.target.value)}>
                                 <option value="">YYYY</option>
                                 <option value="2025">2025</option>
                                 <option value="2026">2026</option>
@@ -278,8 +278,8 @@ export default function CheckoutPage() {
             <div className="mb-6">
               <label className="block text-[14px] text-[#8C93A3] mb-2">Coupon code <span className="text-gray-400">(Optional)</span></label>
               <div className="flex gap-3">
-                <Input className="flex-1 bg-[#F9FAFB] border-none h-11 pl-4" placeholder="e.g. zaag40" />
-                <Button variant="secondary" className="px-6 h-11 bg-[#F3F4F6] text-gray-500 font-medium hover:bg-gray-200">Apply</Button>
+                <Input className="flex-1 bg-[#F9FAFB] dark:bg-gray-900 border border-gray-200 dark:border-gray-800 dark:text-gray-200 h-11 pl-4" placeholder="e.g. zaag40" />
+                <Button variant="secondary" className="px-6 h-11 bg-[#F3F4F6] dark:bg-gray-800 text-gray-500 dark:text-gray-300 font-medium hover:bg-gray-200 dark:hover:bg-gray-700">Apply</Button>
               </div>
             </div>
 
@@ -321,17 +321,17 @@ export default function CheckoutPage() {
               <p className="text-[12px] text-[#8C93A3] mt-2">Max character : 300</p>
             </div>
 
-            <div className="flex items-center justify-between mb-12">
-              <Link href="/cart" className="text-[14px] font-semibold text-[#1C244B] dark:text-white border-b border-[#1C244B] dark:border-white pb-0.5">
-                Change your order
-              </Link>
+            <div className="flex flex-col items-center gap-4 mb-12 w-full">
               <Button
                 onClick={handleConfirmOrder}
                 disabled={isLoading}
-                className="px-8 h-12 bg-[#333333] hover:bg-black text-white font-medium text-[15px]"
+                className="w-full h-12 bg-[#333333] hover:bg-black text-white font-medium text-[15px]"
               >
                 {isLoading ? "Confirming..." : "Confirm order"}
               </Button>
+              <div className="text-[14px] text-[#8C93A3]">
+                Need to modify items? <Link href="/cart" className="text-[#1C244B] dark:text-white font-semibold hover:underline">Change your order</Link>
+              </div>
             </div>
 
             <div className="text-center text-[13px] text-[#8C93A3] space-y-1">

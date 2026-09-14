@@ -1141,5 +1141,46 @@
     },
     "status": "order-initiate",
     "createdAt": "2026-09-14T11:12:49.969Z"
+  },
+  {
+    "id": "ORD-55375",
+    "customer": {
+      "fullName": "Abdullah al Noman",
+      "phone": "+8801568568442",
+      "email": "kazinoman9999@gmail.com",
+      "deliveryAddress": "bot tola mor, joshimuddin mor, uttora, dhaka",
+      "billingAddress": "Same as delivery address",
+      "orderNote": ""
+    },
+    "payment": {
+      "deliveryType": "Standard delivery",
+      "paymentMethod": "Cash on delivery"
+    },
+    "items": [
+      {
+        "id": "7_base",
+        "product": {
+          "id": 7,
+          "title": "Winter Baby Jacket",
+          "category": "baby-items",
+          "subCategory": "baby-bottle",
+          "brand": "Generic",
+          "price": 198.28,
+          "originalPrice": null,
+          "rating": 4.9,
+          "badge": "Out of stock",
+          "image": "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=500&q=80"
+        },
+        "quantity": 7
+      }
+    ],
+    "totals": {
+      "subtotal": 1387.96,
+      "shipping": 6.99,
+      "discount": 0,
+      "total": 1394.95
+    },
+    "status": "order-initiate",
+    "createdAt": "2026-09-14T15:27:59.652Z"
   }
 ]
