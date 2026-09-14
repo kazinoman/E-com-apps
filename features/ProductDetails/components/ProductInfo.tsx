@@ -133,22 +133,22 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect }: 
         <div className="flex items-center gap-3">
           <div className="relative w-12 h-12 rounded-full overflow-hidden bg-slate-100">
             <Image
-              src={product.seller.logo}
-              alt={product.seller.name}
+              src={product?.seller?.logo}
+              alt={product?.seller?.name}
               fill
               className="object-cover"
             />
           </div>
           <div className="flex flex-col">
             <div className="flex items-center gap-1">
-              <span className="font-semibold text-slate-800">{product.seller.name}</span>
-              {product.seller.verified && (
+              <span className="font-semibold text-slate-800">{product?.seller?.name}</span>
+              {product?.seller?.verified && (
                 <BadgeCheck className="w-4 h-4 text-blue-500" />
               )}
             </div>
             <div className="flex items-center gap-1 text-sm text-slate-500">
               <Star className="w-3.5 h-3.5 fill-orange-400 text-orange-400" />
-              <span>{product.seller.rating}</span>
+              <span>{product?.seller?.rating}</span>
             </div>
           </div>
         </div>
@@ -233,13 +233,13 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect }: 
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
           <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full p-8 relative max-h-[90vh] overflow-y-auto">
-            <button 
+            <button
               onClick={() => setIsModalOpen(false)}
               className="absolute top-4 right-4 text-red-500 hover:text-red-600 transition-colors"
             >
               <X className="w-6 h-6" />
             </button>
-            
+
             <div className="space-y-6">
               <div>
                 <h3 className="font-bold text-slate-900 text-base mb-2">
@@ -249,7 +249,7 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect }: 
                   প্রতি কেজি জুতা, ব্যাগ, জুয়েলারী,যন্ত্রপাতি, স্টিকার, ইলেকট্রনিক্স, কম্পিউটার এক্সেসরিজ, সিরামিক, ধাতব, চামরা, রাবার,প্লাস্টিক জাতীয় পন্য, ব্যাটারি ব্যাতিত খেলনা।
                 </p>
               </div>
-              
+
               <div>
                 <h3 className="font-bold text-slate-900 text-base mb-2">
                   ক্যাটাগরি: বি - 1100 থেকে 1350 টাকা প্রতি কেজি
@@ -270,7 +270,7 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect }: 
             </div>
 
             <div className="mt-8 flex justify-end">
-              <Button 
+              <Button
                 onClick={() => setIsModalOpen(false)}
                 className="bg-[#D92D20] hover:bg-[#B42318] text-white px-8 font-semibold rounded-md"
               >

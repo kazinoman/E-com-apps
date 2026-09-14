@@ -3,8 +3,12 @@
 import axios from "axios";
 
 // Creating a localized instance since lib/api/axios uses cookies which might not be needed for basic mock wishlist API
+const API_BASE_URL = typeof window !== 'undefined'
+  ? '/api'
+  : (process.env.NEXT_PUBLIC_APP_URL ? `${process.env.NEXT_PUBLIC_APP_URL}/api` : "http://localhost:3000/api");
+
 const wishlistApi = axios.create({
-  baseURL: "http://localhost:3001",
+  baseURL: API_BASE_URL,
 });
 
 export async function fetchUserWishlist(userId: string | number) {

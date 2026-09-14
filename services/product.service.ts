@@ -1,6 +1,6 @@
 import { ProductResponse } from "@/schemas/product";
 
-const API_BASE_URL = process.env.API_BASE_URL || "http://127.0.0.1:3001";
+const API_BASE_URL = process.env.NEXT_PUBLIC_APP_URL ? `${process.env.NEXT_PUBLIC_APP_URL}/api` : "http://localhost:3000/api";
 
 export const getProductById = async (id: string): Promise<ProductResponse | null> => {
   try {

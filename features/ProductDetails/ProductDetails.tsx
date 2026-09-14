@@ -15,8 +15,11 @@ export const ProductDetails = ({ product }: ProductDetailsProps) => {
 
   const handleSkuSelect = (sku: Sku) => {
     setSelectedSku(sku);
+    
+    const fallbackImages = product.images || (product.image ? [product.image] : []);
+
     if (sku.image) {
-      const idx = product.images.findIndex((img) => img === sku.image);
+      const idx = fallbackImages.findIndex((img) => img === sku.image);
       if (idx !== -1) {
         setActiveImageIndex(idx);
         return;
@@ -26,13 +29,14 @@ export const ProductDetails = ({ product }: ProductDetailsProps) => {
     // Fallback for mock data without explicit sku.image mapping
     if (product.colors) {
       const colorIndex = product.colors.findIndex(c => c.name === sku.color);
-      if (colorIndex !== -1 && colorIndex < product.images.length) {
+      if (colorIndex !== -1 && colorIndex < fallbackImages.length) {
         setActiveImageIndex(colorIndex);
       }
     }
   };
 
-  const displayImages = selectedSku?.image ? [selectedSku.image] : product.images;
+  const fallbackImages = product.images || (product.image ? [product.image] : []);
+  const displayImages = selectedSku?.image ? [selectedSku.image] : fallbackImages;
   const currentActiveIndex = activeImageIndex >= displayImages.length ? 0 : activeImageIndex;
 
   return (
