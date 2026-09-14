@@ -85,7 +85,7 @@ export function ProfileSidebar() {
           </div>
         </div>
 
-        <div className={`space-y-6 ${isMobile ? "" : "flex-1"}`}>
+        <div className="space-y-6">
           {/* Accounts Section */}
           <div>
             <div className="text-[13px] font-medium text-[#8C93A3] mb-3 px-2">
@@ -103,7 +103,7 @@ export function ProfileSidebar() {
           </div>
         </div>
 
-        <div className={`pt-6 mt-8 ${isMobile ? "" : "border-t border-gray-100 dark:border-gray-800"}`}>
+        <div className="pt-6 mt-8 border-t border-gray-100 dark:border-gray-800">
           {/* Logout Button */}
           <button
             onClick={logout}

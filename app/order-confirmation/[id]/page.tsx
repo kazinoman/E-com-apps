@@ -145,7 +145,7 @@ export default function OrderConfirmationPage() {
             </div>
 
             <div className="flex items-center justify-between">
-              <Link href={`/orders/${order.id}`} className="text-[13px] font-semibold text-[#1C244B] dark:text-white border-b border-[#1C244B] dark:border-white pb-0.5 hover:opacity-80 transition-opacity">
+              <Link href={`/profile/orders/${order.id}`} className="text-[13px] font-semibold text-[#1C244B] dark:text-white border-b border-[#1C244B] dark:border-white pb-0.5 hover:opacity-80 transition-opacity">
                 See order details
               </Link>
               <Link href="/">

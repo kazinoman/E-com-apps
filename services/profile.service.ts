@@ -28,4 +28,38 @@ export const profileService = {
     if (!res.ok) throw new Error("Failed to update phone number");
     return res.json();
   },
+
+  getAddresses: async () => {
+    const res = await fetch("/api/profile/address");
+    if (!res.ok) throw new Error("Failed to fetch addresses");
+    return res.json();
+  },
+
+  addAddress: async (addressData: any) => {
+    const res = await fetch("/api/profile/address", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(addressData),
+    });
+    if (!res.ok) throw new Error("Failed to add address");
+    return res.json();
+  },
+
+  updateAddress: async (id: string, addressData: any) => {
+    const res = await fetch(`/api/profile/address/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(addressData),
+    });
+    if (!res.ok) throw new Error("Failed to update address");
+    return res.json();
+  },
+
+  deleteAddress: async (id: string) => {
+    const res = await fetch(`/api/profile/address/${id}`, {
+      method: "DELETE",
+    });
+    if (!res.ok) throw new Error("Failed to delete address");
+    return res.json();
+  }
 };

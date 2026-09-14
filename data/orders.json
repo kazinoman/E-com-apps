@@ -741,5 +741,405 @@
         "completed": false
       }
     ]
+  },
+  {
+    "id": "ORD-73358",
+    "customer": {
+      "fullName": "asdf",
+      "phone": "+8801568568442",
+      "email": "kazinoman9999@gmail.com",
+      "deliveryAddress": "bot tola mor, joshimuddin mor, uttora, dhaka",
+      "billingAddress": "Same as delivery address",
+      "orderNote": "asdf"
+    },
+    "payment": {
+      "deliveryType": "Standard delivery",
+      "paymentMethod": "Cash on delivery"
+    },
+    "items": [
+      {
+        "id": "3_sku-p8-1",
+        "product": {
+          "id": 3,
+          "title": "Google Pixel 8 Pro - Obsidian",
+          "category": "gadgets",
+          "subCategory": "google",
+          "brand": "Google",
+          "price": 999,
+          "originalPrice": 999,
+          "rating": 4.6,
+          "reviewsCount": 2105,
+          "badge": "New",
+          "image": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80",
+          "images": [
+            "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80"
+          ],
+          "skus": [
+            {
+              "id": "sku-p8-1",
+              "sku": "PIX8-PRO-128-OBS",
+              "color": "Midnight Obsidian",
+              "price": 999,
+              "stock": 100,
+              "image": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80"
+            },
+            {
+              "id": "sku-p8-2",
+              "sku": "PIX8-PRO-256-OBS",
+              "color": "Ocean Obsidian",
+              "price": 1059,
+              "stock": 45,
+              "image": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80"
+            },
+            {
+              "id": "sku-p8-3",
+              "sku": "PIX8-PRO-512-OBS",
+              "color": "Deep Royal Obsidian",
+              "price": 1179,
+              "stock": 10,
+              "image": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80"
+            }
+          ],
+          "colors": [
+            {
+              "name": "Obsidian",
+              "hex": "#1F2124"
+            },
+            {
+              "name": "Porcelain",
+              "hex": "#F2F1EC"
+            },
+            {
+              "name": "Bay",
+              "hex": "#87CEEB"
+            }
+          ],
+          "seller": {
+            "name": "Google Store",
+            "verified": true,
+            "rating": 4.7,
+            "logo": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=100&q=80"
+          },
+          "description": {
+            "text": "Meet Pixel 8 Pro, the all-pro phone engineered by Google. It's sleek, sophisticated, and powerful, with a custom Google Tensor G3 chip. And it comes with 7 years of OS and security updates.\n\nThe immersive 6.7-inch Super Actua display makes everything sharp. The refresh rate intelligently adjusts between 1 and 120Hz for responsive performance. It has the best Pixel camera yet, giving you stunning photos and videos in any light.",
+            "images": [
+              "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=800&q=80"
+            ]
+          },
+          "specifications": [
+            {
+              "label": "Display",
+              "value": "6.7-inch Super Actua display (120Hz)"
+            },
+            {
+              "label": "Processor",
+              "value": "Google Tensor G3"
+            },
+            {
+              "label": "RAM",
+              "value": "12GB LPDDR5X"
+            },
+            {
+              "label": "Storage",
+              "value": "128GB / 256GB / 512GB / 1TB"
+            },
+            {
+              "label": "Rear Camera",
+              "value": "50MP Wide, 48MP Ultrawide, 48MP Telephoto (5x optical zoom)"
+            },
+            {
+              "label": "Front Camera",
+              "value": "10.5MP"
+            },
+            {
+              "label": "Battery",
+              "value": "5050 mAh, fast charging"
+            },
+            {
+              "label": "OS",
+              "value": "Android 14 (7 years of updates)"
+            }
+          ],
+          "reviewsData": {
+            "average": 4.6,
+            "total": 2105,
+            "distribution": {
+              "1": 50,
+              "2": 50,
+              "3": 100,
+              "4": 405,
+              "5": 1500
+            }
+          }
+        },
+        "sku": {
+          "id": "sku-p8-1",
+          "sku": "PIX8-PRO-128-OBS",
+          "color": "Midnight Obsidian",
+          "price": 999,
+          "stock": 100,
+          "image": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80"
+        },
+        "quantity": 4
+      },
+      {
+        "id": "3_sku-p8-2",
+        "product": {
+          "id": 3,
+          "title": "Google Pixel 8 Pro - Obsidian",
+          "category": "gadgets",
+          "subCategory": "google",
+          "brand": "Google",
+          "price": 999,
+          "originalPrice": 999,
+          "rating": 4.6,
+          "reviewsCount": 2105,
+          "badge": "New",
+          "image": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80",
+          "images": [
+            "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80"
+          ],
+          "skus": [
+            {
+              "id": "sku-p8-1",
+              "sku": "PIX8-PRO-128-OBS",
+              "color": "Midnight Obsidian",
+              "price": 999,
+              "stock": 100,
+              "image": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80"
+            },
+            {
+              "id": "sku-p8-2",
+              "sku": "PIX8-PRO-256-OBS",
+              "color": "Ocean Obsidian",
+              "price": 1059,
+              "stock": 45,
+              "image": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80"
+            },
+            {
+              "id": "sku-p8-3",
+              "sku": "PIX8-PRO-512-OBS",
+              "color": "Deep Royal Obsidian",
+              "price": 1179,
+              "stock": 10,
+              "image": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80"
+            }
+          ],
+          "colors": [
+            {
+              "name": "Obsidian",
+              "hex": "#1F2124"
+            },
+            {
+              "name": "Porcelain",
+              "hex": "#F2F1EC"
+            },
+            {
+              "name": "Bay",
+              "hex": "#87CEEB"
+            }
+          ],
+          "seller": {
+            "name": "Google Store",
+            "verified": true,
+            "rating": 4.7,
+            "logo": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=100&q=80"
+          },
+          "description": {
+            "text": "Meet Pixel 8 Pro, the all-pro phone engineered by Google. It's sleek, sophisticated, and powerful, with a custom Google Tensor G3 chip. And it comes with 7 years of OS and security updates.\n\nThe immersive 6.7-inch Super Actua display makes everything sharp. The refresh rate intelligently adjusts between 1 and 120Hz for responsive performance. It has the best Pixel camera yet, giving you stunning photos and videos in any light.",
+            "images": [
+              "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=800&q=80"
+            ]
+          },
+          "specifications": [
+            {
+              "label": "Display",
+              "value": "6.7-inch Super Actua display (120Hz)"
+            },
+            {
+              "label": "Processor",
+              "value": "Google Tensor G3"
+            },
+            {
+              "label": "RAM",
+              "value": "12GB LPDDR5X"
+            },
+            {
+              "label": "Storage",
+              "value": "128GB / 256GB / 512GB / 1TB"
+            },
+            {
+              "label": "Rear Camera",
+              "value": "50MP Wide, 48MP Ultrawide, 48MP Telephoto (5x optical zoom)"
+            },
+            {
+              "label": "Front Camera",
+              "value": "10.5MP"
+            },
+            {
+              "label": "Battery",
+              "value": "5050 mAh, fast charging"
+            },
+            {
+              "label": "OS",
+              "value": "Android 14 (7 years of updates)"
+            }
+          ],
+          "reviewsData": {
+            "average": 4.6,
+            "total": 2105,
+            "distribution": {
+              "1": 50,
+              "2": 50,
+              "3": 100,
+              "4": 405,
+              "5": 1500
+            }
+          }
+        },
+        "sku": {
+          "id": "sku-p8-2",
+          "sku": "PIX8-PRO-256-OBS",
+          "color": "Ocean Obsidian",
+          "price": 1059,
+          "stock": 45,
+          "image": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80"
+        },
+        "quantity": 6
+      },
+      {
+        "id": "3_sku-p8-3",
+        "product": {
+          "id": 3,
+          "title": "Google Pixel 8 Pro - Obsidian",
+          "category": "gadgets",
+          "subCategory": "google",
+          "brand": "Google",
+          "price": 999,
+          "originalPrice": 999,
+          "rating": 4.6,
+          "reviewsCount": 2105,
+          "badge": "New",
+          "image": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80",
+          "images": [
+            "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80"
+          ],
+          "skus": [
+            {
+              "id": "sku-p8-1",
+              "sku": "PIX8-PRO-128-OBS",
+              "color": "Midnight Obsidian",
+              "price": 999,
+              "stock": 100,
+              "image": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80"
+            },
+            {
+              "id": "sku-p8-2",
+              "sku": "PIX8-PRO-256-OBS",
+              "color": "Ocean Obsidian",
+              "price": 1059,
+              "stock": 45,
+              "image": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80"
+            },
+            {
+              "id": "sku-p8-3",
+              "sku": "PIX8-PRO-512-OBS",
+              "color": "Deep Royal Obsidian",
+              "price": 1179,
+              "stock": 10,
+              "image": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80"
+            }
+          ],
+          "colors": [
+            {
+              "name": "Obsidian",
+              "hex": "#1F2124"
+            },
+            {
+              "name": "Porcelain",
+              "hex": "#F2F1EC"
+            },
+            {
+              "name": "Bay",
+              "hex": "#87CEEB"
+            }
+          ],
+          "seller": {
+            "name": "Google Store",
+            "verified": true,
+            "rating": 4.7,
+            "logo": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=100&q=80"
+          },
+          "description": {
+            "text": "Meet Pixel 8 Pro, the all-pro phone engineered by Google. It's sleek, sophisticated, and powerful, with a custom Google Tensor G3 chip. And it comes with 7 years of OS and security updates.\n\nThe immersive 6.7-inch Super Actua display makes everything sharp. The refresh rate intelligently adjusts between 1 and 120Hz for responsive performance. It has the best Pixel camera yet, giving you stunning photos and videos in any light.",
+            "images": [
+              "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=800&q=80"
+            ]
+          },
+          "specifications": [
+            {
+              "label": "Display",
+              "value": "6.7-inch Super Actua display (120Hz)"
+            },
+            {
+              "label": "Processor",
+              "value": "Google Tensor G3"
+            },
+            {
+              "label": "RAM",
+              "value": "12GB LPDDR5X"
+            },
+            {
+              "label": "Storage",
+              "value": "128GB / 256GB / 512GB / 1TB"
+            },
+            {
+              "label": "Rear Camera",
+              "value": "50MP Wide, 48MP Ultrawide, 48MP Telephoto (5x optical zoom)"
+            },
+            {
+              "label": "Front Camera",
+              "value": "10.5MP"
+            },
+            {
+              "label": "Battery",
+              "value": "5050 mAh, fast charging"
+            },
+            {
+              "label": "OS",
+              "value": "Android 14 (7 years of updates)"
+            }
+          ],
+          "reviewsData": {
+            "average": 4.6,
+            "total": 2105,
+            "distribution": {
+              "1": 50,
+              "2": 50,
+              "3": 100,
+              "4": 405,
+              "5": 1500
+            }
+          }
+        },
+        "sku": {
+          "id": "sku-p8-3",
+          "sku": "PIX8-PRO-512-OBS",
+          "color": "Deep Royal Obsidian",
+          "price": 1179,
+          "stock": 10,
+          "image": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80"
+        },
+        "quantity": 20
+      }
+    ],
+    "totals": {
+      "subtotal": 33930,
+      "shipping": 6.99,
+      "discount": 0,
+      "total": 33936.99
+    },
+    "status": "order-initiate",
+    "createdAt": "2026-09-14T11:12:49.969Z"
   }
 ]
