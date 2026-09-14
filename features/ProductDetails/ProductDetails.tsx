@@ -4,18 +4,21 @@ import { useState } from "react";
 import { Product, Sku } from "@/schemas/product";
 import { ProductGallery } from "./components/ProductGallery";
 import { ProductInfo } from "./components/ProductInfo";
+import { ProductTabs } from "./components/ProductTabs";
+import { Container } from "@/components/common/Container";
 
 interface ProductDetailsProps {
   product: Product;
+  similarProducts?: any[];
 }
 
-export const ProductDetails = ({ product }: ProductDetailsProps) => {
+export const ProductDetails = ({ product, similarProducts = [] }: ProductDetailsProps) => {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [selectedSku, setSelectedSku] = useState<Sku | undefined>(product.skus?.[0]);
 
   const handleSkuSelect = (sku: Sku) => {
     setSelectedSku(sku);
-    
+
     const fallbackImages = product.images || (product.image ? [product.image] : []);
 
     if (sku.image) {
@@ -40,7 +43,7 @@ export const ProductDetails = ({ product }: ProductDetailsProps) => {
   const currentActiveIndex = activeImageIndex >= displayImages.length ? 0 : activeImageIndex;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 md:py-12">
+    <Container className=" py-16">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-20">
         {/* Left Column: Gallery */}
         <div className="w-full">
@@ -60,6 +63,8 @@ export const ProductDetails = ({ product }: ProductDetailsProps) => {
           />
         </div>
       </div>
-    </div>
+
+      <ProductTabs product={product} similarProducts={similarProducts} />
+    </Container>
   );
 };

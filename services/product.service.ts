@@ -20,3 +20,19 @@ export const getProductById = async (id: string): Promise<ProductResponse | null
     return null;
   }
 };
+
+export const getSimilarProducts = async (category: string, limit: number = 20): Promise<any[]> => {
+  try {
+    const res = await fetch(`${API_BASE_URL}/search?category=${encodeURIComponent(category)}&limit=${limit}`, {
+      cache: "no-store",
+    });
+    
+    if (!res.ok) return [];
+    
+    const json = await res.json();
+    return json.data || [];
+  } catch (error) {
+    console.error("Error fetching similar products:", error);
+    return [];
+  }
+};

@@ -33,11 +33,11 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect }: 
     if (onSkuSelect) onSkuSelect(sku);
     else setInternalSku(sku);
   };
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(3);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const increaseQuantity = () => setQuantity((prev) => prev + 1);
-  const decreaseQuantity = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+  const decreaseQuantity = () => setQuantity((prev) => (prev > 3 ? prev - 1 : 3));
 
   const renderStars = (rating: number) => {
     const stars = [];
@@ -163,22 +163,26 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect }: 
         </p>
 
         <p className="text-sm font-medium text-slate-500">Quantity</p>
-        <div className="flex items-center">
-          <div className="flex items-center rounded-lg bg-slate-50 p-1">
-            <button
-              onClick={decreaseQuantity}
-              className="w-8 h-8 flex items-center justify-center text-slate-500 hover:text-slate-800 transition-colors"
-            >
-              <Minus className="w-4 h-4" />
-            </button>
-            <span className="w-8 text-center font-medium text-slate-800">{quantity}</span>
-            <button
-              onClick={increaseQuantity}
-              className="w-8 h-8 flex items-center justify-center text-slate-500 hover:text-slate-800 transition-colors"
-            >
-              <Plus className="w-4 h-4" />
-            </button>
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center">
+            <div className="flex items-center rounded-lg bg-slate-50 p-1">
+              <button
+                onClick={decreaseQuantity}
+                disabled={quantity <= 3}
+                className="w-8 h-8 flex items-center justify-center text-slate-500 hover:text-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                <Minus className="w-4 h-4" />
+              </button>
+              <span className="w-8 text-center font-medium text-slate-800">{quantity}</span>
+              <button
+                onClick={increaseQuantity}
+                className="w-8 h-8 flex items-center justify-center text-slate-500 hover:text-slate-800 transition-colors"
+              >
+                <Plus className="w-4 h-4" />
+              </button>
+            </div>
           </div>
+          <p className="text-[11px] text-slate-400 font-medium">Minimum order quantity is 3</p>
         </div>
 
         <p className="text-sm font-medium text-slate-500">Total Price</p>

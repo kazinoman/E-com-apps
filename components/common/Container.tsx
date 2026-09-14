@@ -9,7 +9,7 @@ export function Container({ className, children, ...props }: ContainerProps) {
   return (
     <div
       className={cn(
-        "w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-6", // Default constraint and responsive padding
+        "w-full max-w-[1480px] mx-auto px-4 sm:px-6 md:px-4", // Default constraint and responsive padding
         className,
       )}
       {...props}

@@ -1,4 +1,4 @@
-import { getProductById } from "@/services/product.service";
+import { getProductById, getSimilarProducts } from "@/services/product.service";
 import { ProductDetails } from "@/features/ProductDetails/ProductDetails";
 import { notFound } from "next/navigation";
 
@@ -10,9 +10,12 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
     notFound();
   }
 
+  const product = productResponse.data;
+  const similarProducts = await getSimilarProducts(product.category, 20);
+
   return (
     <main className="min-h-screen bg-white">
-      <ProductDetails product={productResponse.data} />
+      <ProductDetails product={product} similarProducts={similarProducts} />
     </main>
   );
 }
