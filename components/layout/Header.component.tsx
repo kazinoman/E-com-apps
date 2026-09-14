@@ -11,12 +11,14 @@ import Link from "next/link";
 import { PageUrls } from "@/constants/PageUrls";
 import { ThemeToggle } from "../common/ThemeToggleButton";
 import { Container } from "../common/Container";
+import { useCart } from "@/contexts/CartContext";
 
 export function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
   const { user, isAuthLoading } = useAuth();
+  const { cartItemCount, cartTotal } = useCart();
 
   const [searchTerm, setSearchTerm] = useState(searchParams?.get("title") || "");
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
@@ -73,14 +75,14 @@ export function Header() {
             <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground">
               <Search size={20} strokeWidth={1.5} />
             </div>
-            <input 
-              type="text" 
+            <input
+              type="text"
               value={searchTerm}
               onChange={(e) => {
                 isTyping.current = true;
                 setSearchTerm(e.target.value);
               }}
-              placeholder="Search Product Name" 
+              placeholder="Search Product Name"
               className="w-full h-[46px] pl-12 pr-12 bg-[#F6F7F9] dark:bg-secondary/50 border border-transparent rounded-lg focus:outline-none focus:ring-1 focus:ring-primary focus:border-transparent text-[15px] transition-all text-foreground"
             />
             <button className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors">
@@ -91,14 +93,14 @@ export function Header() {
           {/* Actions */}
           <div className="flex items-center gap-6">
             <ThemeToggle />
-            
+
             <button className="text-[#6B6565] hover:text-foreground transition-colors">
               <ArrowRightLeft size={24} strokeWidth={1.5} />
             </button>
             <button className="text-[#6B6565] hover:text-foreground transition-colors">
               <Heart size={24} strokeWidth={1.5} />
             </button>
-            
+
             {isAuthLoading ? (
               <div className="w-24 h-8 bg-secondary animate-pulse rounded" />
             ) : (
@@ -142,10 +144,10 @@ export function Header() {
             })}
           </nav>
 
-          <div className="flex items-center gap-2 text-[14px] font-medium text-[#B3B3B3] cursor-pointer hover:text-white transition-colors">
+          <button onClick={() => router.push("/cart")} className="flex items-center gap-2 text-[14px] font-medium text-[#B3B3B3] cursor-pointer hover:text-white transition-colors">
             <ShoppingBag size={20} strokeWidth={1.5} />
-            <span>$ 0.00 <span className="text-[#808080]">(0 items)</span></span>
-          </div>
+            <span>৳ {cartTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} <span className="text-[#808080]">({cartItemCount} items)</span></span>
+          </button>
         </Container>
       </div>
 
@@ -164,7 +166,9 @@ export function Header() {
 
         <div className="flex items-center gap-3">
           <Search size={22} strokeWidth={1.5} className="text-foreground" />
-          <CartButton cartCount={10} />
+          <button onClick={() => router.push("/cart")}>
+            <CartButton cartCount={cartItemCount} />
+          </button>
         </div>
       </header>
 

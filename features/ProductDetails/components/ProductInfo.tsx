@@ -3,12 +3,10 @@
 import { useState } from "react";
 import { Product, ProductColor, Sku } from "@/schemas/product";
 import { Button } from "@/components/ui/button";
+import { useCart } from "@/contexts/CartContext";
 import {
   Star,
   StarHalf,
-  // Facebook,
-  // Instagram,
-  // Twitter,
   BadgeCheck,
   Minus,
   Plus,
@@ -26,6 +24,7 @@ interface ProductInfoProps {
 }
 
 export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect }: ProductInfoProps) => {
+  const { addToCart } = useCart();
   const [internalSku, setInternalSku] = useState<Sku | undefined>(product.skus?.[0]);
   const selectedSku = externalSku !== undefined ? externalSku : internalSku;
 
@@ -222,7 +221,10 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect }: 
 
       {/* Actions */}
       <div className="flex items-center gap-4 mt-2">
-        <Button className="flex-1 bg-slate-800 hover:bg-slate-700 text-white h-12 rounded-lg font-medium text-base">
+        <Button 
+          onClick={() => addToCart(product, quantity, selectedSku)}
+          className="flex-1 bg-slate-800 hover:bg-slate-700 text-white h-12 rounded-lg font-medium text-base"
+        >
           Add to cart
         </Button>
         <Button variant="outline" className="flex-1 border-slate-300 text-slate-700 h-12 rounded-lg font-medium text-base hover:bg-slate-50">
