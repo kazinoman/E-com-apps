@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 import { addresses } from "../store";
 
-export async function PUT(request: Request, { params }: { params: { id: string } }) {
+export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const id = params.id;
+    const resolvedParams = await params;
+    const id = resolvedParams.id;
     const data = await request.json();
     
     const index = addresses.findIndex(addr => addr.id === id);
@@ -19,9 +20,10 @@ export async function PUT(request: Request, { params }: { params: { id: string }
   }
 }
 
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const id = params.id;
+    const resolvedParams = await params;
+    const id = resolvedParams.id;
     const index = addresses.findIndex(addr => addr.id === id);
     
     if (index === -1) {
