@@ -4,7 +4,7 @@ import React from "react";
 
 const ProfileLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <Container className="max-w-6xl">
+    <Container className="">
       <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-6 py-8">
         {/* Left Grid (4 columns on desktop) */}
         <div className="lg:col-span-3">

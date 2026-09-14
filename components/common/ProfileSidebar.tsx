@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { User, MapPin, Heart, Package, LogOut, Menu, XCircle, Clock, LayoutDashboard, CreditCard, AlertCircle } from "lucide-react";
+import { User, MapPin, Heart, Crosshair, ClipboardList, Package, LogOut, Menu, CheckCircle2 } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -12,20 +12,18 @@ import {
 } from "@/components/ui/accordion";
 import { useAuth } from "@/contexts/UserInfoContext";
 import { useLogout } from "@/hooks/useLogout";
+import Image from "next/image";
 
 const accountItems = [
-  { name: "Dashboard", href: "/profile/dashboard", icon: LayoutDashboard },
-  { name: "My Profile", href: "/profile/my-profile", icon: User },
-  { name: "Address", href: "/profile/address", icon: MapPin },
-  { name: "My Wishlist", href: "/profile/wishlist", icon: Heart },
-  { name: "Payments", href: "/profile/payments", icon: CreditCard },
-  { name: "Complain", href: "/profile/complain", icon: AlertCircle },
+  { name: "My Account", href: "/profile/my-profile", icon: User },
+  { name: "My Address", href: "/profile/address", icon: MapPin },
+  { name: "My Wishlists", href: "/profile/wishlist", icon: Heart },
 ];
 
 const orderItems = [
-  { name: "Active Orders", href: "/profile/orders/active", icon: Package },
-  { name: "Cancel Orders", href: "/profile/orders/cancel", icon: XCircle },
-  { name: "Order History", href: "/profile/orders/history", icon: Clock },
+  { name: "Track Orders", href: "/profile/orders/track", icon: Crosshair },
+  { name: "Active Orders", href: "/profile/orders/active", icon: ClipboardList },
+  { name: "Orders History", href: "/profile/orders/history", icon: Package },
 ];
 
 export function ProfileSidebar() {
@@ -33,10 +31,6 @@ export function ProfileSidebar() {
   const { user } = useAuth();
   const { logout, isLoggingOut } = useLogout();
   const [accordionValue, setAccordionValue] = useState<string>("");
-
-  const getInitials = (name: string) => {
-    return name ? name.charAt(0).toUpperCase() : "U";
-  };
 
   const getActivePageName = () => {
     const allItems = [...accountItems, ...orderItems];
@@ -53,62 +47,70 @@ export function ProfileSidebar() {
         key={item.name}
         href={item.href}
         onClick={() => setAccordionValue("")}
-        className={`flex items-center gap-3 p-2.5 text-sm rounded-md transition-colors ${isActive
-          ? "bg-primary text-primary-foreground font-medium shadow-sm"
-          : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 font-medium"
+        className={`flex items-center justify-between p-3.5 text-[14px] rounded-xl transition-all ${isActive
+          ? "bg-[#F7F7FA] dark:bg-gray-800 text-[#1C244B] dark:text-white font-semibold"
+          : "text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-gray-700 dark:hover:text-gray-300 font-medium"
           }`}
       >
-        <item.icon className={`w-5 h-5 ${isActive ? "" : "text-gray-500 dark:text-gray-400"}`} />
-        {item.name}
+        <div className="flex items-center gap-3.5">
+          <item.icon className={`w-5 h-5 ${isActive ? "text-[#1C244B] dark:text-white" : "text-gray-400"}`} strokeWidth={isActive ? 2.5 : 2} />
+          {item.name}
+        </div>
+        {isActive && (
+          <CheckCircle2 className="w-5 h-5 text-[#333333] dark:text-white fill-[#1C244B] dark:fill-white text-white dark:text-[#1C244B]" />
+        )}
       </Link>
     );
   };
 
   const renderMenuItems = (isMobile: boolean = false) => {
     return (
-      <div className={`flex flex-col ${isMobile ? "" : "h-full"}`}>
+      <div className={`flex flex-col ${isMobile ? "" : "h-full py-6 px-4"}`}>
         {/* User Info Section */}
-        <div className="flex items-center gap-3 p-4 border-b border-gray-100 dark:border-gray-700">
-          <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center text-lg font-bold shrink-0">
-            {getInitials(user?.fullName || "")}
+        <div className="flex items-center gap-4 px-2 mb-8">
+          <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center overflow-hidden shrink-0">
+            {/* If there's no actual user image, use a placeholder or initials. The design shows an avatar image. */}
+            <Image
+              src={user?.avatar || "https://i.pravatar.cc/150?u=a042581f4e29026704d"}
+              alt="User Avatar"
+              width={48}
+              height={48}
+              className="object-cover w-full h-full"
+            />
           </div>
           <div className="overflow-hidden">
-            <h3 className="font-semibold text-gray-800 dark:text-white truncate">
-              {user?.fullName || "Guest User"}
+            <h3 className="text-[15px] font-bold text-[#333333] dark:text-white truncate">
+              {user?.fullName || "Mr. Bilal Assad"}
             </h3>
-            <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
-              {user?.email || "guest@example.com"}
-            </p>
           </div>
         </div>
 
-        <div className={`p-2 space-y-4 ${isMobile ? "" : "flex-1"}`}>
+        <div className={`space-y-6 ${isMobile ? "" : "flex-1"}`}>
           {/* Accounts Section */}
           <div>
-            <div className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 px-2">
-              Accounts
+            <div className="text-[13px] font-medium text-[#8C93A3] mb-3 px-2">
+              Account
             </div>
             <div className="space-y-1">{accountItems.map(renderLink)}</div>
           </div>
 
           {/* Orders Section */}
           <div>
-            <div className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 px-2">
+            <div className="text-[13px] font-medium text-[#8C93A3] mb-3 px-2">
               Orders
             </div>
             <div className="space-y-1">{orderItems.map(renderLink)}</div>
           </div>
         </div>
 
-        <div className={`p-2 border-t border-gray-100 dark:border-gray-700 ${isMobile ? "" : "mt-auto"}`}>
+        <div className={`pt-6 mt-8 ${isMobile ? "" : "border-t border-gray-100 dark:border-gray-800"}`}>
           {/* Logout Button */}
           <button
             onClick={logout}
             disabled={isLoggingOut}
-            className={`flex items-center gap-3 p-2.5 w-full text-left text-sm font-medium text-red-600 dark:text-red-500 rounded-md transition-colors hover:bg-red-50 dark:hover:bg-red-950/30 ${isLoggingOut ? "opacity-70 cursor-not-allowed" : ""
-              }`}
+            className={`flex items-center gap-3.5 px-3.5 py-2 w-full text-left text-[14px] font-bold text-[#E94B4B] hover:text-[#c43c3c] transition-colors ${isLoggingOut ? "opacity-70 cursor-not-allowed" : ""}`}
           >
-            <LogOut className={`w-5 h-5 ${isLoggingOut ? "animate-pulse" : ""}`} />
+            <LogOut className={`w-5 h-5 ${isLoggingOut ? "animate-pulse" : ""}`} strokeWidth={2.5} />
             {isLoggingOut ? "Logging out..." : "Logout"}
           </button>
         </div>
@@ -125,12 +127,12 @@ export function ProfileSidebar() {
           collapsible
           value={accordionValue}
           onValueChange={setAccordionValue}
-          className="w-full bg-white dark:bg-gray-800 rounded-lg shadow-md"
+          className="w-full bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800"
         >
           <AccordionItem value="mobile-menu" className="border-none">
-            <AccordionTrigger className="px-4 py-4 hover:no-underline [&[data-state=open]]:border-b dark:[&[data-state=open]]:border-gray-700">
+            <AccordionTrigger className="px-5 py-4 hover:no-underline [&[data-state=open]]:border-b dark:[&[data-state=open]]:border-gray-800">
               <div className="flex items-center gap-3 text-base font-semibold dark:text-white">
-                <Menu className="w-5 h-5 text-primary" />
+                <Menu className="w-5 h-5 text-gray-700 dark:text-gray-300" />
                 {getActivePageName()}
               </div>
             </AccordionTrigger>
@@ -142,7 +144,7 @@ export function ProfileSidebar() {
       </div>
 
       {/* Desktop View: Regular Sidebar */}
-      <div className="hidden lg:block bg-white dark:bg-gray-800 rounded-lg shadow-md h-full">
+      <div className="hidden lg:block bg-white dark:bg-gray-900 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 h-full">
         {renderMenuItems(false)}
       </div>
     </>
