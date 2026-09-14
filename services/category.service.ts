@@ -1,4 +1,7 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "/api";
+"use server";
+
+import { category as categoryUrls } from "@/lib/api/apiUrls";
+import { api } from "@/lib/api/axios";
 
 export interface SubCategory {
   id: string;
@@ -13,13 +16,8 @@ export interface Category {
 
 export async function fetchCategories(): Promise<Category[]> {
   try {
-    const res = await fetch(`${API_BASE_URL}/categories`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await res.json();
+    const res = await api.get(categoryUrls.list);
+    const data = res.data;
     
     const filters = data?.data?.filters;
     if (!filters || !filters.length) return [];

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Edit2, Trash2 } from "lucide-react";
 import { AddressModal } from "@/components/common/AddressModal";
 import { ConfirmModal } from "@/components/common/ConfirmModal";
-import { profileService } from "@/services/profile.service";
+import { getAddresses, updateAddress, addAddress, deleteAddress } from "@/services/profile.service";
 import { toast } from "sonner";
 
 export default function AddressPage() {
@@ -17,7 +17,7 @@ export default function AddressPage() {
   const fetchAddresses = async () => {
     try {
       setLoading(true);
-      const res = await profileService.getAddresses();
+      const res = await getAddresses();
       if (res.success) {
         setAddresses(res.data);
       }
@@ -35,12 +35,12 @@ export default function AddressPage() {
 
   const handleSaveAddress = async (addressData: any) => {
     if (editingAddress) {
-      const res = await profileService.updateAddress(editingAddress.id, addressData);
+      const res = await updateAddress(editingAddress.id, addressData);
       if (res.success) {
         setAddresses(addresses.map(a => a.id === editingAddress.id ? res.data : a));
       }
     } else {
-      const res = await profileService.addAddress(addressData);
+      const res = await addAddress(addressData);
       if (res.success) {
         setAddresses([...addresses, res.data]);
       }
@@ -57,7 +57,7 @@ export default function AddressPage() {
     if (!deleteConfirmId) return;
     
     try {
-      const res = await profileService.deleteAddress(deleteConfirmId);
+      const res = await deleteAddress(deleteConfirmId);
       if (res.success) {
         setAddresses(addresses.filter(a => a.id !== deleteConfirmId));
         toast.success("Address deleted successfully");

@@ -1,21 +1,15 @@
-import { ProductResponse } from "@/schemas/product";
+"use server";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_APP_URL ? `${process.env.NEXT_PUBLIC_APP_URL}/api` : "http://localhost:3000/api";
+import { ProductResponse } from "@/schemas/product";
+import { products as productsUrls } from "@/lib/api/apiUrls";
+import { api } from "@/lib/api/axios";
 
 export const getProductById = async (id: string): Promise<ProductResponse | null> => {
   try {
-    const res = await fetch(`${API_BASE_URL}/products/${id}`, {
-      cache: "no-store", // For fresh mock data
-    });
-    
-    if (!res.ok) {
-      if (res.status === 404) return null;
-      throw new Error(`Failed to fetch product: ${res.statusText}`);
-    }
-    
-    const data: ProductResponse = await res.json();
-    return data;
-  } catch (error) {
+    const res = await api.get(productsUrls.detail(id));
+    return res.data;
+  } catch (error: any) {
+    if (error.response?.status === 404) return null;
     console.error("Error fetching product:", error);
     return null;
   }
@@ -23,14 +17,8 @@ export const getProductById = async (id: string): Promise<ProductResponse | null
 
 export const getSimilarProducts = async (category: string, limit: number = 20): Promise<any[]> => {
   try {
-    const res = await fetch(`${API_BASE_URL}/search?category=${encodeURIComponent(category)}&limit=${limit}`, {
-      cache: "no-store",
-    });
-    
-    if (!res.ok) return [];
-    
-    const json = await res.json();
-    return json.data || [];
+    const res = await api.get(productsUrls.byCategory(category, limit));
+    return res.data?.data || [];
   } catch (error) {
     console.error("Error fetching similar products:", error);
     return [];

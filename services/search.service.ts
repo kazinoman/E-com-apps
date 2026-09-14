@@ -2,6 +2,7 @@
 
 import { ProductCardProps } from "@/components/common/ProductCard";
 import { api } from "@/lib/api/axios";
+import { search as searchUrls } from "@/lib/api/apiUrls";
 
 export interface SearchParams {
   category?: string;
@@ -38,8 +39,7 @@ export interface CategoryOption {
 
 export async function fetchCategories(): Promise<CategoryOption[]> {
   try {
-    const API_BASE_URL = process.env.NEXT_PUBLIC_APP_URL ? `${process.env.NEXT_PUBLIC_APP_URL}/api` : "http://localhost:3000/api";
-    const res = await api.get(`${API_BASE_URL}/categories`);
+    const res = await api.get(searchUrls.categories);
     const categoryFilter = res.data?.data?.filters?.find((f: any) => f.key === 'category');
     return categoryFilter?.options || [];
   } catch (error) {
@@ -57,8 +57,7 @@ export async function searchProducts(params: SearchParams): Promise<SearchRespon
       }
     });
 
-    const API_BASE_URL = process.env.NEXT_PUBLIC_APP_URL ? `${process.env.NEXT_PUBLIC_APP_URL}/api` : "http://localhost:3000/api";
-    const res = await api.get(`${API_BASE_URL}/search?${query.toString()}`);
+    const res = await api.get(searchUrls.products(query.toString()));
     return res.data;
   } catch (error) {
     console.error(`Error searching products:`, error);

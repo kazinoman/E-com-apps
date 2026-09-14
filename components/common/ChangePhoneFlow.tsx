@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { ChevronLeft } from "lucide-react";
-import { profileService } from "@/services/profile.service";
+import { sendPhoneOtp, verifyPhoneOtp, updatePhoneNumber } from "@/services/profile.service";
 
 interface ChangePhoneFlowProps {
   onBack: () => void;
@@ -45,7 +45,7 @@ export function ChangePhoneFlow({ onBack, onComplete, currentPhone }: ChangePhon
   const handleSendCode = async () => {
     try {
       setLoading(true);
-      await profileService.sendPhoneOtp(phoneToVerify);
+      await sendPhoneOtp(phoneToVerify);
       setStep("VERIFY");
       setTimeLeft(180);
     } catch (error) {
@@ -60,7 +60,7 @@ export function ChangePhoneFlow({ onBack, onComplete, currentPhone }: ChangePhon
       setLoading(true);
       const code = otp.join("");
       if (code.length !== 6) return;
-      await profileService.verifyPhoneOtp(code);
+      await verifyPhoneOtp(code);
       setStep("UPDATE");
     } catch (error) {
       console.error(error);
@@ -73,7 +73,7 @@ export function ChangePhoneFlow({ onBack, onComplete, currentPhone }: ChangePhon
     try {
       setLoading(true);
       if (newPhone !== confirmNewPhone || !newPhone) return;
-      await profileService.updatePhoneNumber(newPhone);
+      await updatePhoneNumber(newPhone);
       onComplete();
     } catch (error) {
       console.error(error);

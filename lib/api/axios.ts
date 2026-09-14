@@ -1,8 +1,21 @@
 import axios from "axios";
 import { cookies } from "next/headers";
 
+const getBaseUrl = () => {
+  if (process.env.API_BASE_URL) {
+    return process.env.API_BASE_URL;
+  }
+  if (process.env.NEXT_PUBLIC_APP_URL) {
+    return `${process.env.NEXT_PUBLIC_APP_URL}/api`;
+  }
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}/api`;
+  }
+  return "http://localhost:3000/api";
+};
+
 export const api = axios.create({
-  baseURL: process.env.API_BASE_URL,
+  baseURL: getBaseUrl(),
   headers: {
     "Content-Type": "application/json",
   },

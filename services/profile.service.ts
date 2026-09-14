@@ -1,65 +1,39 @@
-export const profileService = {
-  sendPhoneOtp: async (phone: string) => {
-    const res = await fetch("/api/profile/phone/otp", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ phone }),
-    });
-    if (!res.ok) throw new Error("Failed to send OTP");
-    return res.json();
-  },
+"use server";
 
-  verifyPhoneOtp: async (code: string) => {
-    const res = await fetch("/api/profile/phone/verify", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ code }),
-    });
-    if (!res.ok) throw new Error("Failed to verify OTP");
-    return res.json();
-  },
+import { profile as profileUrls } from "@/lib/api/apiUrls";
+import { api } from "@/lib/api/axios";
 
-  updatePhoneNumber: async (newPhone: string) => {
-    const res = await fetch("/api/profile/phone/update", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ newPhone }),
-    });
-    if (!res.ok) throw new Error("Failed to update phone number");
-    return res.json();
-  },
+export async function sendPhoneOtp(phone: string) {
+  const res = await api.post(profileUrls.phone.otp, { phone });
+  return res.data;
+}
 
-  getAddresses: async () => {
-    const res = await fetch("/api/profile/address");
-    if (!res.ok) throw new Error("Failed to fetch addresses");
-    return res.json();
-  },
+export async function verifyPhoneOtp(code: string) {
+  const res = await api.post(profileUrls.phone.verify, { code });
+  return res.data;
+}
 
-  addAddress: async (addressData: any) => {
-    const res = await fetch("/api/profile/address", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(addressData),
-    });
-    if (!res.ok) throw new Error("Failed to add address");
-    return res.json();
-  },
+export async function updatePhoneNumber(newPhone: string) {
+  const res = await api.post(profileUrls.phone.update, { newPhone });
+  return res.data;
+}
 
-  updateAddress: async (id: string, addressData: any) => {
-    const res = await fetch(`/api/profile/address/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(addressData),
-    });
-    if (!res.ok) throw new Error("Failed to update address");
-    return res.json();
-  },
+export async function getAddresses() {
+  const res = await api.get(profileUrls.address.list);
+  return res.data;
+}
 
-  deleteAddress: async (id: string) => {
-    const res = await fetch(`/api/profile/address/${id}`, {
-      method: "DELETE",
-    });
-    if (!res.ok) throw new Error("Failed to delete address");
-    return res.json();
-  }
-};
+export async function addAddress(addressData: any) {
+  const res = await api.post(profileUrls.address.add, addressData);
+  return res.data;
+}
+
+export async function updateAddress(id: string, addressData: any) {
+  const res = await api.put(profileUrls.address.update(id), addressData);
+  return res.data;
+}
+
+export async function deleteAddress(id: string) {
+  const res = await api.delete(profileUrls.address.remove(id));
+  return res.data;
+}

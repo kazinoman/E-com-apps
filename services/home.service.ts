@@ -1,7 +1,8 @@
+"use server";
+
 import { ProductCardProps } from "@/components/common/ProductCard";
 import { api } from "@/lib/api/axios";
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_APP_URL ? `${process.env.NEXT_PUBLIC_APP_URL}/api` : "http://localhost:3000/api";
+import { home as homeUrls } from "@/lib/api/apiUrls";
 
 export interface HomeSection {
   id: string;
@@ -11,7 +12,7 @@ export interface HomeSection {
 
 export async function fetchProducts(endpoint: string): Promise<ProductCardProps[]> {
   try {
-    const res = await api.get(`${API_BASE_URL}/${endpoint}`);
+    const res = await api.get(homeUrls.dynamic(endpoint));
     return res.data?.data || [];
   } catch (error) {
     console.error(`Error fetching ${endpoint}:`, error);
@@ -21,7 +22,7 @@ export async function fetchProducts(endpoint: string): Promise<ProductCardProps[
 
 export async function fetchHomeSections(): Promise<HomeSection[]> {
   try {
-    const res = await api.get(`${API_BASE_URL}/home/sections`);
+    const res = await api.get(homeUrls.sections);
     return res.data?.data || [];
   } catch (error) {
     console.error("Error fetching home sections:", error);
@@ -31,7 +32,7 @@ export async function fetchHomeSections(): Promise<HomeSection[]> {
 
 export async function fetchSliderImages(): Promise<any[]> {
   try {
-    const res = await api.get(`${API_BASE_URL}/home/slider`);
+    const res = await api.get(homeUrls.slider);
     return res.data?.data || [];
   } catch (error) {
     console.error("Error fetching slider images:", error);
