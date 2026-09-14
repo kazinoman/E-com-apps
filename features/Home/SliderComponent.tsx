@@ -54,7 +54,7 @@ const defaultSlides: SlideData[] = [
 
 export function HeroSlider({ slides = defaultSlides }: HeroSliderProps) {
   const [isMounted, setIsMounted] = useState(false);
-  
+
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -65,7 +65,7 @@ export function HeroSlider({ slides = defaultSlides }: HeroSliderProps) {
       <button className="hero-slider-prev absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-10 w-11 h-11 flex items-center justify-center rounded-xl bg-white/15 hover:bg-white/25 text-white transition-all cursor-pointer backdrop-blur-sm [&.swiper-button-disabled]:opacity-30 [&.swiper-button-disabled]:cursor-not-allowed">
         <ChevronLeft size={20} />
       </button>
-      
+
       <button className="hero-slider-next absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-10 w-11 h-11 flex items-center justify-center rounded-xl bg-white/15 hover:bg-white/25 text-white transition-all cursor-pointer backdrop-blur-sm [&.swiper-button-disabled]:opacity-30 [&.swiper-button-disabled]:cursor-not-allowed">
         <ChevronRight size={20} />
       </button>
@@ -91,9 +91,9 @@ export function HeroSlider({ slides = defaultSlides }: HeroSliderProps) {
         >
           {slides.map((slide) => (
             <SwiperSlide key={slide.id}>
-              <div className="w-full h-full relative cursor-pointer">
-                {/* Full Image Link */}
-                <Link href={slide.linkUrl} className="block w-full h-full relative">
+              <div className="w-full h-full relative">
+                {/* Full Image */}
+                <div className="block w-full h-full relative">
                   <Image
                     src={slide.image}
                     alt={slide.title}
@@ -102,7 +102,7 @@ export function HeroSlider({ slides = defaultSlides }: HeroSliderProps) {
                     sizes="(max-width: 768px) 100vw, 100vw"
                     priority
                   />
-                </Link>
+                </div>
               </div>
             </SwiperSlide>
           ))}
