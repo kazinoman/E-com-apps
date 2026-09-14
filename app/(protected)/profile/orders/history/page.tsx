@@ -1,9 +1,47 @@
-import React from "react";
+import { OrderTabs } from "@/components/common/OrderTabs";
+import { OrderCard } from "@/components/common/OrderCard";
+import { Order } from "@/types/order";
+import { headers } from "next/headers";
 
-export default function OrderHistoryPage() {
+async function getHistoryOrders(): Promise<Order[]> {
+  try {
+    const headersList = await headers();
+    const host = headersList.get("host") || "localhost:3000";
+    const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
+    
+    const res = await fetch(`${protocol}://${host}/api/orders?status=history`, {
+      cache: "no-store",
+    });
+    
+    if (!res.ok) {
+      throw new Error("Failed to fetch orders");
+    }
+    const data = await res.json();
+    return data.orders || [];
+  } catch (error) {
+    console.error("Error fetching history orders:", error);
+    return [];
+  }
+}
+
+export default async function HistoryOrdersPage() {
+  const orders = await getHistoryOrders();
+
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-10 w-full h-full flex items-center justify-center">
-      <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Order History</h1>
+    <div className="bg-white dark:bg-gray-900 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 p-8 w-full min-h-full">
+      <OrderTabs />
+      
+      {orders.length === 0 ? (
+        <div className="text-center py-12 text-gray-500">
+          No completed orders found.
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {orders.map((order) => (
+            <OrderCard key={order.id} order={order} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

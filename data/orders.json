@@ -23,7 +23,8 @@
           "price": 1200,
           "image": "https://picsum.photos/200"
         },
-        "quantity": 1
+        "quantity": 1,
+        "seller": "Gadget Electronics"
       },
       {
         "id": "2_base",
@@ -33,7 +34,8 @@
           "price": 250,
           "image": "https://picsum.photos/200"
         },
-        "quantity": 2
+        "quantity": 2,
+        "seller": "Gadget Electronics"
       }
     ],
     "totals": {
@@ -42,8 +44,52 @@
       "discount": 0,
       "total": 1706.99
     },
-    "status": "order shipped",
-    "createdAt": "2026-09-12T10:00:00Z"
+    "status": "Delivered",
+    "createdAt": "2026-09-12T10:00:00Z",
+    "timeline": [
+      {
+        "status": "Order has been placed",
+        "date": "Saturday, September 12, 2026",
+        "time": "04:00 PM",
+        "completed": true
+      },
+      {
+        "status": "We received your order",
+        "date": "Saturday, September 12, 2026",
+        "time": "04:10 PM",
+        "completed": true
+      },
+      {
+        "status": "Order has been confirmed",
+        "date": "Saturday, September 12, 2026",
+        "time": "04:20 PM",
+        "completed": true
+      },
+      {
+        "status": "We are preparing your order",
+        "date": "Saturday, September 12, 2026",
+        "time": "04:25 PM",
+        "completed": true
+      },
+      {
+        "status": "Order is ready",
+        "date": "Saturday, September 12, 2026",
+        "time": "04:45 PM",
+        "completed": true
+      },
+      {
+        "status": "Order is on the way",
+        "date": "Saturday, September 12, 2026",
+        "time": "04:50 PM",
+        "completed": true
+      },
+      {
+        "status": "Order has been delivered",
+        "date": "Saturday, September 12, 2026",
+        "time": "05:05 PM",
+        "completed": true
+      }
+    ]
   },
   {
     "id": "ORD-00002",
@@ -67,7 +113,8 @@
           "price": 1199,
           "image": "https://picsum.photos/200"
         },
-        "quantity": 1
+        "quantity": 1,
+        "seller": "Gadget Electronics"
       }
     ],
     "totals": {
@@ -76,8 +123,52 @@
       "discount": 0,
       "total": 1211.99
     },
-    "status": "order in customs",
-    "createdAt": "2026-09-13T14:30:00Z"
+    "status": "In progress",
+    "createdAt": "2026-09-13T14:30:00Z",
+    "timeline": [
+      {
+        "status": "Order has been placed",
+        "date": "Sunday, September 13, 2026",
+        "time": "08:30 PM",
+        "completed": true
+      },
+      {
+        "status": "We received your order",
+        "date": "Sunday, September 13, 2026",
+        "time": "08:40 PM",
+        "completed": true
+      },
+      {
+        "status": "Order has been confirmed",
+        "date": "Sunday, September 13, 2026",
+        "time": "08:50 PM",
+        "completed": true
+      },
+      {
+        "status": "We are preparing your order",
+        "date": "Sunday, September 13, 2026",
+        "time": "08:55 PM",
+        "completed": true
+      },
+      {
+        "status": "Order is ready",
+        "date": "Sunday, September 13, 2026",
+        "time": "09:15 PM",
+        "completed": false
+      },
+      {
+        "status": "Order is on the way",
+        "date": "Sunday, September 13, 2026",
+        "time": "09:20 PM",
+        "completed": false
+      },
+      {
+        "status": "Order has been delivered",
+        "date": "Sunday, September 13, 2026",
+        "time": "09:35 PM",
+        "completed": false
+      }
+    ]
   },
   {
     "id": "ORD-89223",
@@ -169,7 +260,8 @@
             }
           }
         },
-        "quantity": 8
+        "quantity": 8,
+        "seller": "Gadget Electronics"
       },
       {
         "id": "4_base",
@@ -185,7 +277,8 @@
           "badge": null,
           "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&q=80"
         },
-        "quantity": 8
+        "quantity": 8,
+        "seller": "Gadget Electronics"
       },
       {
         "id": "1_sku-1",
@@ -388,7 +481,8 @@
           "stock": 50,
           "image": "https://images.unsplash.com/photo-1605236453806-6ff36851218e?w=500&q=80"
         },
-        "quantity": 11
+        "quantity": 11,
+        "seller": "Gadget Electronics"
       },
       {
         "id": "1_sku-5",
@@ -591,7 +685,8 @@
           "stock": 25,
           "image": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80"
         },
-        "quantity": 5
+        "quantity": 5,
+        "seller": "Gadget Electronics"
       }
     ],
     "totals": {
@@ -600,7 +695,51 @@
       "discount": 0,
       "total": 26846.670000000002
     },
-    "status": "order-initiate",
-    "createdAt": "2026-09-14T09:22:11.843Z"
+    "status": "In progress",
+    "createdAt": "2026-09-14T09:22:11.843Z",
+    "timeline": [
+      {
+        "status": "Order has been placed",
+        "date": "Monday, September 14, 2026",
+        "time": "03:22 PM",
+        "completed": true
+      },
+      {
+        "status": "We received your order",
+        "date": "Monday, September 14, 2026",
+        "time": "03:32 PM",
+        "completed": true
+      },
+      {
+        "status": "Order has been confirmed",
+        "date": "Monday, September 14, 2026",
+        "time": "03:42 PM",
+        "completed": true
+      },
+      {
+        "status": "We are preparing your order",
+        "date": "Monday, September 14, 2026",
+        "time": "03:47 PM",
+        "completed": true
+      },
+      {
+        "status": "Order is ready",
+        "date": "Monday, September 14, 2026",
+        "time": "04:07 PM",
+        "completed": false
+      },
+      {
+        "status": "Order is on the way",
+        "date": "Monday, September 14, 2026",
+        "time": "04:12 PM",
+        "completed": false
+      },
+      {
+        "status": "Order has been delivered",
+        "date": "Monday, September 14, 2026",
+        "time": "04:27 PM",
+        "completed": false
+      }
+    ]
   }
 ]

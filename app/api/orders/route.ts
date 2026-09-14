@@ -74,8 +74,17 @@ export async function POST(request: Request) {
   }
 }
 
-export async function GET() {
-  // Optional: return all orders or implement pagination
-  const orders = getOrders();
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const statusParam = searchParams.get('status');
+
+  let orders = getOrders();
+
+  if (statusParam === 'active') {
+    orders = orders.filter((o: any) => o.status !== 'Delivered' && o.status !== 'Canceled');
+  } else if (statusParam === 'history') {
+    orders = orders.filter((o: any) => o.status === 'Delivered' || o.status === 'Canceled');
+  }
+
   return NextResponse.json({ orders });
 }
