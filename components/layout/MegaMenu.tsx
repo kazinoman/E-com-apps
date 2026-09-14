@@ -44,7 +44,7 @@ export const MegaMenu = () => {
 
         {/* Mega Menu Dropdown */}
         {activeHover === "all" && (
-          <div className="absolute top-full left-0 mt-0 w-[80vw] max-w-[1200px] bg-white dark:bg-gray-900 text-black dark:text-gray-100 shadow-2xl rounded-b-xl rounded-tr-xl p-8 border border-gray-100 dark:border-gray-800 max-h-[75vh] overflow-y-auto z-50">
+          <div className="absolute top-full left-0 mt-2 w-[80vw] max-w-[1200px] bg-white dark:bg-gray-900 text-black dark:text-gray-100 shadow-2xl rounded-xl p-8 border border-gray-100 dark:border-gray-800 max-h-[75vh] overflow-y-auto z-50">
             <div className="grid grid-cols-4 xl:grid-cols-5 gap-x-8 gap-y-10">
               {categories.map((cat) => (
                 <div key={cat.id} className="flex flex-col">
