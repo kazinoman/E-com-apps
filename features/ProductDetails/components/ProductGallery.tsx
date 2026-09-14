@@ -36,7 +36,7 @@ export const ProductGallery = ({ images, activeIndex: externalIndex, onActiveInd
     <div className="flex flex-col gap-6">
       {/* Main Image */}
       <div 
-        className="relative aspect-square w-full rounded-2xl bg-slate-50 flex items-center justify-center overflow-hidden group cursor-pointer"
+        className="relative aspect-square w-full rounded-2xl bg-slate-50 dark:bg-gray-900 flex items-center justify-center overflow-hidden group cursor-pointer"
         onClick={() => {
           setZoomLevel(1);
           setIsZoomModalOpen(true);
@@ -46,7 +46,7 @@ export const ProductGallery = ({ images, activeIndex: externalIndex, onActiveInd
           src={images[activeIndex]}
           alt={`Product image ${activeIndex + 1}`}
           fill
-          className="object-cover mix-blend-multiply"
+          className="object-cover mix-blend-multiply dark:mix-blend-normal"
           priority
         />
         
@@ -58,7 +58,7 @@ export const ProductGallery = ({ images, activeIndex: externalIndex, onActiveInd
               onClick={() => setActiveIndex(i)}
               className={cn(
                 "h-2 rounded-full transition-all duration-300",
-                i === activeIndex ? "w-6 bg-slate-400" : "w-2 bg-slate-200"
+                i === activeIndex ? "w-6 bg-slate-400 dark:bg-gray-300" : "w-2 bg-slate-200 dark:bg-gray-700"
               )}
               aria-label={`Go to slide ${i + 1}`}
             />
@@ -70,7 +70,7 @@ export const ProductGallery = ({ images, activeIndex: externalIndex, onActiveInd
       <div className="flex items-center gap-3">
         <button
           onClick={prevImage}
-          className="h-10 w-10 flex items-center justify-center rounded-full bg-slate-300/50 hover:bg-slate-300 text-slate-700 transition-colors"
+          className="h-10 w-10 flex items-center justify-center rounded-full bg-slate-300/50 dark:bg-gray-800 hover:bg-slate-300 dark:hover:bg-gray-700 text-slate-700 dark:text-gray-300 transition-colors"
           aria-label="Previous image"
         >
           <ChevronLeft className="w-5 h-5" />
@@ -82,15 +82,15 @@ export const ProductGallery = ({ images, activeIndex: externalIndex, onActiveInd
               key={i}
               onClick={() => setActiveIndex(i)}
               className={cn(
-                "relative aspect-square w-24 flex-shrink-0 rounded-xl overflow-hidden bg-slate-50 border-2 transition-all duration-200",
-                i === activeIndex ? "border-slate-800" : "border-transparent hover:border-slate-200"
+                "relative aspect-square w-24 flex-shrink-0 rounded-xl overflow-hidden bg-slate-50 dark:bg-gray-900 border-2 transition-all duration-200",
+                i === activeIndex ? "border-slate-800 dark:border-gray-400" : "border-transparent hover:border-slate-200 dark:hover:border-gray-700"
               )}
             >
               <Image
                 src={img}
                 alt={`Thumbnail ${i + 1}`}
                 fill
-                className="object-contain p-2 mix-blend-multiply"
+                className="object-contain p-2 mix-blend-multiply dark:mix-blend-normal"
               />
             </button>
           ))}
@@ -98,7 +98,7 @@ export const ProductGallery = ({ images, activeIndex: externalIndex, onActiveInd
 
         <button
           onClick={nextImage}
-          className="h-10 w-10 flex items-center justify-center rounded-full bg-slate-700 hover:bg-slate-800 text-white transition-colors"
+          className="h-10 w-10 flex items-center justify-center rounded-full bg-slate-700 dark:bg-white hover:bg-slate-800 dark:hover:bg-gray-200 text-white dark:text-black transition-colors"
           aria-label="Next image"
         >
           <ChevronRight className="w-5 h-5" />

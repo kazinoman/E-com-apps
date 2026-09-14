@@ -14,7 +14,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
   const similarProducts = await getSimilarProducts(product.category, 20);
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-white dark:bg-gray-950">
       <ProductDetails product={product} similarProducts={similarProducts} />
     </main>
   );
