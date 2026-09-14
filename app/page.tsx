@@ -3,17 +3,12 @@ import { HeroSlider } from "@/features/Home/SliderComponent";
 import { SectionSlider } from "@/components/common/SectionSlider";
 import { ProductCard } from "@/components/common/ProductCard";
 import { Container } from "@/components/common/Container";
-import { fetchProducts } from "@/services/home.service";
+import { fetchHomeSections, fetchSliderImages } from "@/services/home.service";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const [featuredProducts, trendingProducts, newArrivals, youMayAlsoLike] = await Promise.all([
-    fetchProducts("featured-products"),
-    fetchProducts("trending-products"),
-    fetchProducts("new-arrivals"),
-    fetchProducts("you-may-also-like"),
-  ]);
+  const sections = await fetchHomeSections();
 
-  const allProducts = [...featuredProducts, ...trendingProducts, ...newArrivals, ...youMayAlsoLike];
+  const allProducts = sections.flatMap((section) => section.products);
   const uniqueTitles = Array.from(new Set(allProducts.map((p) => p.title)));
   const uniqueCategories = Array.from(new Set(allProducts.map((p) => p.category)));
 
@@ -30,14 +25,12 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Home() {
-  const [featuredProducts, trendingProducts, newArrivals, youMayAlsoLike] = await Promise.all([
-    fetchProducts("featured-products"),
-    fetchProducts("trending-products"),
-    fetchProducts("new-arrivals"),
-    fetchProducts("you-may-also-like"),
+  const [sections, sliderImages] = await Promise.all([
+    fetchHomeSections(),
+    fetchSliderImages()
   ]);
 
-  const allProducts = [...featuredProducts, ...trendingProducts, ...newArrivals, ...youMayAlsoLike];
+  const allProducts = sections.flatMap((section) => section.products);
   const uniqueProducts = Array.from(new Map(allProducts.map(p => [p.id, p])).values());
 
   const jsonLd = {
@@ -81,40 +74,18 @@ export default async function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <main className="flex flex-1 w-full flex-col dark:bg-black">
-        <HeroSlider />
+        <HeroSlider slides={sliderImages} />
         
         <Container className="mt-12 space-y-4 flex flex-col ">
-          {featuredProducts.length > 0 && (
-            <SectionSlider title="Featured Products">
-              {featuredProducts.map((item) => (
-                <ProductCard key={item.id} {...item} />
-              ))}
-            </SectionSlider>
-          )}
-
-          {trendingProducts.length > 0 && (
-            <SectionSlider title="Trending Products">
-              {trendingProducts.map((item) => (
-                <ProductCard key={item.id} {...item} />
-              ))}
-            </SectionSlider>
-          )}
-          
-          {newArrivals.length > 0 && (
-            <SectionSlider title="New Arrivals">
-              {newArrivals.map((item) => (
-                <ProductCard key={item.id} {...item} />
-              ))}
-            </SectionSlider>
-          )}
-          
-          {youMayAlsoLike.length > 0 && (
-            <SectionSlider title="You May Also Like">
-              {youMayAlsoLike.map((item) => (
-                <ProductCard key={item.id} {...item} />
-              ))}
-            </SectionSlider>
-          )}
+          {sections.map((section) => (
+            section.products.length > 0 && (
+              <SectionSlider key={section.id} title={section.title}>
+                {section.products.map((item) => (
+                  <ProductCard key={item.id} {...item} />
+                ))}
+              </SectionSlider>
+            )
+          ))}
         </Container>
       </main>
     </div>
