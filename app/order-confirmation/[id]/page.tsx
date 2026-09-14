@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import { useParams } from "next/navigation";
+import { getOrder } from "@/services/order.service";
 
 export default function OrderConfirmationPage() {
   const params = useParams();
@@ -20,12 +21,11 @@ export default function OrderConfirmationPage() {
 
     const fetchOrder = async () => {
       try {
-        const res = await fetch(`/api/orders/${orderId}`);
-        const data = await res.json();
-        if (res.ok) {
-          setOrder(data.order);
+        const orderData = await getOrder(orderId);
+        if (orderData) {
+          setOrder(orderData);
         } else {
-          setError(data.error || "Order not found");
+          setError("Order not found");
         }
       } catch (err) {
         setError("Failed to fetch order details.");

@@ -1,28 +1,7 @@
 import { OrderTabs } from "@/components/common/OrderTabs";
 import { OrderCard } from "@/components/common/OrderCard";
 import { Order } from "@/types/order";
-import { headers } from "next/headers";
-
-async function getActiveOrders(): Promise<Order[]> {
-  try {
-    const headersList = await headers();
-    const host = headersList.get("host") || "localhost:3000";
-    const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
-    
-    const res = await fetch(`${protocol}://${host}/api/orders?status=active`, {
-      cache: "no-store",
-    });
-    
-    if (!res.ok) {
-      throw new Error("Failed to fetch orders");
-    }
-    const data = await res.json();
-    return data.orders || [];
-  } catch (error) {
-    console.error("Error fetching active orders:", error);
-    return [];
-  }
-}
+import { getActiveOrders } from "@/services/order.service";
 
 export default async function ActiveOrdersPage() {
   const orders = await getActiveOrders();

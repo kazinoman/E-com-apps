@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { ChevronLeft } from "lucide-react";
+import { createOrder } from "@/services/order.service";
 
 export default function CheckoutPage() {
   const { cart, cartTotal, cartItemCount, clearCart } = useCart();
@@ -76,15 +77,9 @@ export default function CheckoutPage() {
     };
 
     try {
-      const res = await fetch("/api/orders", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(orderData),
-      });
+      const { ok, data } = await createOrder(orderData);
 
-      const data = await res.json();
-
-      if (res.ok) {
+      if (ok) {
         clearCart();
         toast.success("Order confirmed successfully!");
         router.push(`/order-confirmation/${data.order.id}`);
