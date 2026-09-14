@@ -3,8 +3,11 @@
 import { useCart } from "@/contexts/CartContext";
 import { Button } from "@/components/ui/button";
 
+import { useRouter } from "next/navigation";
+
 export const CartSummary = () => {
   const { cartTotal, cartItemCount } = useCart();
+  const router = useRouter();
 
   const payNowAmount = cartTotal * 0.7;
   const payOnDeliveryAmount = cartTotal * 0.3;
@@ -41,6 +44,7 @@ export const CartSummary = () => {
       <Button
         className="w-full bg-[#117C43] hover:bg-[#0e6336] text-white h-12 rounded-lg font-bold text-base tracking-wide shadow-md hover:shadow-lg transition-all"
         disabled={cartItemCount === 0}
+        onClick={() => router.push('/checkout')}
       >
         Checkout
       </Button>

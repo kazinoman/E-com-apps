@@ -22,7 +22,7 @@ export const CartPage = () => {
             <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100">Your cart is empty</h2>
             <p className="text-gray-500 dark:text-gray-400 max-w-md">Looks like you haven't added anything to your cart yet. Discover great products on our store.</p>
             <Link href="/">
-              <Button className="bg-[#E70B89] hover:bg-[#c90a78] text-white px-8 h-12 text-base font-medium">
+              <Button variant={"default"} className="text-white px-8 h-12 text-base font-medium">
                 START SHOPPING
               </Button>
             </Link>
