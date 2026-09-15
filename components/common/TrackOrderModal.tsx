@@ -48,7 +48,7 @@ export function TrackOrderModal({ isOpen, onClose, timeline }: TrackOrderModalPr
   const activeStatusText = activeEvent ? activeEvent.status : "Order Confirmed";
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
       <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl w-full max-w-[420px] max-h-[90vh] overflow-y-auto relative scrollbar-hide">
         <button 
           onClick={onClose}
@@ -83,7 +83,7 @@ export function TrackOrderModal({ isOpen, onClose, timeline }: TrackOrderModalPr
                   
                   {/* Connecting Line */}
                   {index < steps.length - 1 && (
-                    <div className="absolute top-[48px] left-[60%] w-[80%] border-t-[2px] border-dashed border-[#DEE2F3] -z-10" />
+                    <div className="absolute top-[52px] left-[60%] w-[80%] border-t-[2px] border-dashed border-[#DEE2F3] -z-10" />
                   )}
                   
                   {/* Checkmark Circle */}

@@ -2118,5 +2118,63 @@
     },
     "status": "order-initiate",
     "createdAt": "2026-09-15T09:39:05.431Z"
+  },
+  {
+    "id": "ORD-35005",
+    "customer": {
+      "fullName": "Abdullah al Noman",
+      "phone": "+8801568568442",
+      "email": "kazinoman9999@gmail.com",
+      "deliveryAddress": "bot tola mor, joshimuddin mor, uttora, dhaka",
+      "billingAddress": "Same as delivery address",
+      "orderNote": ""
+    },
+    "payment": {
+      "deliveryType": "Standard delivery",
+      "paymentMethod": "Cash on delivery"
+    },
+    "items": [
+      {
+        "id": "4_base",
+        "product": {
+          "id": 4,
+          "title": "Luxury Handbag",
+          "category": "bags",
+          "subCategory": "laptop-bag",
+          "brand": "Generic",
+          "price": 133.24,
+          "originalPrice": null,
+          "rating": 4.5,
+          "badge": null,
+          "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&q=80"
+        },
+        "quantity": 13
+      },
+      {
+        "id": "5_base",
+        "product": {
+          "id": 5,
+          "title": "Google Pixel 8 Pro",
+          "category": "gadgets",
+          "subCategory": "apple",
+          "brand": "Generic",
+          "price": 79.57,
+          "originalPrice": null,
+          "rating": 4.3,
+          "badge": "Out of stock",
+          "image": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80",
+          "sold": 255
+        },
+        "quantity": 9
+      }
+    ],
+    "totals": {
+      "subtotal": 2448.25,
+      "shipping": 6.99,
+      "discount": 0,
+      "total": 2455.24
+    },
+    "status": "order-initiate",
+    "createdAt": "2026-09-15T11:40:11.856Z"
   }
 ]
