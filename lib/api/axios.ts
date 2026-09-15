@@ -1,5 +1,6 @@
 import axios from "axios";
 import { cookies } from "next/headers";
+import { snakeizeDeep } from "./case";
 
 /**
  * Server-side HTTP client for the merchant backend.
@@ -57,5 +58,25 @@ api.interceptors.request.use(async (config) => {
     config.headers.Cookie = forwarded;
   }
 
+  return config;
+});
+
+/**
+ * Convert outbound payloads to snake_case.
+ *
+ * Responses are left alone: the backend already camelizes them, and the
+ * components are written against that. This one-way conversion is the whole
+ * adapter — see lib/api/case.ts for why the asymmetry exists.
+ *
+ * FormData and other non-plain bodies pass through untouched, so a file
+ * upload still works.
+ */
+api.interceptors.request.use((config) => {
+  if (config.data !== undefined) {
+    config.data = snakeizeDeep(config.data);
+  }
+  if (config.params !== undefined) {
+    config.params = snakeizeDeep(config.params);
+  }
   return config;
 });
