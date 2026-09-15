@@ -31,7 +31,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    // next-themes sets `class` and `style="color-scheme"` on <html> from a
+    // blocking pre-hydration script, so the server HTML can never match the
+    // client. suppressHydrationWarning is scoped to this element's own
+    // attributes — children are still checked normally.
     <html
+      suppressHydrationWarning
       lang="en"
       className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable, dmSans.variable)}
     >
