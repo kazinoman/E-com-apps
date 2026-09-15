@@ -37,19 +37,28 @@ export default function TrackOrderPage() {
 
   if (order) {
     return (
-      <div className="bg-[#F8F9FA] dark:bg-black min-h-screen py-8">
-        <Container className="max-w-4xl">
-          <OrderDetailsClient 
-            order={order} 
-            onBack={() => setOrder(null)} 
-          />
-        </Container>
+      <div className="bg-[#F8F9FA] dark:bg-black min-h-screen flex flex-col">
+        <div className="py-8 flex-1">
+          <Container className="max-w-4xl">
+            <button 
+              onClick={() => setOrder(null)} 
+              className="mb-6 text-[14px] font-medium text-[#4A85F6] hover:underline"
+            >
+              ← Track another order
+            </button>
+            <OrderDetailsClient 
+              order={order} 
+              onBack={() => setOrder(null)} 
+            />
+          </Container>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-[#F8F9FA] dark:bg-black min-h-screen py-8 sm:py-12 flex justify-center px-4">
+    <div className="bg-[#F8F9FA] dark:bg-black min-h-screen flex flex-col">
+      <div className="py-8 sm:py-12 flex justify-center px-4 flex-1">
       <div className="w-full max-w-[500px] bg-white dark:bg-gray-900 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 p-8 sm:p-12 relative flex flex-col items-center">
         <h1 className="text-[20px] font-bold text-[#333333] dark:text-white mb-8">Track Order</h1>
         
@@ -105,6 +114,7 @@ export default function TrackOrderPage() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }
