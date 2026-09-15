@@ -1,16 +1,37 @@
 "use client";
 
 import { X, Package, FileText, Truck, Box } from "lucide-react";
-import { OrderTimelineEvent } from "@/types/order";
+import { OrderHistoryEvent, statusLabel } from "@/types/order";
 
 interface TrackOrderModalProps {
   isOpen: boolean;
   onClose: () => void;
-  timeline: OrderTimelineEvent[];
+  /** The order's real status transitions, oldest first. */
+  history: OrderHistoryEvent[];
+  /** "cod" orders never pass through `paid`, so that stage is not shown. */
+  paymentMethod: string;
 }
 
-export function TrackOrderModal({ isOpen, onClose, timeline }: TrackOrderModalProps) {
+/**
+ * One row of the detail list, derived from a transition the backend recorded.
+ * Nothing is predicted: a stage the order has not reached has no row and no
+ * date, because we do not know when — or whether — it will happen.
+ */
+type TimelineRow = { status: string; date: string; time: string };
+
+export function TrackOrderModal({ isOpen, onClose, history, paymentMethod }: TrackOrderModalProps) {
   if (!isOpen) return null;
+
+  const reached = new Set(history.map((h) => h.toStatus));
+
+  const timeline: TimelineRow[] = history.map((event) => {
+    const at = new Date(event.at);
+    return {
+      status: statusLabel(event.toStatus),
+      date: at.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }),
+      time: at.toLocaleTimeString("en-GB", { hour: "numeric", minute: "2-digit" }),
+    };
+  });
 
   // Custom Icon for Delivered (Box with Check)
   const BoxCheckIcon = ({ className }: { className?: string }) => (
@@ -23,16 +44,20 @@ export function TrackOrderModal({ isOpen, onClose, timeline }: TrackOrderModalPr
     </svg>
   );
 
+  // The stages the backend's order machine actually has — no invented
+  // "Ready to ship" step that nothing ever sets.
   const steps = [
     { label: "Placed", icon: Package, completed: true },
-    { label: "Processed", icon: FileText, completed: timeline.some(t => t.status.toLowerCase().includes('confirmed') && t.completed) },
-    { label: "Ready", icon: Box, completed: timeline.some(t => t.status.toLowerCase().includes('ready') && t.completed) },
-    { label: "Shipping", icon: Truck, completed: timeline.some(t => t.status.toLowerCase().includes('way') && t.completed) },
-    { label: "Delivered", icon: BoxCheckIcon, completed: timeline.some(t => t.status.toLowerCase().includes('delivered') && t.completed) },
+    ...(paymentMethod === "cod"
+      ? []
+      : [{ label: "Paid", icon: FileText, completed: reached.has("paid") }]),
+    { label: "Confirmed", icon: Box, completed: reached.has("confirmed") },
+    { label: "Shipped", icon: Truck, completed: reached.has("shipped") },
+    { label: "Delivered", icon: BoxCheckIcon, completed: reached.has("delivered") },
   ];
 
   // Group timeline by date
-  const groupedTimeline = timeline.reduce((acc: any, event) => {
+  const groupedTimeline = timeline.reduce((acc: Record<string, TimelineRow[]>, event) => {
     if (!acc[event.date]) {
       acc[event.date] = [];
     }
@@ -44,8 +69,7 @@ export function TrackOrderModal({ isOpen, onClose, timeline }: TrackOrderModalPr
   const dates = Object.keys(groupedTimeline).reverse();
 
   // Find current active status for the top right label
-  const activeEvent = [...timeline].reverse().find(t => t.completed);
-  const activeStatusText = activeEvent ? activeEvent.status : "Order Confirmed";
+  const activeStatusText = timeline.length ? timeline[timeline.length - 1].status : "Placed";
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
@@ -112,7 +136,7 @@ export function TrackOrderModal({ isOpen, onClose, timeline }: TrackOrderModalPr
                     {date}
                   </div>
                   <div className="pl-6 space-y-6">
-                    {groupedTimeline[date].reverse().map((event: OrderTimelineEvent, idx: number) => {
+                    {[...groupedTimeline[date]].reverse().map((event, idx) => {
                       const isLastItemInDate = idx === groupedTimeline[date].length - 1;
                       const isLastDate = dateIndex === dates.length - 1;
                       const showLine = !(isLastItemInDate && isLastDate);
@@ -125,22 +149,14 @@ export function TrackOrderModal({ isOpen, onClose, timeline }: TrackOrderModalPr
                           )}
                           
                           {/* Dot */}
-                          <div className={`absolute left-[-23px] top-[2px] w-[16px] h-[16px] rounded-full flex items-center justify-center z-10 ${
-                            event.completed 
-                              ? "bg-[#333333] text-white" 
-                              : "bg-[#9FA7CF] text-white"
-                          }`}>
+                          <div className="absolute left-[-23px] top-[2px] w-[16px] h-[16px] rounded-full flex items-center justify-center z-10 bg-[#333333] text-white">
                             <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                           </div>
                           
-                          <div className={`text-[14px] font-medium ${
-                            event.completed ? "text-[#333333] dark:text-white font-semibold" : "text-[#9FA7CF]"
-                          }`}>
+                          <div className="text-[14px] font-semibold text-[#333333] dark:text-white">
                             {event.status}
                           </div>
-                          <div className={`text-[13px] font-medium ${
-                            event.completed ? "text-[#333333] dark:text-white" : "text-[#9FA7CF]"
-                          }`}>
+                          <div className="text-[13px] font-medium text-[#333333] dark:text-white">
                             {event.time}
                           </div>
                         </div>

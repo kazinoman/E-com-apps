@@ -1,6 +1,7 @@
 "use server";
 
 import { api } from "@/lib/api/axios";
+import { cart as cartUrls } from "@/lib/api/apiUrls";
 import { relaySessionCookie } from "@/lib/session-cookie";
 import { EMPTY_CART, type CartResult, type CartView } from "@/lib/types/cart";
 
@@ -45,7 +46,7 @@ function toFailure(error: unknown): CartResult {
  */
 export async function fetchCart(): Promise<CartView> {
   try {
-    const res = await api.get("/cart");
+    const res = await api.get(cartUrls.get);
     return toResult(res);
   } catch (error) {
     console.error("cart: fetch failed", error);
@@ -61,7 +62,7 @@ export async function addCartItem(input: {
   try {
     // The request interceptor snake_cases this body into the shape
     // AddItemDto expects (product_id, sku_external_id, quantity).
-    const res = await api.post("/cart/items", {
+    const res = await api.post(cartUrls.add, {
       productId: input.productId,
       skuExternalId: input.skuExternalId ?? null,
       quantity: input.quantity,
@@ -77,7 +78,7 @@ export async function addCartItem(input: {
 
 export async function updateCartItem(itemId: string, quantity: number): Promise<CartResult> {
   try {
-    const res = await api.patch(`/cart/items/${itemId}`, { quantity });
+    const res = await api.patch(cartUrls.update(itemId), { quantity });
     await relay(res.headers);
     return { ok: true, cart: toResult(res) };
   } catch (error) {
@@ -87,7 +88,7 @@ export async function updateCartItem(itemId: string, quantity: number): Promise<
 
 export async function removeCartItem(itemId: string): Promise<CartResult> {
   try {
-    const res = await api.delete(`/cart/items/${itemId}`);
+    const res = await api.delete(cartUrls.remove(itemId));
     await relay(res.headers);
     return { ok: true, cart: toResult(res) };
   } catch (error) {
@@ -98,7 +99,7 @@ export async function removeCartItem(itemId: string): Promise<CartResult> {
 /** `DELETE /cart` answers 204 with no body, so the emptied cart is synthesised. */
 export async function clearCart(): Promise<CartResult> {
   try {
-    const res = await api.delete("/cart");
+    const res = await api.delete(cartUrls.clear);
     await relay(res.headers);
     return { ok: true, cart: EMPTY_CART };
   } catch (error) {

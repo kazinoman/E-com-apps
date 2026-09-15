@@ -172,9 +172,9 @@ export function Header() {
               <button onClick={() => setIsMobileSearchOpen(true)}>
                 <Search size={22} strokeWidth={1.5} className="text-foreground" />
               </button>
-              <button onClick={() => router.push("/cart")}>
-                <CartButton cartCount={cartItemCount} />
-              </button>
+              {/* CartButton renders its own <button>; wrapping it in another
+                  one is invalid HTML and fails hydration. */}
+              <CartButton cartCount={cartItemCount} onOpenCart={() => router.push("/cart")} />
             </div>
           </>
         ) : (

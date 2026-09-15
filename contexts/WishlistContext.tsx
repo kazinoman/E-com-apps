@@ -1,94 +1,81 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect, ReactNode, useCallback } from "react";
-import { useAuth } from "./UserInfoContext";
-import { fetchUserWishlist, addToWishlist as apiAddToWishlist, removeFromWishlist as apiRemoveFromWishlist } from "@/services/wishlist.service";
+import { createContext, useContext, useState, useTransition, ReactNode, useRef } from "react";
+import {
+  addToWishlist as apiAdd,
+  removeFromWishlist as apiRemove,
+  fetchWishlist,
+} from "@/services/wishlist.service";
+import { EMPTY_WISHLIST, type WishlistResult, type WishlistView } from "@/lib/types/wishlist";
 import { toast } from "sonner";
 
-export type WishlistItem = {
-  id: string | number;
-  userId: string | number;
-  productId: string | number;
-};
+/**
+ * Server truth, same shape as CartContext.
+ *
+ * The wishlist is resolved from cookies, so it works signed out — there is no
+ * login gate here and no user id anywhere. Every mutation returns the whole
+ * list and that reply replaces state wholesale; nothing is patched locally, so
+ * the UI cannot drift from the server.
+ */
 
 type WishlistContextType = {
-  wishlist: WishlistItem[];
-  isLoading: boolean;
+  wishlist: WishlistView["items"];
+  isPending: boolean;
   isInWishlist: (productId: string | number) => boolean;
   toggleWishlist: (productId: string | number) => Promise<void>;
+  refresh: () => Promise<void>;
 };
 
 export const WishlistContext = createContext<WishlistContextType | undefined>(undefined);
 
-export function WishlistProvider({ children }: { children: ReactNode }) {
-  const { user, isLogin, isAuthLoading } = useAuth();
-  const [wishlist, setWishlist] = useState<WishlistItem[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+export function WishlistProvider({
+  children,
+  initialWishlist = EMPTY_WISHLIST,
+}: {
+  children: ReactNode;
+  initialWishlist?: WishlistView;
+}) {
+  const [view, setView] = useState<WishlistView>(initialWishlist);
+  const [isPending, startTransition] = useTransition();
+  // Drops out-of-order replies from fast repeated clicks on the same heart.
+  const seq = useRef(0);
 
-  const loadWishlist = useCallback(async () => {
-    if (!user) {
-      setWishlist([]);
+  const apply = (ticket: number, result: WishlistResult, successMessage: string) => {
+    if (ticket !== seq.current) return;
+    if (!result.ok) {
+      toast.error(result.message);
       return;
     }
-    
-    setIsLoading(true);
-    const data = await fetchUserWishlist(user.id);
-    setWishlist(Array.isArray(data) ? data : []);
-    setIsLoading(false);
-  }, [user]);
-
-  useEffect(() => {
-    if (!isAuthLoading) {
-      loadWishlist();
-    }
-  }, [isAuthLoading, loadWishlist]);
-
-  const isInWishlist = (productId: string | number) => {
-    return wishlist.some((item) => String(item.productId) === String(productId));
+    setView(result.wishlist);
+    toast.success(successMessage);
   };
 
-  const toggleWishlist = async (productId: string | number) => {
-    if (!isLogin || !user) {
-      toast.error("Please login to add items to your wishlist.");
-      return;
-    }
+  const run = (fn: () => Promise<WishlistResult>, successMessage: string) =>
+    new Promise<void>((resolve) => {
+      const ticket = ++seq.current;
+      startTransition(async () => {
+        apply(ticket, await fn(), successMessage);
+        resolve();
+      });
+    });
 
-    const existingItem = wishlist.find((item) => String(item.productId) === String(productId));
+  const isInWishlist = (productId: string | number) =>
+    view.items.some((item) => item.productId === String(productId));
 
-    if (existingItem) {
-      // Optimistic UI update
-      setWishlist((prev) => prev.filter((item) => item.id !== existingItem.id));
-      const success = await apiRemoveFromWishlist(existingItem.id);
-      
-      if (success) {
-        toast.success("Removed from wishlist");
-      } else {
-        // Revert on failure
-        setWishlist((prev) => [...prev, existingItem]);
-        toast.error("Failed to remove from wishlist");
-      }
-    } else {
-      // Create temporary ID for optimistic UI
-      const tempId = `temp-${Date.now()}`;
-      const newItem = { id: tempId, userId: user.id, productId };
-      
-      setWishlist((prev) => [...prev, newItem]);
-      const addedItem = await apiAddToWishlist(user.id, productId);
-      
-      if (addedItem) {
-        // Replace temp item with real item from server
-        setWishlist((prev) => prev.map((item) => (item.id === tempId ? addedItem : item)));
-        toast.success("Added to wishlist");
-      } else {
-        // Revert on failure
-        setWishlist((prev) => prev.filter((item) => item.id !== tempId));
-        toast.error("Failed to add to wishlist");
-      }
-    }
+  const toggleWishlist = (productId: string | number) => {
+    const id = String(productId);
+    return isInWishlist(id)
+      ? run(() => apiRemove(id), "Removed from wishlist")
+      : run(() => apiAdd(id), "Added to wishlist");
+  };
+
+  const refresh = async () => {
+    const next = await fetchWishlist();
+    setView(next);
   };
 
   return (
-    <WishlistContext.Provider value={{ wishlist, isLoading, isInWishlist, toggleWishlist }}>
+    <WishlistContext.Provider value={{ wishlist: view.items, isPending, isInWishlist, toggleWishlist, refresh }}>
       {children}
     </WishlistContext.Provider>
   );

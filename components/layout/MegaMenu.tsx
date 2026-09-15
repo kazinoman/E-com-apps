@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { fetchCategories, Category } from "@/services/category.service";
+import { fetchCategories } from "@/services/category.service";
+import type { Category } from "@/lib/types/category";
 import { Grid, ChevronDown } from "lucide-react";
 
 export const MegaMenu = () => {

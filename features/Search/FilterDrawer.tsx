@@ -3,7 +3,7 @@
 import { Drawer, DrawerContent, DrawerTrigger, DrawerHeader, DrawerTitle, DrawerClose } from "@/components/ui/drawer";
 import { FilterSidebar } from "./FilterSidebar";
 import { SlidersHorizontal, X } from "lucide-react";
-import { CategoryOption } from "@/services/search.service";
+import type { CategoryOption } from "@/lib/types/category";
 
 export function FilterDrawer({ categories }: { categories: CategoryOption[] }) {
   return (

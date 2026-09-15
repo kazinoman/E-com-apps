@@ -52,7 +52,7 @@ export default async function Home() {
         "offers": {
           "@type": "Offer",
           "price": product.price,
-          "priceCurrency": "USD",
+          "priceCurrency": "BDT",
           "availability": product.badge === "Out of stock" ? "https://schema.org/OutOfStock" : "https://schema.org/InStock"
         },
         "aggregateRating": {
@@ -74,7 +74,9 @@ export default async function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <main className="flex flex-1 w-full flex-col dark:bg-black">
-        <HeroSlider slides={sliderImages} />
+        {/* No hero until the merchant can set one (HYDRA 3e1d1569) — an empty
+            slider beats stock photography standing in for merchandising. */}
+        {sliderImages.length > 0 && <HeroSlider slides={sliderImages} />}
         
         <Container className="mt-12 space-y-4 flex flex-col ">
           {sections.map((section) => (

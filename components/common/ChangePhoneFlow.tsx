@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { ChevronLeft } from "lucide-react";
-import { sendPhoneOtp, verifyPhoneOtp, updatePhoneNumber } from "@/services/profile.service";
+import { requestPhoneChange, confirmPhoneChange } from "@/services/profile.service";
+import { toast } from "sonner";
 
 interface ChangePhoneFlowProps {
   onBack: () => void;
@@ -11,16 +12,22 @@ interface ChangePhoneFlowProps {
   currentPhone: string;
 }
 
-type Step = "REQUEST" | "VERIFY" | "UPDATE";
+/*
+ * Two steps, because that is what the backend offers: request a code for the
+ * NEW number, then confirm it with the account password. The old three-step
+ * flow (verify the current number, then set a new one) was written against a
+ * mock; it has no endpoints behind it and it guarded nothing — holding the old
+ * SIM does not prove you own the account.
+ */
+type Step = "REQUEST" | "VERIFY";
 
 export function ChangePhoneFlow({ onBack, onComplete, currentPhone }: ChangePhoneFlowProps) {
   const [step, setStep] = useState<Step>("REQUEST");
   
   // Form states
-  const [phoneToVerify, setPhoneToVerify] = useState(currentPhone || "+880 - 1234567890");
-  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [newPhone, setNewPhone] = useState("");
-  const [confirmNewPhone, setConfirmNewPhone] = useState("");
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const [currentPassword, setCurrentPassword] = useState("");
   
   // UI states
   const [loading, setLoading] = useState(false);
@@ -42,41 +49,33 @@ export function ChangePhoneFlow({ onBack, onComplete, currentPhone }: ChangePhon
     return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
   };
 
+  const message = (error: unknown, fallback: string) =>
+    (error as { response?: { data?: { message?: string } } })?.response?.data?.message ?? fallback;
+
   const handleSendCode = async () => {
+    if (!newPhone) return;
     try {
       setLoading(true);
-      await sendPhoneOtp(phoneToVerify);
+      await requestPhoneChange(newPhone);
       setStep("VERIFY");
       setTimeLeft(180);
     } catch (error) {
-      console.error(error);
+      toast.error(message(error, "Could not send the code. Check the number and try again."));
     } finally {
       setLoading(false);
     }
   };
 
-  const handleVerifyCode = async () => {
+  const handleConfirm = async () => {
+    const code = otp.join("");
+    if (code.length !== 6 || !currentPassword) return;
     try {
       setLoading(true);
-      const code = otp.join("");
-      if (code.length !== 6) return;
-      await verifyPhoneOtp(code);
-      setStep("UPDATE");
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleUpdatePhone = async () => {
-    try {
-      setLoading(true);
-      if (newPhone !== confirmNewPhone || !newPhone) return;
-      await updatePhoneNumber(newPhone);
+      await confirmPhoneChange({ phone: newPhone, code, currentPassword });
+      toast.success("Phone number updated");
       onComplete();
     } catch (error) {
-      console.error(error);
+      toast.error(message(error, "That code or password was not accepted."));
     } finally {
       setLoading(false);
     }
@@ -106,7 +105,6 @@ export function ChangePhoneFlow({ onBack, onComplete, currentPhone }: ChangePhon
     switch (step) {
       case "REQUEST": return "Change Phone Number";
       case "VERIFY": return "Verification code";
-      case "UPDATE": return "Change phone number";
     }
   };
 
@@ -114,7 +112,7 @@ export function ChangePhoneFlow({ onBack, onComplete, currentPhone }: ChangePhon
     <div className="bg-white dark:bg-gray-900 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 p-8 w-full min-h-full">
       {/* Header */}
       <div className="flex items-center gap-4 mb-8">
-        <button onClick={step === "REQUEST" ? onBack : () => setStep(step === "VERIFY" ? "REQUEST" : "VERIFY")} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
+        <button onClick={step === "REQUEST" ? onBack : () => setStep("REQUEST")} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
           <ChevronLeft className="w-5 h-5 text-[#333333] dark:text-gray-300" strokeWidth={2.5} />
         </button>
         <h1 className="text-[18px] font-bold text-[#333333] dark:text-white flex-1 text-center">
@@ -136,25 +134,28 @@ export function ChangePhoneFlow({ onBack, onComplete, currentPhone }: ChangePhon
               />
             </div>
 
-            <h3 className="text-[20px] font-bold text-[#333333] dark:text-white mb-2 text-left">Change current phone number</h3>
-            <p className="text-[13px] text-[#8C93A3] mb-8 text-left">Enter your phone number and verify to change phone number</p>
+            <h3 className="text-[20px] font-bold text-[#333333] dark:text-white mb-2 text-left">Change your phone number</h3>
+            <p className="text-[13px] text-[#8C93A3] mb-8 text-left">
+              We&apos;ll text a code to the new number to confirm it&apos;s yours.
+              {currentPhone ? ` Your current number is ${currentPhone}.` : ""}
+            </p>
 
             <div className="text-left mb-6">
               <label className="block text-[13px] font-bold text-[#333333] dark:text-gray-300 mb-2">
-                Current phone number
+                New phone number
               </label>
               <input
-                type="text"
-                value={phoneToVerify}
-                onChange={(e) => setPhoneToVerify(e.target.value)}
-                className="w-full bg-[#F7F7FA] dark:bg-gray-800 border-none rounded-xl p-4 text-[14px] text-[#8C93A3] focus:outline-none focus:ring-2 focus:ring-[#4A85F6]"
-                placeholder="+880 - 1234567890"
+                type="tel"
+                value={newPhone}
+                onChange={(e) => setNewPhone(e.target.value)}
+                className="w-full bg-[#F7F7FA] dark:bg-gray-800 border-none rounded-xl p-4 text-[14px] text-[#333333] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#4A85F6]"
+                placeholder="01XXXXXXXXX"
               />
             </div>
 
             <button
               onClick={handleSendCode}
-              disabled={loading}
+              disabled={loading || !newPhone}
               className="w-full bg-[#333333] text-white py-4 rounded-xl text-[14px] font-bold transition-transform hover:-translate-y-0.5 mb-8"
             >
               {loading ? "Sending..." : "Send verification code"}
@@ -175,11 +176,11 @@ export function ChangePhoneFlow({ onBack, onComplete, currentPhone }: ChangePhon
             </div>
 
             <h3 className="text-[20px] font-bold text-[#333333] dark:text-white mb-2 text-left">Verify your phone number</h3>
-            <p className="text-[13px] text-[#8C93A3] mb-8 text-left">We just sent a verification code to <span className="font-bold text-[#333333] dark:text-gray-300">{phoneToVerify}</span></p>
+            <p className="text-[13px] text-[#8C93A3] mb-8 text-left">We just sent a verification code to <span className="font-bold text-[#333333] dark:text-gray-300">{newPhone}</span></p>
 
             <div className="flex justify-between items-center mb-4 text-[13px]">
               <span className="font-bold text-[#333333] dark:text-gray-300">Verification Code</span>
-              <button className="font-bold text-[#333333] dark:text-gray-300 hover:text-[#4A85F6]">Re-send Code</button>
+              <button onClick={handleSendCode} disabled={loading} className="font-bold text-[#333333] dark:text-gray-300 hover:text-[#4A85F6] disabled:opacity-50">Re-send Code</button>
             </div>
 
             <div className="flex gap-2 justify-between mb-6">
@@ -197,57 +198,33 @@ export function ChangePhoneFlow({ onBack, onComplete, currentPhone }: ChangePhon
               ))}
             </div>
 
-            <div className="flex justify-between items-center mb-8 text-[13px] font-bold">
-              <span className="text-[#333333] dark:text-gray-300">Change phone number</span>
+            <div className="flex justify-between items-center mb-6 text-[13px] font-bold">
+              <span className="text-[#333333] dark:text-gray-300">Code expires in</span>
               <span className="text-[#4A85F6]">{formatTime(timeLeft)}</span>
             </div>
 
-            <button
-              onClick={handleVerifyCode}
-              disabled={loading || otp.join("").length !== 6}
-              className="w-full bg-[#333333] text-white py-4 rounded-xl text-[14px] font-bold transition-transform hover:-translate-y-0.5 mb-8 disabled:opacity-50 disabled:hover:translate-y-0"
-            >
-              {loading ? "Verifying..." : "Verify phone number"}
-            </button>
-          </div>
-        )}
-
-        {step === "UPDATE" && (
-          <div className="animate-in fade-in slide-in-from-bottom-4 duration-300">
-            <h3 className="text-[20px] font-bold text-[#333333] dark:text-white mb-2 text-left">Change phone number</h3>
-            <p className="text-[13px] text-[#8C93A3] mb-8 text-left">Enter your new phone number to update</p>
-
-            <div className="space-y-6 mb-8 text-left">
-              <div>
-                <label className="block text-[13px] font-bold text-[#333333] dark:text-gray-300 mb-2">
-                  New phone number
-                </label>
-                <input
-                  type="text"
-                  value={newPhone}
-                  onChange={(e) => setNewPhone(e.target.value)}
-                  className="w-full bg-[#F7F7FA] dark:bg-gray-800 border-none rounded-xl p-4 text-[14px] text-[#333333] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#4A85F6]"
-                  placeholder="+880 - 1234567890"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[13px] font-bold text-[#333333] dark:text-gray-300 mb-2">
-                  Confirm new phone number
-                </label>
-                <input
-                  type="text"
-                  value={confirmNewPhone}
-                  onChange={(e) => setConfirmNewPhone(e.target.value)}
-                  className="w-full bg-[#F7F7FA] dark:bg-gray-800 border-none rounded-xl p-4 text-[14px] text-[#333333] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#4A85F6]"
-                  placeholder="+880 - 1234567890"
-                />
-              </div>
+            {/*
+              The code proves the new number; the password proves the account.
+              Without it, anyone holding a live session could repoint the
+              account at a number they control.
+            */}
+            <div className="text-left mb-8">
+              <label className="block text-[13px] font-bold text-[#333333] dark:text-gray-300 mb-2">
+                Your account password
+              </label>
+              <input
+                type="password"
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+                autoComplete="current-password"
+                className="w-full bg-[#F7F7FA] dark:bg-gray-800 border-none rounded-xl p-4 text-[14px] text-[#333333] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#4A85F6]"
+                placeholder="••••••••"
+              />
             </div>
 
             <button
-              onClick={handleUpdatePhone}
-              disabled={loading || !newPhone || newPhone !== confirmNewPhone}
+              onClick={handleConfirm}
+              disabled={loading || otp.join("").length !== 6 || !currentPassword}
               className="w-full bg-[#333333] text-white py-4 rounded-xl text-[14px] font-bold transition-transform hover:-translate-y-0.5 mb-8 disabled:opacity-50 disabled:hover:translate-y-0"
             >
               {loading ? "Updating..." : "Update phone number"}

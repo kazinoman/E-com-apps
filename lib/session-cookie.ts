@@ -3,7 +3,7 @@
 import { cookies } from "next/headers";
 
 /**
- * Copy the backend's session cookie onto the browser response.
+ * Copy the backend's session and guest cookies onto the browser response.
  *
  * The app talks to the API server-to-server, so a Set-Cookie the backend
  * returns lands on our fetch, not on the shopper's browser. Anything that
@@ -16,8 +16,24 @@ export const CART_COOKIE = "cart_token";
 
 /** 30 days, matching the backend's TTL_S for the buyer session JWT. */
 const SESSION_MAX_AGE = 60 * 60 * 24 * 30;
-/** 60 days, matching the backend's guest cart token. */
-const CART_MAX_AGE = 60 * 60 * 24 * 60;
+/** 60 days — backend `GUEST_TOKEN_TTL_S`, shared by every guest token. */
+const GUEST_MAX_AGE = 60 * 60 * 24 * 60;
+
+/**
+ * Every cookie the backend may set on us, with the lifetime to mirror.
+ *
+ * The guest tokens are what make a cart, a wishlist and a comparison survive
+ * without an account. Each is minted independently on first write to its own
+ * resource, so dropping any one of them silently resets that feature on every
+ * request — the failure is invisible, which is why the list lives in one place
+ * and both the relay and the outbound forwarder read it.
+ */
+export const RELAYED_COOKIES: ReadonlyArray<{ name: string; maxAge: number }> = [
+  { name: SESSION_COOKIE, maxAge: SESSION_MAX_AGE },
+  { name: CART_COOKIE, maxAge: GUEST_MAX_AGE },
+  { name: "wishlist_token", maxAge: GUEST_MAX_AGE },
+  { name: "compare_token", maxAge: GUEST_MAX_AGE },
+];
 
 function extract(header: string | string[] | undefined, name: string): string | null {
   if (!header) return null;
@@ -34,9 +50,10 @@ function extract(header: string | string[] | undefined, name: string): string | 
 export async function relaySessionCookie(header: string | string[] | undefined) {
   const jar = await cookies();
 
-  const session = extract(header, SESSION_COOKIE);
-  if (session) {
-    jar.set(SESSION_COOKIE, session, {
+  for (const { name, maxAge } of RELAYED_COOKIES) {
+    const value = extract(header, name);
+    if (!value) continue;
+    jar.set(name, value, {
       httpOnly: true,
       // `secure` must follow the environment: a secure cookie is dropped
       // silently over plain http, so hardcoding true breaks local dev with no
@@ -44,25 +61,13 @@ export async function relaySessionCookie(header: string | string[] | undefined) 
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
-      maxAge: SESSION_MAX_AGE,
-    });
-  }
-
-  const cart = extract(header, CART_COOKIE);
-  if (cart) {
-    jar.set(CART_COOKIE, cart, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      path: "/",
-      maxAge: CART_MAX_AGE,
+      maxAge,
     });
   }
 }
 
-/** Clear both cookies on sign-out. */
+/** Clear every cookie on sign-out. */
 export async function clearSessionCookies() {
   const jar = await cookies();
-  jar.delete(SESSION_COOKIE);
-  jar.delete(CART_COOKIE);
+  for (const { name } of RELAYED_COOKIES) jar.delete(name);
 }

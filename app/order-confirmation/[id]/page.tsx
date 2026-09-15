@@ -7,12 +7,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { getOrder } from "@/services/order.service";
+import { Order, taka } from "@/types/order";
 
 export default function OrderConfirmationPage() {
   const params = useParams();
   const orderId = params.id as string;
 
-  const [order, setOrder] = useState<any>(null);
+  const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -27,7 +28,7 @@ export default function OrderConfirmationPage() {
         } else {
           setError("Order not found");
         }
-      } catch (err) {
+      } catch {
         setError("Failed to fetch order details.");
       } finally {
         setLoading(false);
@@ -57,7 +58,8 @@ export default function OrderConfirmationPage() {
     );
   }
 
-  const { items, totals } = order;
+  const { items } = order;
+  const totalItems = items.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950 pb-20">
@@ -80,7 +82,7 @@ export default function OrderConfirmationPage() {
           <div className="space-y-2">
             <h2 className="text-2xl font-bold text-[#1C244B] dark:text-white">Thanks for your order!</h2>
             <p className="text-[14px] text-[#8C93A3]">
-              Your order <span className="font-semibold text-gray-700 dark:text-gray-300">#{order.id}</span> has been placed successfully.<br />
+              Your order <span className="font-semibold text-gray-700 dark:text-gray-300">{order.orderNo}</span> has been placed successfully.<br />
               Please be patient while we confirm your order.
             </p>
           </div>
@@ -95,21 +97,25 @@ export default function OrderConfirmationPage() {
           <div className="flex-1 bg-[#F9FAFB] dark:bg-gray-900 rounded-xl p-6">
             <div className="flex justify-between items-center mb-6 pb-4 border-b border-gray-200 dark:border-gray-800">
               <span className="font-semibold text-[14px] text-gray-800 dark:text-gray-200">
-                Total items <span className="text-[#8C93A3] font-normal">({items.reduce((a: any, b: any) => a + b.quantity, 0)} items)</span>
+                Total items <span className="text-[#8C93A3] font-normal">({totalItems} items)</span>
               </span>
               <span className="font-bold text-[15px] text-[#1C244B] dark:text-white">
-                ৳ {totals.subtotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                {taka(order.itemsTotalBdt)}
               </span>
             </div>
 
             <div className="space-y-6">
-              {items.map((item: any, idx: number) => (
-                <div key={idx} className="flex justify-between items-start">
+              {items.map((item) => (
+                <div key={item.id} className="flex justify-between items-start gap-4">
                   <div>
-                    <p className="text-[14px] font-medium text-gray-800 dark:text-gray-200">{item.product.title}</p>
-                    <p className="text-[13px] text-[#8C93A3] mt-1">{item.quantity} x ৳ {(item.sku?.price ?? item.product.price).toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
+                    <p className="text-[14px] font-medium text-gray-800 dark:text-gray-200">{item.title}</p>
+                    <p className="text-[13px] text-[#8C93A3] mt-1">
+                      {item.quantity} × {taka(item.unitPriceBdt)}
+                    </p>
                   </div>
-                  <span className="text-[14px] font-medium text-[#1C244B] dark:text-white">৳ {(item.quantity * (item.sku?.price ?? item.product.price)).toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+                  <span className="text-[14px] font-medium text-[#1C244B] dark:text-white whitespace-nowrap">
+                    {taka(item.lineTotalBdt)}
+                  </span>
                 </div>
               ))}
             </div>
@@ -120,27 +126,23 @@ export default function OrderConfirmationPage() {
             <div className="bg-[#F9FAFB] dark:bg-gray-900 rounded-xl p-6 mb-6">
               <div className="flex justify-between items-center mb-4 pb-4 border-b border-gray-200 border-dashed dark:border-gray-800">
                 <span className="text-[14px] font-medium text-[#1C244B] dark:text-white">Total items</span>
-                <span className="text-[14px] font-medium text-[#1C244B] dark:text-white">{items.reduce((a: any, b: any) => a + b.quantity, 0)}</span>
+                <span className="text-[14px] font-medium text-[#1C244B] dark:text-white">{totalItems}</span>
               </div>
 
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between">
                   <span className="text-[14px] text-[#8C93A3]">Sub total</span>
-                  <span className="text-[14px] text-[#8C93A3]">৳ {totals.subtotal.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+                  <span className="text-[14px] text-[#8C93A3]">{taka(order.itemsTotalBdt)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[14px] text-[#8C93A3]">Shipping cost</span>
-                  <span className="text-[14px] text-[#8C93A3]">৳ {totals.shipping.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-[14px] text-[#8C93A3]">Discount</span>
-                  <span className="text-[14px] text-red-500">- ৳ {totals.discount.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+                  <span className="text-[14px] text-[#8C93A3]">Delivery</span>
+                  <span className="text-[14px] text-[#8C93A3]">{taka(order.shippingBdt)}</span>
                 </div>
               </div>
 
               <div className="flex justify-between items-center pt-4 border-t border-gray-200 dark:border-gray-800">
                 <span className="text-[16px] font-bold text-[#1C244B] dark:text-white">Total</span>
-                <span className="text-[18px] font-bold text-[#1C244B] dark:text-white">৳ {totals.total.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+                <span className="text-[18px] font-bold text-[#1C244B] dark:text-white">{taka(order.grandTotalBdt)}</span>
               </div>
             </div>
 

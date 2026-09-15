@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { Star, Heart } from "lucide-react";
 import { useWishlist } from "@/contexts/WishlistContext";
-import { useAuth } from "@/contexts/UserInfoContext";
 import { cn } from "@/lib/utils";
 
 export interface ProductCardProps {
@@ -42,7 +41,6 @@ export function ProductCard({
     if (text === "out of stock" || text.includes("stock")) return "text-[#FF5C5C] border-[#FF5C5C]";
     return "text-[#333333] border-[#333333] dark:text-gray-200 dark:border-gray-200"; // Fallback style
   };
-  const { isLogin } = useAuth();
   const { isInWishlist, toggleWishlist } = useWishlist();
   const isWished = isInWishlist(id);
 
@@ -66,20 +64,20 @@ export function ProductCard({
     <Link href={`/products/${id}`} className="group flex flex-col h-full w-full min-w-[200px] bg-white dark:bg-zinc-900 border border-[#F0F0F0] dark:border-zinc-800 rounded-2xl p-2.5 hover:shadow-lg transition-shadow duration-300">
       {/* Image Container */}
       <div className="relative w-full aspect-[4/4.5] bg-[#F6F6F9] dark:bg-zinc-800 rounded-xl flex items-center justify-center p-6 overflow-hidden">
-        {/* Wishlist Button */}
-        {isLogin && (
-          <button
-            onClick={handleWishlistClick}
-            className={cn(
-              "absolute top-3 right-3 p-1.5 rounded-full bg-white dark:bg-zinc-900 shadow-sm z-20 transition-all duration-300",
-              isWished ? "opacity-100" : "opacity-100 lg:opacity-0 lg:group-hover:opacity-100"
-            )}
-          >
-            <Heart
-              className={cn("w-[18px] h-[18px]", isWished ? "fill-[#FF4D4F] text-[#FF4D4F]" : "text-gray-400 hover:text-[#FF4D4F]")}
-            />
-          </button>
-        )}
+        {/* Wishlist Button — shown signed out too: the backend keeps a guest
+            wishlist against `wishlist_token` and merges it on login. */}
+        <button
+          onClick={handleWishlistClick}
+          aria-label={isWished ? "Remove from wishlist" : "Add to wishlist"}
+          className={cn(
+            "absolute top-3 right-3 p-1.5 rounded-full bg-white dark:bg-zinc-900 shadow-sm z-20 transition-all duration-300",
+            isWished ? "opacity-100" : "opacity-100 lg:opacity-0 lg:group-hover:opacity-100"
+          )}
+        >
+          <Heart
+            className={cn("w-[18px] h-[18px]", isWished ? "fill-[#FF4D4F] text-[#FF4D4F]" : "text-gray-400 hover:text-[#FF4D4F]")}
+          />
+        </button>
 
         {badge && (
           <div className={`absolute top-3 left-3 px-2 py-0.5 text-[12px] font-medium border rounded bg-white dark:bg-zinc-900 z-10 ${getBadgeStyle(badge)}`}>

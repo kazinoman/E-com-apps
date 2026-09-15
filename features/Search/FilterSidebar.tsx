@@ -10,7 +10,7 @@ import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 import { Star, RefreshCw, ChevronRight, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { CategoryOption } from "@/services/search.service";
+import type { CategoryOption } from "@/lib/types/category";
 
 export function FilterSidebar({ className, categories = [] }: { className?: string; categories?: CategoryOption[] }) {
   const router = useRouter();

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { Container } from "@/components/common/Container";
 import { trackPublicOrder } from "@/services/order.service";
+import { FEATURES } from "@/lib/api/features";
 import { OrderDetailsClient } from "@/app/(protected)/profile/orders/[orderId]/OrderDetailsClient";
 import { Order } from "@/types/order";
 import { toast } from "sonner";
@@ -34,6 +35,30 @@ export default function TrackOrderPage() {
       toast.error(res.error || "Order not found. Please check your details.");
     }
   };
+
+  // No backend behind this yet (HYDRA ab4cc8b4). Say so plainly rather than
+  // showing a form whose every submission fails.
+  if (!FEATURES.guestOrderTracking) {
+    return (
+      <div className="bg-[#F8F9FA] dark:bg-black min-h-screen flex flex-col">
+        <div className="py-16 flex-1">
+          <Container className="max-w-xl text-center">
+            <h1 className="text-[22px] font-bold text-[#333333] dark:text-white mb-3">Track your order</h1>
+            <p className="text-[14px] text-[#8C93A3] mb-8">
+              Tracking an order by phone number isn&apos;t available yet. Sign in and your
+              orders, with their current status, are on your profile.
+            </p>
+            <Link
+              href="/login"
+              className="inline-block bg-[#333333] hover:bg-black text-white px-6 py-3 rounded-lg text-[13px] font-bold transition-colors"
+            >
+              Sign in
+            </Link>
+          </Container>
+        </div>
+      </div>
+    );
+  }
 
   if (order) {
     return (

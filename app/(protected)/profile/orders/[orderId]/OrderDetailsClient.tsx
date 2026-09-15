@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Order, OrderItem } from "@/types/order";
+import { Order, statusLabel, taka } from "@/types/order";
 import { TrackOrderModal } from "@/components/common/TrackOrderModal";
 import { ChevronDown, ChevronRight, ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -15,23 +15,28 @@ interface OrderDetailsClientProps {
 
 export function OrderDetailsClient({ order, backUrl = "/profile/orders/active", onBack }: OrderDetailsClientProps) {
   const [isTrackModalOpen, setIsTrackModalOpen] = useState(false);
-  const [expandedSeller, setExpandedSeller] = useState<string | null>(null);
 
-  // Group items by seller
-  const itemsBySeller = order.items.reduce((acc, item) => {
-    const seller = item.seller || "Default Seller";
-    if (!acc[seller]) acc[seller] = [];
-    acc[seller].push(item);
-    return acc;
-  }, {} as Record<string, OrderItem[]>);
+  // No seller grouping: this is a single-merchant storefront. Every line on an
+  // order comes from us.
+  const totalItems = order.items.reduce((acc, item) => acc + item.quantity, 0);
+
+  const shipTo = [
+    order.shipLine1,
+    order.shipLine2,
+    order.shipCity,
+    order.shipDistrict,
+    order.shipPostcode,
+  ]
+    .filter(Boolean)
+    .join(", ");
 
   const getStatusColor = (status: string) => {
-    switch (status.toLowerCase()) {
+    switch (status) {
       case "delivered":
         return "bg-[#E3F9ED] text-[#22C55E]";
-      case "canceled":
+      case "cancelled":
+      case "refunded":
         return "bg-[#FEE2E2] text-[#EF4444]";
-      case "in progress":
       default:
         return "bg-[#E6F0FF] text-[#3B82F6]";
     }
@@ -60,8 +65,8 @@ export function OrderDetailsClient({ order, backUrl = "/profile/orders/active", 
       </div>
 
       <div className="text-center mb-8">
-        <div className="text-[14px] text-[#8C93A3] font-medium mb-1">Order Id</div>
-        <div className="text-[16px] font-bold text-[#333333] dark:text-white">#{order.id.replace('ORD-', '')}</div>
+        <div className="text-[14px] text-[#8C93A3] font-medium mb-1">Order</div>
+        <div className="text-[16px] font-bold text-[#333333] dark:text-white">{order.orderNo}</div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -69,72 +74,41 @@ export function OrderDetailsClient({ order, backUrl = "/profile/orders/active", 
         <div>
           <h3 className="text-[14px] font-medium text-[#8C93A3] text-center mb-4">Ordered Items</h3>
           
-          <div className="space-y-4">
-            {Object.entries(itemsBySeller).map(([seller, items], idx) => {
-              const isExpanded = expandedSeller === seller || Object.keys(itemsBySeller).length === 1 || idx === 0;
-              const sellerTotal = items.reduce((acc, item) => acc + (item.product.price * item.quantity), 0);
-              const sellerItemsCount = items.reduce((acc, item) => acc + item.quantity, 0);
+          <div className="border border-gray-200 dark:border-gray-800 rounded-2xl p-4">
+            <div className="flex items-center justify-between mb-4">
+              <div className={`px-2 py-1 rounded text-[11px] font-bold inline-block ${getStatusColor(order.status)}`}>
+                {statusLabel(order.status)}
+              </div>
+              <div className="text-right">
+                <div className="text-[12px] font-bold text-[#8C93A3] mb-1">{totalItems} items</div>
+                <div className="text-[14px] font-bold text-[#333333] dark:text-white">{taka(order.itemsTotalBdt)}</div>
+              </div>
+            </div>
 
-              return (
-                <div key={seller} className="border border-gray-200 dark:border-gray-800 rounded-2xl p-4 overflow-hidden">
-                  <div 
-                    className="flex items-center justify-between cursor-pointer mb-2"
-                    onClick={() => setExpandedSeller(isExpanded ? null : seller)}
-                  >
-                    <div>
-                      <div className="text-[13px] text-[#8C93A3] font-medium mb-1">Seller : <span className="text-[#333333] dark:text-white font-bold">{seller}</span></div>
-                      <div className={`px-2 py-1 rounded text-[11px] font-bold inline-block ${getStatusColor(order.status)}`}>
-                        {order.status}
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <div className="text-right">
-                        <div className="text-[12px] font-bold text-[#8C93A3] mb-1">{sellerItemsCount} items</div>
-                        <div className="text-[14px] font-bold text-[#333333] dark:text-white">${sellerTotal.toFixed(2)}</div>
-                      </div>
-                      {isExpanded ? (
-                        <ChevronDown className="w-5 h-5 text-gray-400" />
-                      ) : (
-                        <ChevronRight className="w-5 h-5 text-gray-400" />
-                      )}
+            <div className="pt-4 border-t border-gray-100 dark:border-gray-800 space-y-4">
+              {order.items.map((item) => (
+                <div key={item.id} className="flex justify-between items-start gap-4">
+                  <div>
+                    <div className="text-[13px] font-bold text-[#333333] dark:text-white">{item.title}</div>
+                    <div className="text-[12px] font-medium text-[#8C93A3]">
+                      {item.quantity} × {taka(item.unitPriceBdt)}
                     </div>
                   </div>
-
-                  {isExpanded && (
-                    <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-800 space-y-4">
-                      {items.map((item, i) => (
-                        <div key={i} className="flex justify-between items-start">
-                          <div>
-                            <div className="text-[13px] font-bold text-[#333333] dark:text-white">{item.product.title}</div>
-                            <div className="text-[12px] font-medium text-[#8C93A3]">{item.quantity} x ${item.product.price.toFixed(2)}</div>
-                          </div>
-                          <div className="text-[13px] font-bold text-[#333333] dark:text-white">
-                            ${(item.product.price * item.quantity).toFixed(2)}
-                          </div>
-                        </div>
-                      ))}
-
-                      <div className="pt-4 flex gap-3">
-                        <button 
-                          onClick={() => setIsTrackModalOpen(true)}
-                          className="flex-1 bg-[#333333] dark:bg-white text-white dark:text-[#333333] py-2.5 rounded-lg text-[13px] font-bold transition-transform hover:-translate-y-0.5"
-                        >
-                          Track your order
-                        </button>
-                      </div>
-                      <div className="flex gap-3">
-                        <button className="flex-1 bg-[#F7F7FA] dark:bg-gray-800 text-[#333333] dark:text-white py-2.5 rounded-lg text-[13px] font-bold transition-colors hover:bg-gray-100 dark:hover:bg-gray-700">
-                          Give Seller Ratings
-                        </button>
-                        <button className="flex-1 bg-[#F7F7FA] dark:bg-gray-800 text-[#333333] dark:text-white py-2.5 rounded-lg text-[13px] font-bold transition-colors hover:bg-gray-100 dark:hover:bg-gray-700">
-                          Leave items review
-                        </button>
-                      </div>
-                    </div>
-                  )}
+                  <div className="text-[13px] font-bold text-[#333333] dark:text-white whitespace-nowrap">
+                    {taka(item.lineTotalBdt)}
+                  </div>
                 </div>
-              );
-            })}
+              ))}
+
+              <div className="pt-4">
+                <button
+                  onClick={() => setIsTrackModalOpen(true)}
+                  className="w-full bg-[#333333] dark:bg-white text-white dark:text-[#333333] py-2.5 rounded-lg text-[13px] font-bold transition-transform hover:-translate-y-0.5"
+                >
+                  Track your order
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -145,27 +119,23 @@ export function OrderDetailsClient({ order, backUrl = "/profile/orders/active", 
             <div className="bg-[#F7F7FA] dark:bg-gray-800 rounded-2xl p-6">
               <div className="flex justify-between items-center mb-6">
                 <span className="text-[14px] font-medium text-[#333333] dark:text-white">Total items</span>
-                <span className="text-[14px] font-bold text-[#333333] dark:text-white">{order.items.reduce((a, b) => a + b.quantity, 0)}</span>
+                <span className="text-[14px] font-bold text-[#333333] dark:text-white">{totalItems}</span>
               </div>
               
               <div className="space-y-3 mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
                 <div className="flex justify-between items-center">
                   <span className="text-[14px] font-medium text-[#8C93A3]">Sub total</span>
-                  <span className="text-[14px] font-bold text-[#8C93A3]">${order.totals.subtotal.toFixed(2)}</span>
+                  <span className="text-[14px] font-bold text-[#8C93A3]">{taka(order.itemsTotalBdt)}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-[14px] font-medium text-[#8C93A3]">Shipping cost</span>
-                  <span className="text-[14px] font-bold text-[#8C93A3]">${order.totals.shipping.toFixed(2)}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-[14px] font-medium text-[#8C93A3]">Discount</span>
-                  <span className="text-[14px] font-bold text-[#EF4444]">-${order.totals.discount.toFixed(2)}</span>
+                  <span className="text-[14px] font-medium text-[#8C93A3]">Delivery</span>
+                  <span className="text-[14px] font-bold text-[#8C93A3]">{taka(order.shippingBdt)}</span>
                 </div>
               </div>
 
               <div className="flex justify-between items-center">
                 <span className="text-[16px] font-bold text-[#333333] dark:text-white">Total</span>
-                <span className="text-[18px] font-black text-[#333333] dark:text-white">${order.totals.total.toFixed(2)}</span>
+                <span className="text-[18px] font-black text-[#333333] dark:text-white">{taka(order.grandTotalBdt)}</span>
               </div>
             </div>
           </div>
@@ -175,8 +145,8 @@ export function OrderDetailsClient({ order, backUrl = "/profile/orders/active", 
             <div className="bg-[#F7F7FA] dark:bg-gray-800 rounded-2xl p-6 space-y-5">
               
               <div>
-                <div className="text-[12px] font-bold text-[#333333] dark:text-white mb-1">Order Id</div>
-                <div className="text-[13px] font-medium text-[#8C93A3]">#{order.id.replace('ORD-', '')}</div>
+                <div className="text-[12px] font-bold text-[#333333] dark:text-white mb-1">Order number</div>
+                <div className="text-[13px] font-medium text-[#8C93A3]">{order.orderNo}</div>
               </div>
               
               <div>
@@ -186,37 +156,40 @@ export function OrderDetailsClient({ order, backUrl = "/profile/orders/active", 
 
               <div>
                 <div className="text-[12px] font-bold text-[#333333] dark:text-white mb-1">Phone number</div>
-                <div className="text-[13px] font-medium text-[#8C93A3]">{order.customer.phone}</div>
+                <div className="text-[13px] font-medium text-[#8C93A3]">{order.shipPhone}</div>
               </div>
 
               <div>
-                <div className="text-[12px] font-bold text-[#333333] dark:text-white mb-1">Email</div>
-                <div className="text-[13px] font-medium text-[#8C93A3]">{order.customer.email}</div>
-              </div>
-
-              <div>
-                <div className="text-[12px] font-bold text-[#333333] dark:text-white mb-1">Delivery type</div>
-                <div className="text-[13px] font-medium text-[#8C93A3]">{order.payment.deliveryType}</div>
-              </div>
-
-              <div>
-                <div className="text-[12px] font-bold text-[#333333] dark:text-white mb-1">Delivery Address</div>
-                <div className="text-[13px] font-medium text-[#8C93A3]">{order.customer.deliveryAddress}</div>
-              </div>
-
-              <div>
-                <div className="text-[12px] font-bold text-[#333333] dark:text-white mb-1">Billing Address</div>
-                <div className="text-[13px] font-medium text-[#8C93A3]">{order.customer.billingAddress}</div>
+                <div className="text-[12px] font-bold text-[#333333] dark:text-white mb-1">Deliver to</div>
+                <div className="text-[13px] font-medium text-[#8C93A3]">{order.shipName} — {shipTo}</div>
               </div>
 
               <div>
                 <div className="text-[12px] font-bold text-[#333333] dark:text-white mb-1">Payment method</div>
-                <div className="text-[13px] font-medium text-[#8C93A3]">{order.payment.paymentMethod}</div>
+                <div className="text-[13px] font-medium text-[#8C93A3]">
+                  {order.paymentMethod === "cod" ? "Cash on delivery" : "Online payment"}
+                </div>
               </div>
 
+              {order.trackingNumber && (
+                <div>
+                  <div className="text-[12px] font-bold text-[#333333] dark:text-white mb-1">Tracking</div>
+                  <div className="text-[13px] font-medium text-[#8C93A3]">
+                    {order.shippingCarrier ? `${order.shippingCarrier} — ` : ""}
+                    {order.trackingUrl ? (
+                      <a href={order.trackingUrl} target="_blank" rel="noreferrer" className="underline">
+                        {order.trackingNumber}
+                      </a>
+                    ) : (
+                      order.trackingNumber
+                    )}
+                  </div>
+                </div>
+              )}
+
               <div>
-                <div className="text-[12px] font-bold text-[#333333] dark:text-white mb-1">Order Note</div>
-                <div className="text-[13px] font-medium text-[#8C93A3]">{order.customer.orderNote || "No note provided."}</div>
+                <div className="text-[12px] font-bold text-[#333333] dark:text-white mb-1">Order note</div>
+                <div className="text-[13px] font-medium text-[#8C93A3]">{order.notes || "No note provided."}</div>
               </div>
 
             </div>
@@ -227,7 +200,9 @@ export function OrderDetailsClient({ order, backUrl = "/profile/orders/active", 
       <TrackOrderModal 
         isOpen={isTrackModalOpen} 
         onClose={() => setIsTrackModalOpen(false)} 
-        timeline={order.timeline || []} 
+        history={order.history ?? []}
+        paymentMethod={order.paymentMethod}
+      
       />
     </div>
   );

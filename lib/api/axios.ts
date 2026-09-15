@@ -1,6 +1,7 @@
 import axios from "axios";
 import { cookies } from "next/headers";
 import { snakeizeDeep } from "./case";
+import { RELAYED_COOKIES } from "../session-cookie";
 
 /**
  * Server-side HTTP client for the merchant backend.
@@ -32,11 +33,15 @@ export const api = axios.create({
 });
 
 /**
- * Forward the caller's session and guest-cart cookies to the backend.
+ * Forward the caller's session and guest cookies to the backend.
  *
- * `buyer_session` is a 30-day JWT set at login. `cart_token` identifies a
- * guest cart and is issued by the backend on the first `POST /cart/items`.
- * Both are httpOnly, so this hop is the only way they reach the API.
+ * `buyer_session` is a 30-day JWT set at login; the guest tokens
+ * (`cart_token`, `wishlist_token`, `compare_token`) each identify one
+ * anonymous resource and are minted by the backend on first write to it. All
+ * are httpOnly, so this hop is the only way they reach the API — and a token
+ * left out here is re-minted on every request, quietly emptying that feature.
+ * RELAYED_COOKIES is the single list; session-cookie.ts relays the same set
+ * back.
  *
  * Cookies the backend sets in a response are NOT relayed to the browser from
  * here — a Server Component cannot set a cookie. Anything that needs to
@@ -46,11 +51,10 @@ export const api = axios.create({
 api.interceptors.request.use(async (config) => {
   const jar = await cookies();
 
-  const forwarded = ["buyer_session", "cart_token"]
-    .map((name) => {
-      const value = jar.get(name)?.value;
-      return value ? `${name}=${value}` : null;
-    })
+  const forwarded = RELAYED_COOKIES.map(({ name }) => {
+    const value = jar.get(name)?.value;
+    return value ? `${name}=${value}` : null;
+  })
     .filter(Boolean)
     .join("; ");
 

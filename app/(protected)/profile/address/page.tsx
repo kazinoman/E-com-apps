@@ -4,14 +4,32 @@ import { useState, useEffect } from "react";
 import { Edit2, Trash2 } from "lucide-react";
 import { AddressModal } from "@/components/common/AddressModal";
 import { ConfirmModal } from "@/components/common/ConfirmModal";
-import { getAddresses, updateAddress, addAddress, deleteAddress } from "@/services/profile.service";
+import { getAddresses, updateAddress, addAddress, deleteAddress, setDefaultAddress } from "@/services/profile.service";
+import type { AddressFormValues } from "@/components/common/AddressModal";
 import { toast } from "sonner";
 
+type Address = {
+  id: string;
+  label: string | null;
+  recipientName: string;
+  phone: string;
+  line1: string;
+  line2: string | null;
+  area: string;
+  city: string;
+  district: string;
+  postalCode: string | null;
+  isDefault: boolean;
+};
+
+const formatAddress = (a: Address) =>
+  [a.line1, a.line2, a.area, a.city, a.district, a.postalCode].filter(Boolean).join(", ");
+
 export default function AddressPage() {
-  const [addresses, setAddresses] = useState<any[]>([]);
+  const [addresses, setAddresses] = useState<Address[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingAddress, setEditingAddress] = useState<any | null>(null);
+  const [editingAddress, setEditingAddress] = useState<Address | null>(null);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
 
   const fetchAddresses = async () => {
@@ -33,22 +51,38 @@ export default function AddressPage() {
     fetchAddresses();
   }, []);
 
-  const handleSaveAddress = async (addressData: any) => {
+  const handleSaveAddress = async (addressData: AddressFormValues) => {
+    // Optional fields go as null rather than "" — the DTO takes nullable
+    // strings, and an empty string is a value, not an absence.
+    const payload = {
+      ...addressData,
+      label: addressData.label || null,
+      line2: addressData.line2 || null,
+      postalCode: addressData.postalCode || null,
+    };
+
+    // The list is re-read rather than patched locally: saving an address as
+    // the default un-defaults whichever one held it, and only the server knows
+    // which that was.
     if (editingAddress) {
-      const res = await updateAddress(editingAddress.id, addressData);
-      if (res.success) {
-        setAddresses(addresses.map(a => a.id === editingAddress.id ? res.data : a));
-      }
+      await updateAddress(editingAddress.id, payload);
     } else {
-      const res = await addAddress(addressData);
-      if (res.success) {
-        setAddresses([...addresses, res.data]);
-      }
+      await addAddress(payload);
     }
+    await fetchAddresses();
     setEditingAddress(null);
   };
 
-  const handleEdit = (address: any) => {
+  const handleSetDefault = async (id: string) => {
+    try {
+      await setDefaultAddress(id);
+      await fetchAddresses();
+    } catch {
+      toast.error("Could not set that as your default address");
+    }
+  };
+
+  const handleEdit = (address: Address) => {
     setEditingAddress(address);
     setIsModalOpen(true);
   };
@@ -107,17 +141,24 @@ export default function AddressPage() {
             >
               <div className="flex items-start gap-4">
                 {/* Radio Circle */}
-                <div className="mt-1 relative flex items-center justify-center w-5 h-5 rounded-full border-2 border-[#8C93A3] shrink-0">
+                <button
+                  onClick={() => handleSetDefault(address.id)}
+                  aria-label="Make this my default address"
+                  className="mt-1 relative flex items-center justify-center w-5 h-5 rounded-full border-2 border-[#8C93A3] shrink-0"
+                >
                   {address.isDefault && (
                     <div className="w-2.5 h-2.5 rounded-full bg-[#333333]"></div>
                   )}
-                </div>
+                </button>
                 
                 {/* Address Details */}
                 <div>
                   <div className="flex items-center gap-3 mb-1.5">
                     <span className="text-[15px] font-bold text-[#333333] dark:text-white">
-                      {address.name}
+                      {address.recipientName}
+                      {address.label ? (
+                        <span className="text-[#8C93A3] font-medium"> · {address.label}</span>
+                      ) : null}
                     </span>
                     {address.isDefault && (
                       <span className="bg-[#EBEBEF] dark:bg-gray-700 text-[#8C93A3] text-[11px] font-bold px-2 py-0.5 rounded-full">
@@ -126,7 +167,7 @@ export default function AddressPage() {
                     )}
                   </div>
                   <p className="text-[13px] text-[#8C93A3] font-medium leading-relaxed">
-                    {address.street}, {address.city}, {address.state}, {address.zip}.
+                    {address.phone} — {formatAddress(address)}
                   </p>
                 </div>
               </div>
@@ -158,7 +199,22 @@ export default function AddressPage() {
           setEditingAddress(null);
         }}
         onSave={handleSaveAddress}
-        initialData={editingAddress}
+        initialData={
+          editingAddress
+            ? {
+                label: editingAddress.label ?? "",
+                recipientName: editingAddress.recipientName,
+                phone: editingAddress.phone,
+                line1: editingAddress.line1,
+                line2: editingAddress.line2 ?? "",
+                area: editingAddress.area,
+                city: editingAddress.city,
+                district: editingAddress.district,
+                postalCode: editingAddress.postalCode ?? "",
+                isDefault: editingAddress.isDefault,
+              }
+            : null
+        }
       />
       
       <ConfirmModal

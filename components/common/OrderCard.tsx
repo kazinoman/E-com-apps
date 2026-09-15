@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Order } from "@/types/order";
+import { Order, statusLabel, taka } from "@/types/order";
 import { CalendarIcon, ClockIcon } from "lucide-react";
 
 interface OrderCardProps {
@@ -8,12 +8,12 @@ interface OrderCardProps {
 
 export function OrderCard({ order }: OrderCardProps) {
   const getStatusColor = (status: string) => {
-    switch (status.toLowerCase()) {
+    switch (status) {
       case "delivered":
         return "bg-[#E3F9ED] text-[#22C55E]";
-      case "canceled":
+      case "cancelled":
+      case "refunded":
         return "bg-[#FEE2E2] text-[#EF4444]";
-      case "in progress":
       default:
         return "bg-[#E6F0FF] text-[#3B82F6]";
     }
@@ -43,7 +43,7 @@ export function OrderCard({ order }: OrderCardProps) {
               <span>{formattedDate}</span>
             </div>
             <div className="text-[15px] font-bold text-[#333333] dark:text-white">
-              Order Id <span className="text-[#333333] dark:text-white">#{order.id.replace('ORD-', '')}</span>
+              Order <span className="text-[#333333] dark:text-white">{order.orderNo}</span>
             </div>
           </div>
           
@@ -60,10 +60,10 @@ export function OrderCard({ order }: OrderCardProps) {
         
         <div className="flex items-center justify-between">
           <div className={`px-3 py-1.5 rounded-md text-[13px] font-bold ${getStatusColor(order.status)}`}>
-            {order.status}
+            {statusLabel(order.status)}
           </div>
           <div className="text-[18px] font-black text-[#333333] dark:text-white">
-            ${order.totals.total.toFixed(2)}
+            {taka(order.grandTotalBdt)}
           </div>
         </div>
       </div>
