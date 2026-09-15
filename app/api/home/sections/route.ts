@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getDbData } from '@/lib/data';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     const data = await getDbData();
@@ -19,6 +21,7 @@ export async function GET() {
         image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=600&auto=format&fit=crop",
         badge: "New",
         category: "Bags",
+        sold: 2154
       },
       {
         id: "bag-2",
@@ -28,6 +31,7 @@ export async function GET() {
         reviews: 85,
         image: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=600&auto=format&fit=crop",
         category: "Bags",
+        sold: 1540
       },
       {
         id: "bag-3",
@@ -39,6 +43,7 @@ export async function GET() {
         image: "https://images.unsplash.com/photo-1584916201218-f4242ceb4809?q=80&w=600&auto=format&fit=crop",
         badge: "-10%",
         category: "Bags",
+        sold: 5320
       },
       {
         id: "bag-4",
@@ -48,6 +53,7 @@ export async function GET() {
         reviews: 150,
         image: "https://images.unsplash.com/photo-1550801878-3f59e9314c2b?q=80&w=600&auto=format&fit=crop",
         category: "Bags",
+        sold: 3105
       },
       {
         id: "bag-5",
@@ -57,6 +63,7 @@ export async function GET() {
         reviews: 90,
         image: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=600&auto=format&fit=crop",
         category: "Bags",
+        sold: 8540
       },
       {
         id: "bag-6",
@@ -68,6 +75,7 @@ export async function GET() {
         image: "https://images.unsplash.com/photo-1598532163257-ae3c6b2524b6?q=80&w=600&auto=format&fit=crop",
         badge: "Hot",
         category: "Bags",
+        sold: 1250
       }
     ];
 

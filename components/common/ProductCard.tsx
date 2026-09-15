@@ -18,6 +18,8 @@ export interface ProductCardProps {
   rating: number;
   image: string;
   badge?: string | null;
+  sold?: string | number;
+  shippingTime?: string;
 }
 
 export function ProductCard({
@@ -30,6 +32,8 @@ export function ProductCard({
   rating,
   image,
   badge,
+  sold,
+  shippingTime,
 }: ProductCardProps) {
   const getBadgeStyle = (badgeText: string) => {
     const text = badgeText.toLowerCase();
@@ -45,6 +49,17 @@ export function ProductCard({
   const handleWishlistClick = (e: React.MouseEvent) => {
     e.preventDefault();
     toggleWishlist(id);
+  };
+
+  const formatSold = (value?: string | number) => {
+    if (!value) return null;
+    if (typeof value === 'number') {
+      if (value >= 1000000) return `${Math.floor(value / 1000000)}m+ sold`;
+      if (value >= 1000) return `${Math.floor(value / 1000)}k+ sold`;
+      return `${value} sold`;
+    }
+    const str = value.toString();
+    return str.toLowerCase().includes('sold') ? str : `${str} sold`;
   };
 
   return (
@@ -93,21 +108,35 @@ export function ProductCard({
           </h3>
         </div>
 
-        <div className="flex items-center justify-between mt-1">
+        {/* <div className="flex items-center justify-between mt-1">
           <span className="text-[13px] text-[#999999] dark:text-gray-400 font-medium">{brand}</span>
-          {originalPrice && (
-            <span className="text-[13px] text-[#999999] dark:text-gray-500 line-through font-medium">
-              $ {originalPrice.toFixed(2)}
+        </div> */}
+
+        <div className="flex items-center gap-2 mt-1">
+          <div className="flex items-center gap-1 text-[13px] font-semibold text-[#555555] dark:text-gray-300">
+            {rating} <Star className="w-3.5 h-3.5 fill-[#FFB800] text-[#FFB800]" />
+          </div>
+          {sold && (
+            <span className="text-[12px] text-[#999999] border-l border-[#EAE4E3] dark:border-zinc-700 pl-2">
+              {formatSold(sold)}
             </span>
           )}
         </div>
 
+        <div className="text-[11px] font-medium text-[#00C566] bg-[#00C566]/10 px-1.5 py-0.5 rounded w-fit mt-1">
+          {shippingTime || "CN to BD 10-12 days"}
+        </div>
+
         <div className="flex items-center justify-between mt-2">
-          <div className="flex items-center gap-1 text-[13px] font-semibold text-[#555555] dark:text-gray-300">
-            {rating} <Star className="w-3.5 h-3.5 fill-[#FFB800] text-[#FFB800]" />
-          </div>
-          <div className="font-bold text-[16px] text-[#333333] dark:text-gray-100">
-            $ {price.toFixed(2)}
+          <div className="flex items-center gap-2">
+            <div className="font-bold text-[18px] text-[#333333] dark:text-gray-100">
+              $ {price.toFixed(2)}
+            </div>
+            {originalPrice && (
+              <span className="text-[13px] text-[#999999] dark:text-gray-500 line-through font-medium">
+                $ {originalPrice.toFixed(2)}
+              </span>
+            )}
           </div>
         </div>
       </div>

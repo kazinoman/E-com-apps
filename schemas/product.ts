@@ -46,6 +46,8 @@ export interface Product {
   rating: number;
   reviewsCount: number;
   badge: string | null;
+  sold?: number;
+  shippingTime?: string;
   image: string;
   images: string[];
   skus: Sku[];
