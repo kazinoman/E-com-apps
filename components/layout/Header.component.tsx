@@ -3,7 +3,7 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { useDebounce } from "@/hooks/useDebounce";
-import { User, ShoppingBag, Menu, Search, Heart, ArrowRightLeft, SlidersHorizontal, Home as HomeIcon, ShoppingCart } from "lucide-react";
+import { User, ShoppingBag, Menu, Search, Heart, ArrowRightLeft, SlidersHorizontal, Home as HomeIcon, ShoppingCart, Camera, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/UserInfoContext";
 import { CartButton } from "../common/CartButton";
@@ -22,6 +22,7 @@ export function Header() {
   const { cartItemCount, cartTotal } = useCart();
 
   const [searchTerm, setSearchTerm] = useState(searchParams?.get("title") || "");
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
   const isTyping = useRef(false);
 
@@ -86,8 +87,8 @@ export function Header() {
               placeholder="Search Product Name"
               className="w-full h-[46px] pl-12 pr-12 bg-[#F6F7F9] dark:bg-secondary/50 border border-transparent rounded-lg focus:outline-none focus:ring-1 focus:ring-primary focus:border-transparent text-[15px] transition-all text-foreground"
             />
-            <button className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors">
-              <SlidersHorizontal size={20} strokeWidth={1.5} />
+            <button title="Search by Image (Coming Soon)" className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors">
+              <Camera size={20} strokeWidth={1.5} />
             </button>
           </div>
 
@@ -154,23 +155,60 @@ export function Header() {
 
       {/* Mobile Header */}
       <header className="md:hidden flex items-center justify-between px-4 h-16 border-b border-[#EAE4E3] bg-background sticky top-0 z-50">
-        <button className="text-foreground">
-          <Menu size={28} strokeWidth={1.5} />
-        </button>
+        {!isMobileSearchOpen ? (
+          <>
+            <button className="text-foreground">
+              <Menu size={28} strokeWidth={1.5} />
+            </button>
 
-        <button
-          onClick={() => router.push(PageUrls.home)}
-          className="text-2xl font-black text-foreground tracking-tight absolute left-1/2 -translate-x-1/2"
-        >
-          Zaag
-        </button>
+            <button
+              onClick={() => router.push(PageUrls.home)}
+              className="text-2xl font-black text-foreground tracking-tight absolute left-1/2 -translate-x-1/2"
+            >
+              Zaag
+            </button>
 
-        <div className="flex items-center gap-3">
-          <Search size={22} strokeWidth={1.5} className="text-foreground" />
-          <button onClick={() => router.push("/cart")}>
-            <CartButton cartCount={cartItemCount} />
-          </button>
-        </div>
+            <div className="flex items-center gap-3">
+              <button onClick={() => setIsMobileSearchOpen(true)}>
+                <Search size={22} strokeWidth={1.5} className="text-foreground" />
+              </button>
+              <button onClick={() => router.push("/cart")}>
+                <CartButton cartCount={cartItemCount} />
+              </button>
+            </div>
+          </>
+        ) : (
+          <div className="flex items-center gap-2 w-full animate-in slide-in-from-top-2">
+            <div className="flex-1 relative">
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                <Search size={18} strokeWidth={1.5} />
+              </div>
+              <input
+                type="text"
+                autoFocus
+                value={searchTerm}
+                onChange={(e) => {
+                  isTyping.current = true;
+                  setSearchTerm(e.target.value);
+                }}
+                placeholder="Search Product Name..."
+                className="w-full h-[40px] pl-10 pr-10 bg-[#F6F7F9] dark:bg-secondary/50 border border-transparent rounded-lg focus:outline-none focus:ring-1 focus:ring-primary text-[14px] text-foreground"
+              />
+              <button 
+                title="Search by Image (Coming Soon)"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <Camera size={18} strokeWidth={1.5} />
+              </button>
+            </div>
+            <button 
+              onClick={() => setIsMobileSearchOpen(false)}
+              className="text-foreground p-1 hover:bg-secondary rounded-full transition-colors"
+            >
+              <X size={24} strokeWidth={1.5} />
+            </button>
+          </div>
+        )}
       </header>
 
       {/* Mobile Bottom Nav */}
