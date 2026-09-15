@@ -261,10 +261,10 @@ export default function CheckoutPage() {
                 {cart.map((item) => (
                   <div key={item.id} className="flex justify-between items-start">
                     <div>
-                      <p className="text-[14px] font-medium text-gray-800 dark:text-gray-200">{item.product.title}</p>
-                      <p className="text-[13px] text-[#8C93A3] mt-1">{item.quantity} x ৳ {(item.sku?.price ?? item.product.price).toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
+                      <p className="text-[14px] font-medium text-gray-800 dark:text-gray-200">{item.title}</p>
+                      <p className="text-[13px] text-[#8C93A3] mt-1">{item.quantity} x ৳ {item.unitPriceBdt.toLocaleString()}</p>
                     </div>
-                    <span className="text-[14px] font-medium">৳ {(item.quantity * (item.sku?.price ?? item.product.price)).toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+                    <span className="text-[14px] font-medium">৳ {item.lineTotalBdt.toLocaleString()}</span>
                   </div>
                 ))}
               </div>

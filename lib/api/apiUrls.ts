@@ -52,12 +52,17 @@ export const category = {
   list: "/categories",
 };
 
+/*
+ * The cart is resolved from cookies, never from a user id in the URL: the
+ * `buyer_session` JWT if signed in, otherwise the httpOnly `cart_token`.
+ * Item ids are server cart_item ids, not `productId_skuId` composites.
+ */
 export const cart = {
-  get: (userId: string) => `/cart?userId=${userId}`,
-  add: "/cart",
-  update: (id: string) => `/cart/${id}`,
-  remove: (id: string, userId: string) => `/cart/${id}?userId=${userId}`,
-  sync: (userId: string) => `/cart?userId=${userId}`,
+  get: "/cart",
+  add: "/cart/items",
+  update: (itemId: string) => `/cart/items/${itemId}`,
+  remove: (itemId: string) => `/cart/items/${itemId}`,
+  clear: "/cart",
 };
 
 export const apiUrls = {

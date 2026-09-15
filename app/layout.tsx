@@ -5,6 +5,7 @@ import LayoutWrapper from "@/components/layout/LayoutWrapper.component";
 import { cn } from "@/lib/utils";
 import { ContextWrapper } from "@/contexts/ContextWrapper";
 import { getCurrentUser } from "@/lib/auth-server";
+import { fetchCart } from "@/services/cart.service";
 import { ThemeProvider } from "@/contexts/ThemeProvider";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -33,7 +34,9 @@ export default async function RootLayout({
 }>) {
   // Resolve the session on the server so the first HTML already reflects who
   // is signed in. The client never bootstraps auth for itself.
-  const user = await getCurrentUser();
+  // The cart is server state too — resolved from the session or the guest
+  // `cart_token` cookie, never from localStorage.
+  const [user, cart] = await Promise.all([getCurrentUser(), fetchCart()]);
 
   return (
     // next-themes sets `class` and `style="color-scheme"` on <html> from a
@@ -47,7 +50,7 @@ export default async function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <ContextWrapper initialUser={user}>
+          <ContextWrapper initialUser={user} initialCart={cart}>
             <LayoutWrapper>{children}</LayoutWrapper>
           </ContextWrapper>
         </ThemeProvider>

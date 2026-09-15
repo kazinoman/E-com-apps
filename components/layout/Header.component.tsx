@@ -147,7 +147,7 @@ export function Header() {
             </button>
             <button onClick={() => router.push("/cart")} className="flex items-center gap-2 text-[14px] font-medium text-[#B3B3B3] cursor-pointer hover:text-white transition-colors">
               <ShoppingBag size={20} strokeWidth={1.5} />
-              <span>৳ {cartTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} <span className="text-[#808080]">({cartItemCount} items)</span></span>
+              <span>৳ {cartTotal.toLocaleString()} <span className="text-[#808080]">({cartItemCount} items)</span></span>
             </button>
           </div>
         </Container>

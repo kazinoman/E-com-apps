@@ -216,7 +216,7 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect }: 
       {/* Actions */}
       <div className="flex items-center gap-4 mt-2">
         <Button 
-          onClick={() => addToCart(product, quantity, selectedSku)}
+          onClick={() => addToCart(product.id, quantity, selectedSku?.id ?? null)}
           className="flex-1 bg-slate-800 hover:bg-slate-700 text-white dark:bg-white dark:text-slate-900 dark:hover:bg-gray-200 h-12 rounded-lg font-medium text-base"
         >
           Add to cart
