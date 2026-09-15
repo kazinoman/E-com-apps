@@ -1,22 +1,5 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
-
-const dataFilePath = path.join(process.cwd(), 'data', 'orders.json');
-
-// Helper to get orders
-function getOrders() {
-  try {
-    if (!fs.existsSync(dataFilePath)) {
-      return [];
-    }
-    const fileData = fs.readFileSync(dataFilePath, 'utf8');
-    return JSON.parse(fileData);
-  } catch (error) {
-    console.error('Error reading orders:', error);
-    return [];
-  }
-}
+import { getOrders } from '@/lib/api/ordersDb';
 
 export async function GET(
   request: Request,

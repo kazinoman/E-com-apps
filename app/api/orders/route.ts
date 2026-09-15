@@ -1,48 +1,5 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
-
-const dataFilePath = path.join(process.cwd(), 'data', 'orders.json');
-
-// In-memory store for Vercel serverless environment
-let memoryOrders: any[] | null = null;
-
-// Helper to get orders
-function getOrders(): any[] {
-  if (memoryOrders) return memoryOrders;
-  
-  try {
-    if (!fs.existsSync(dataFilePath)) {
-      memoryOrders = [];
-      return memoryOrders;
-    }
-    const fileData = fs.readFileSync(dataFilePath, 'utf8');
-    memoryOrders = JSON.parse(fileData);
-    return memoryOrders || [];
-  } catch (error) {
-    console.error('Error reading orders:', error);
-    memoryOrders = [];
-    return memoryOrders;
-  }
-}
-
-// Helper to save orders
-function saveOrders(orders: any[]) {
-  memoryOrders = orders;
-  
-  // Only attempt to write to disk if not on Vercel/Production
-  if (process.env.VERCEL) return;
-  
-  try {
-    const dir = path.dirname(dataFilePath);
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
-    }
-    fs.writeFileSync(dataFilePath, JSON.stringify(orders, null, 2));
-  } catch (error) {
-    console.error('Error saving orders (expected in Serverless):', error);
-  }
-}
+import { getOrders, saveOrders } from '@/lib/api/ordersDb';
 
 export async function POST(request: Request) {
   try {
