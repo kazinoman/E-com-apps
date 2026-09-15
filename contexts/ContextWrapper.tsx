@@ -13,7 +13,7 @@ export function ContextWrapper({ children }: { children: ReactNode }) {
       <WishlistProvider>
         <CartProvider>
           {children}
-          <Toaster position="top-center" />
+          <Toaster position="bottom-right" />
         </CartProvider>
       </WishlistProvider>
     </AuthProvider>

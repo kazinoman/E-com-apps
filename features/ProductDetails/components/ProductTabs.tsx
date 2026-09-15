@@ -39,9 +39,9 @@ export const ProductTabs = ({ product, similarProducts }: ProductTabsProps) => {
       {/* Tabs Content */}
       <div className="py-8">
         {activeTab === "Similar product" && (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
             {similarProducts.length > 0 ? (
-              similarProducts.map((p) => (
+              similarProducts.slice(0, 3).map((p) => (
                 <ProductCard key={p.id} {...p} />
               ))
             ) : (

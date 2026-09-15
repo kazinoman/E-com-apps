@@ -49,53 +49,53 @@ export function ActiveFilters({ total }: { total: number }) {
   const activeFilters = getActiveFilters();
 
   return (
-    <div className="flex flex-col gap-4 sticky top-0 z-20 bg-zinc-50 dark:bg-black pt-1 pb-3 -mt-1 border-b border-transparent">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between text-[#333333] dark:text-gray-200 gap-2">
-        <h1 className="text-[15px] font-medium">Result for <span className="font-semibold text-black dark:text-white">"{searchQuery}"</span></h1>
-        <div className="text-[14px] text-gray-500">Total <span className="font-semibold text-black dark:text-white mx-1">"{total.toLocaleString()}"</span> products</div>
+    <div className="flex flex-row items-center justify-between gap-4 sticky top-0 z-20 bg-zinc-50 dark:bg-black pt-1 pb-2 lg:pb-3 -mt-1 border-b border-transparent">
+      
+      <div className="flex-1 min-w-0">
+        {activeFilters.length > 0 && (
+          <ScrollArea className="w-full whitespace-nowrap">
+            <div className="flex w-max space-x-2">
+              {activeFilters.map((filter, index) => (
+                <div 
+                  key={index} 
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-[13px] border border-gray-200 dark:border-zinc-800 rounded-lg bg-white dark:bg-zinc-900"
+                >
+                  <span className="text-[#888888] dark:text-gray-400">{filter.label} :</span>
+                  <span className="font-semibold text-[#333333] dark:text-gray-200">{filter.value}</span>
+                  <button 
+                    onClick={() => {
+                      if (filter.key === "price") {
+                        const newParams = new URLSearchParams(searchParams.toString());
+                        newParams.delete("priceMin");
+                        newParams.delete("priceMax");
+                        router.push(`${pathname}?${newParams.toString()}`);
+                      } else if (filter.key === "sort") {
+                        const newParams = new URLSearchParams(searchParams.toString());
+                        newParams.delete("sort");
+                        newParams.delete("order");
+                        router.push(`${pathname}?${newParams.toString()}`);
+                      } else {
+                        removeParam(filter.key);
+                      }
+                    }}
+                    className="ml-1 text-[#888888] hover:text-red-500 transition-colors focus:outline-none"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              ))}
+              {activeFilters.length > 3 && (
+                <button className="flex items-center justify-center w-8 h-[34px] rounded-lg bg-[#F8F8F8] dark:bg-zinc-800 hover:bg-gray-100 transition-colors border border-transparent">
+                  <ChevronRight className="w-4 h-4 text-[#888888]" />
+                </button>
+              )}
+            </div>
+            <ScrollBar orientation="horizontal" className="h-0 hidden" />
+          </ScrollArea>
+        )}
       </div>
 
-      {activeFilters.length > 0 && (
-        <ScrollArea className="w-full whitespace-nowrap">
-          <div className="flex w-max space-x-2">
-            {activeFilters.map((filter, index) => (
-              <div 
-                key={index} 
-                className="flex items-center gap-1.5 px-3 py-1.5 text-[13px] border border-gray-200 dark:border-zinc-800 rounded-lg bg-white dark:bg-zinc-900"
-              >
-                <span className="text-[#888888] dark:text-gray-400">{filter.label} :</span>
-                <span className="font-semibold text-[#333333] dark:text-gray-200">{filter.value}</span>
-                <button 
-                  onClick={() => {
-                    if (filter.key === "price") {
-                      const newParams = new URLSearchParams(searchParams.toString());
-                      newParams.delete("priceMin");
-                      newParams.delete("priceMax");
-                      router.push(`${pathname}?${newParams.toString()}`);
-                    } else if (filter.key === "sort") {
-                      const newParams = new URLSearchParams(searchParams.toString());
-                      newParams.delete("sort");
-                      newParams.delete("order");
-                      router.push(`${pathname}?${newParams.toString()}`);
-                    } else {
-                      removeParam(filter.key);
-                    }
-                  }}
-                  className="ml-1 text-[#888888] hover:text-red-500 transition-colors focus:outline-none"
-                >
-                  <X className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            ))}
-            {activeFilters.length > 3 && (
-              <button className="flex items-center justify-center w-8 h-[34px] rounded-lg bg-[#F8F8F8] dark:bg-zinc-800 hover:bg-gray-100 transition-colors border border-transparent">
-                <ChevronRight className="w-4 h-4 text-[#888888]" />
-              </button>
-            )}
-          </div>
-          <ScrollBar orientation="horizontal" className="h-0 hidden" />
-        </ScrollArea>
-      )}
+      <div className="text-[12px] sm:text-[14px] text-gray-500 whitespace-nowrap shrink-0 pl-2">Total <span className="font-semibold text-black dark:text-white mx-0.5">"{total.toLocaleString()}"</span> products</div>
     </div>
   );
 }
