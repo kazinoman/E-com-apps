@@ -27,7 +27,8 @@
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(46.132% 0.00128 14.941); /* #a39d9d for text color */
+  --muted-foreground: oklch(46.132% 0.00128 14.941);
+  /* #a39d9d for text color */
 
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
@@ -74,7 +75,8 @@
   --popover-foreground: oklch(0.985 0 0);
 
   /* Brand Red (Slightly brighter for dark mode contrast, or keep #7e1a20) */
-  --primary: #a1232a; /* Brighter red for dark mode */
+  --primary: #a1232a;
+  /* Brighter red for dark mode */
   --primary-foreground: #ffffff;
   --primary-hover: #7e1a20;
 
@@ -191,10 +193,32 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    scrollbar-width: thin;
+    scrollbar-color: var(--muted-foreground) transparent;
   }
+
+  *::-webkit-scrollbar {
+    width: 1px;
+    height: 1px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--border);
+    border-radius: 10px;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: var(--muted-foreground);
+  }
+
   body {
     @apply bg-background text-foreground;
   }
+
   html {
     @apply font-sans;
   }

@@ -13,6 +13,7 @@ import { ThemeToggle } from "../common/ThemeToggleButton";
 import { Container } from "../common/Container";
 import { useCart } from "@/contexts/CartContext";
 import { MegaMenu } from "./MegaMenu";
+import { MobileMenuDrawer } from "./MobileMenuDrawer";
 
 export function Header() {
   const pathname = usePathname();
@@ -23,6 +24,7 @@ export function Header() {
 
   const [searchTerm, setSearchTerm] = useState(searchParams?.get("title") || "");
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
   const isTyping = useRef(false);
 
@@ -56,9 +58,7 @@ export function Header() {
 
   const navLinks = [
     { name: "Home", href: "/" },
-    { name: "Deals", href: "#" },
     { name: "All Categories", href: "#" },
-    { name: "All Brands", href: "#" },
     { name: "Track order", href: "#" },
   ];
 
@@ -157,7 +157,7 @@ export function Header() {
       <header className="md:hidden flex items-center justify-between px-4 h-16 border-b border-[#EAE4E3] bg-background sticky top-0 z-50">
         {!isMobileSearchOpen ? (
           <>
-            <button className="text-foreground">
+            <button className="text-foreground" onClick={() => setIsMobileMenuOpen(true)}>
               <Menu size={28} strokeWidth={1.5} />
             </button>
 
@@ -254,6 +254,12 @@ export function Header() {
           <span className="text-[12px] font-medium">Profile</span>
         </button>
       </nav>
+
+      <MobileMenuDrawer 
+        isOpen={isMobileMenuOpen} 
+        onClose={() => setIsMobileMenuOpen(false)} 
+        navLinks={navLinks} 
+      />
     </>
   );
 }
