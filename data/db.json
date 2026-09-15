@@ -1,0 +1,1254 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "title": "iPhone 14 pro plus max - Global edition",
+      "category": "gadgets",
+      "subCategory": "apple",
+      "brand": "Apple",
+      "price": 1163.99,
+      "originalPrice": 1163.99,
+      "rating": 4.5,
+      "reviewsCount": 12486,
+      "badge": "Out of stock",
+      "image": "https://images.unsplash.com/photo-1605236453806-6ff36851218e?w=500&q=80",
+      "images": [
+        "https://images.unsplash.com/photo-1605236453806-6ff36851218e?w=500&q=80",
+        "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80",
+        "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500&q=80"
+      ],
+      "skus": [
+        {
+          "id": "sku-1",
+          "sku": "IPH-14-PM-GLB-DG",
+          "color": "Midnight Dark Grey",
+          "price": 1163.99,
+          "stock": 50,
+          "image": "https://images.unsplash.com/photo-1605236453806-6ff36851218e?w=500&q=80"
+        },
+        {
+          "id": "sku-2",
+          "sku": "IPH-14-PM-GLB-LB",
+          "color": "Ocean Light Blue",
+          "price": 1143.99,
+          "stock": 10,
+          "image": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80"
+        },
+        {
+          "id": "sku-3",
+          "sku": "IPH-14-PM-GLB-PR",
+          "color": "Deep Royal Purple",
+          "price": 1183.99,
+          "stock": 0,
+          "image": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500&q=80"
+        },
+        {
+          "id": "sku-4",
+          "sku": "IPH-14-PM-GLB-BL",
+          "color": "Classic Blue",
+          "price": 1163.99,
+          "stock": 5,
+          "image": "https://images.unsplash.com/photo-1605236453806-6ff36851218e?w=500&q=80"
+        },
+        {
+          "id": "sku-5",
+          "sku": "IPH-14-PM-GLB-GR",
+          "color": "Vibrant Green",
+          "price": 1153.99,
+          "stock": 25,
+          "image": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80"
+        },
+        {
+          "id": "sku-6",
+          "sku": "IPH-14-PM-GLB-YE",
+          "color": "Matte Yellow",
+          "price": 1163.99,
+          "stock": 2,
+          "image": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500&q=80"
+        },
+        {
+          "id": "sku-7",
+          "sku": "IPH-14-PM-GLB-WH",
+          "color": "Glossy White",
+          "price": 1163.99,
+          "stock": 100,
+          "image": "https://images.unsplash.com/photo-1605236453806-6ff36851218e?w=500&q=80"
+        },
+        {
+          "id": "sku-8",
+          "sku": "IPH-14-PM-GLB-BK",
+          "color": "Radiant Black",
+          "price": 1163.99,
+          "stock": 10,
+          "image": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80"
+        },
+        {
+          "id": "sku-9",
+          "sku": "IPH-14-PM-GLB-RD",
+          "color": "Phantom Red",
+          "price": 1200,
+          "stock": 0,
+          "image": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500&q=80"
+        },
+        {
+          "id": "sku-10",
+          "sku": "IPH-14-PM-GLB-OR",
+          "color": "Mystic Orange",
+          "price": 1163.99,
+          "stock": 4,
+          "image": "https://images.unsplash.com/photo-1605236453806-6ff36851218e?w=500&q=80"
+        }
+      ],
+      "colors": [
+        {
+          "name": "Dark Grey",
+          "hex": "#333333"
+        },
+        {
+          "name": "Light Blue",
+          "hex": "#87CEEB"
+        },
+        {
+          "name": "Purple",
+          "hex": "#8A2BE2"
+        },
+        {
+          "name": "Blue",
+          "hex": "#0000FF"
+        }
+      ],
+      "seller": {
+        "name": "Gadget Electronics",
+        "verified": true,
+        "rating": 4.9,
+        "logo": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=100&q=80"
+      },
+      "description": {
+        "text": "The iPhone 14 Pro Max display has rounded corners that follow a beautiful curved design, and these corners are within a standard rectangle. When measured as a standard rectangular shape, the screen is 6.69 inches diagonally. The iPhone 14 Pro Max display has rounded corners that follow a beautiful curved design, and these corners are within a standard rectangle. When measured as a standard rectangular shape, the screen is 6.69 inches diagonally.\n\nThe iPhone 14 Pro Max display has rounded corners that follow a beautiful curved design, and these corners are within a standard rectangle. When measured as a standard rectangular shape, the screen is 6.69 inches diagonally. The iPhone 14 Pro Max display has rounded corners that follow a beautiful curved design, and these corners are within a standard rectangle. When measured as a standard rectangular shape, the screen is 6.69 inches diagonally.\n\nThe iPhone 14 Pro Max display has rounded corners that follow a beautiful curved design, and these corners are within a standard rectangle. When measured as a standard rectangular shape, the screen is 6.69 inches diagonally. The iPhone 14 Pro Max display has rounded corners that follow a beautiful curved design, and these corners are within a standard rectangle. When measured as a standard rectangular shape, the screen is 6.69 inches diagonally.",
+        "images": [
+          "https://images.unsplash.com/photo-1605236453806-6ff36851218e?w=800&q=80"
+        ]
+      },
+      "specifications": [
+        {
+          "label": "Brand",
+          "value": "Apple"
+        },
+        {
+          "label": "Model Name",
+          "value": "iPhone 14 Pro Max"
+        },
+        {
+          "label": "Display Size",
+          "value": "6.7 inches"
+        },
+        {
+          "label": "Display Type",
+          "value": "Super Retina XDR display"
+        },
+        {
+          "label": "Processor",
+          "value": "A16 Bionic chip"
+        },
+        {
+          "label": "CPU",
+          "value": "6-core CPU"
+        },
+        {
+          "label": "GPU",
+          "value": "5-core GPU"
+        },
+        {
+          "label": "Main Camera",
+          "value": "48MP"
+        },
+        {
+          "label": "Ultra Wide Camera",
+          "value": "12MP"
+        },
+        {
+          "label": "Telephoto",
+          "value": "12MP 2x & 3x"
+        },
+        {
+          "label": "Color",
+          "value": "Deep Purple, Gold, Silver, Space Black"
+        },
+        {
+          "label": "Water Resistance",
+          "value": "IP68 (maximum depth of 6 meters up to 30 minutes)"
+        }
+      ],
+      "reviewsData": {
+        "average": 4.5,
+        "total": 12486,
+        "distribution": {
+          "1": 20,
+          "2": 12,
+          "3": 211,
+          "4": 70,
+          "5": 561
+        }
+      },
+      "sold": 7081
+    },
+    {
+      "id": 2,
+      "title": "Luxury Italian Leather Handbag",
+      "category": "bags",
+      "subCategory": "purse",
+      "brand": "Gucci",
+      "price": 899.99,
+      "originalPrice": 999.99,
+      "rating": 4.8,
+      "reviewsCount": 342,
+      "badge": "Sale",
+      "image": "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=500&q=80",
+      "images": [
+        "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=500&q=80",
+        "https://images.unsplash.com/photo-1584916201218-f4242ceb4809?w=500&q=80"
+      ],
+      "skus": [],
+      "colors": [
+        {
+          "name": "Classic Brown",
+          "hex": "#8B4513"
+        }
+      ],
+      "seller": {
+        "name": "Luxury Bags Co.",
+        "verified": true,
+        "rating": 5,
+        "logo": "https://images.unsplash.com/photo-1584916201218-f4242ceb4809?w=100&q=80"
+      },
+      "description": {
+        "text": "Experience the epitome of luxury with our Italian Leather Handbag. Handcrafted in Florence, this piece features premium full-grain leather that develops a beautiful patina over time. Perfect for everyday elegance or special occasions.\n\nSpacious interior with multiple compartments keeps you organized. Gold-tone hardware adds a touch of sophistication to this timeless design.",
+        "images": [
+          "https://images.unsplash.com/photo-1584916201218-f4242ceb4809?w=800&q=80"
+        ]
+      },
+      "specifications": [
+        {
+          "label": "Material",
+          "value": "100% Genuine Italian Leather"
+        },
+        {
+          "label": "Hardware",
+          "value": "Gold-tone brass"
+        },
+        {
+          "label": "Dimensions",
+          "value": "12\" W x 9\" H x 5\" D"
+        },
+        {
+          "label": "Strap Drop",
+          "value": "6 inches"
+        },
+        {
+          "label": "Lining",
+          "value": "Soft microsuede"
+        },
+        {
+          "label": "Closure",
+          "value": "Magnetic snap"
+        }
+      ],
+      "reviewsData": {
+        "average": 4.8,
+        "total": 342,
+        "distribution": {
+          "1": 0,
+          "2": 2,
+          "3": 10,
+          "4": 40,
+          "5": 290
+        }
+      },
+      "sold": 4651
+    },
+    {
+      "id": 3,
+      "title": "Google Pixel 8 Pro - Obsidian",
+      "category": "gadgets",
+      "subCategory": "google",
+      "brand": "Google",
+      "price": 999,
+      "originalPrice": 999,
+      "rating": 4.6,
+      "reviewsCount": 2105,
+      "badge": "New",
+      "image": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80",
+      "images": [
+        "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80"
+      ],
+      "skus": [
+        {
+          "id": "sku-p8-1",
+          "sku": "PIX8-PRO-128-OBS",
+          "color": "Midnight Obsidian",
+          "price": 999,
+          "stock": 100,
+          "image": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80"
+        },
+        {
+          "id": "sku-p8-2",
+          "sku": "PIX8-PRO-256-OBS",
+          "color": "Ocean Obsidian",
+          "price": 1059,
+          "stock": 45,
+          "image": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80"
+        },
+        {
+          "id": "sku-p8-3",
+          "sku": "PIX8-PRO-512-OBS",
+          "color": "Deep Royal Obsidian",
+          "price": 1179,
+          "stock": 10,
+          "image": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80"
+        }
+      ],
+      "colors": [
+        {
+          "name": "Obsidian",
+          "hex": "#1F2124"
+        },
+        {
+          "name": "Porcelain",
+          "hex": "#F2F1EC"
+        },
+        {
+          "name": "Bay",
+          "hex": "#87CEEB"
+        }
+      ],
+      "seller": {
+        "name": "Google Store",
+        "verified": true,
+        "rating": 4.7,
+        "logo": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=100&q=80"
+      },
+      "description": {
+        "text": "Meet Pixel 8 Pro, the all-pro phone engineered by Google. It's sleek, sophisticated, and powerful, with a custom Google Tensor G3 chip. And it comes with 7 years of OS and security updates.\n\nThe immersive 6.7-inch Super Actua display makes everything sharp. The refresh rate intelligently adjusts between 1 and 120Hz for responsive performance. It has the best Pixel camera yet, giving you stunning photos and videos in any light.",
+        "images": [
+          "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=800&q=80"
+        ]
+      },
+      "specifications": [
+        {
+          "label": "Display",
+          "value": "6.7-inch Super Actua display (120Hz)"
+        },
+        {
+          "label": "Processor",
+          "value": "Google Tensor G3"
+        },
+        {
+          "label": "RAM",
+          "value": "12GB LPDDR5X"
+        },
+        {
+          "label": "Storage",
+          "value": "128GB / 256GB / 512GB / 1TB"
+        },
+        {
+          "label": "Rear Camera",
+          "value": "50MP Wide, 48MP Ultrawide, 48MP Telephoto (5x optical zoom)"
+        },
+        {
+          "label": "Front Camera",
+          "value": "10.5MP"
+        },
+        {
+          "label": "Battery",
+          "value": "5050 mAh, fast charging"
+        },
+        {
+          "label": "OS",
+          "value": "Android 14 (7 years of updates)"
+        }
+      ],
+      "reviewsData": {
+        "average": 4.6,
+        "total": 2105,
+        "distribution": {
+          "1": 50,
+          "2": 50,
+          "3": 100,
+          "4": 405,
+          "5": 1500
+        }
+      },
+      "sold": 19725
+    },
+    {
+      "id": 4,
+      "title": "Luxury Handbag",
+      "category": "bags",
+      "subCategory": "laptop-bag",
+      "brand": "Generic",
+      "price": 133.24,
+      "originalPrice": null,
+      "rating": 4.5,
+      "badge": null,
+      "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&q=80",
+      "sold": 9258
+    },
+    {
+      "id": 5,
+      "title": "Google Pixel 8 Pro",
+      "category": "gadgets",
+      "subCategory": "apple",
+      "brand": "Generic",
+      "price": 79.57,
+      "originalPrice": null,
+      "rating": 4.3,
+      "badge": "Out of stock",
+      "image": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80",
+      "sold": 255
+    },
+    {
+      "id": 6,
+      "title": "Anti-colic Baby Bottle",
+      "category": "baby-items",
+      "subCategory": "baby-bottle",
+      "brand": "Generic",
+      "price": 123.27,
+      "originalPrice": null,
+      "rating": 4.4,
+      "badge": null,
+      "image": "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=500&q=80",
+      "sold": 19010
+    },
+    {
+      "id": 7,
+      "title": "Winter Baby Jacket",
+      "category": "baby-items",
+      "subCategory": "baby-bottle",
+      "brand": "Generic",
+      "price": 198.28,
+      "originalPrice": null,
+      "rating": 4.9,
+      "badge": "Out of stock",
+      "image": "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=500&q=80",
+      "sold": 9959
+    },
+    {
+      "id": 8,
+      "title": "Baby Party Dress",
+      "category": "baby-items",
+      "subCategory": "baby-jacket",
+      "brand": "Generic",
+      "price": 383.19,
+      "originalPrice": null,
+      "rating": 4.7,
+      "badge": null,
+      "image": "https://images.unsplash.com/photo-1522771930-78848d9293e8?w=500&q=80",
+      "sold": 3972
+    },
+    {
+      "id": 9,
+      "title": "Newborn Gift Set",
+      "category": "baby-items",
+      "subCategory": "baby-jacket",
+      "brand": "Generic",
+      "price": 50,
+      "originalPrice": null,
+      "rating": 4.6,
+      "badge": "Out of stock",
+      "image": "https://images.unsplash.com/photo-1522771930-78848d9293e8?w=500&q=80",
+      "sold": 9662
+    },
+    {
+      "id": 10,
+      "title": "Minimalist Gold Anklet",
+      "category": "jewelry",
+      "subCategory": "earrings",
+      "brand": "Generic",
+      "price": 381.26,
+      "originalPrice": null,
+      "rating": 4.9,
+      "badge": null,
+      "image": "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=500&q=80",
+      "sold": 12480
+    },
+    {
+      "id": 11,
+      "title": "Travel Suitcase 4-Wheel",
+      "category": "bags",
+      "subCategory": "purse",
+      "brand": "Generic",
+      "price": 258.88,
+      "originalPrice": 272.51,
+      "rating": 5,
+      "badge": "5% off",
+      "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&q=80",
+      "sold": 11197
+    },
+    {
+      "id": 12,
+      "title": "Minimalist Wallet",
+      "category": "bags",
+      "subCategory": "backpack",
+      "brand": "Generic",
+      "price": 219.93,
+      "originalPrice": 244.37,
+      "rating": 4.5,
+      "badge": "Sale",
+      "image": "https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?w=500&q=80",
+      "sold": 3281
+    },
+    {
+      "id": 13,
+      "title": "Google Pixel 8 Pro",
+      "category": "gadgets",
+      "subCategory": "samsung",
+      "brand": "Generic",
+      "price": 489.16,
+      "originalPrice": null,
+      "rating": 4,
+      "badge": null,
+      "image": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80",
+      "sold": 16453
+    },
+    {
+      "id": 14,
+      "title": "Samsung Galaxy S23 Ultra",
+      "category": "gadgets",
+      "subCategory": "asus",
+      "brand": "Generic",
+      "price": 148.89,
+      "originalPrice": null,
+      "rating": 4.4,
+      "badge": "Out of stock",
+      "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&q=80",
+      "sold": 3463
+    },
+    {
+      "id": 15,
+      "title": "Google Pixel 8 Pro",
+      "category": "gadgets",
+      "subCategory": "apple",
+      "brand": "Generic",
+      "price": 420.87,
+      "originalPrice": null,
+      "rating": 4.6,
+      "badge": null,
+      "image": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80",
+      "sold": 6131
+    },
+    {
+      "id": 16,
+      "title": "Travel Suitcase 4-Wheel",
+      "category": "bags",
+      "subCategory": "purse",
+      "brand": "Generic",
+      "price": 95.85,
+      "originalPrice": 115.02,
+      "rating": 4.1,
+      "badge": null,
+      "image": "https://images.unsplash.com/photo-1547949003-9792a18a2601?w=500&q=80",
+      "sold": 15532
+    },
+    {
+      "id": 17,
+      "title": "18k Gold Necklace",
+      "category": "jewelry",
+      "subCategory": "bracelet",
+      "brand": "Generic",
+      "price": 111.49,
+      "originalPrice": null,
+      "rating": 4.3,
+      "badge": null,
+      "image": "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=500&q=80",
+      "sold": 3172
+    },
+    {
+      "id": 18,
+      "title": "Google Pixel 8 Pro",
+      "category": "gadgets",
+      "subCategory": "google",
+      "brand": "Generic",
+      "price": 482.3,
+      "originalPrice": 578.76,
+      "rating": 4.9,
+      "badge": null,
+      "image": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80",
+      "sold": 4180
+    },
+    {
+      "id": 19,
+      "title": "Silver Charm Bracelet",
+      "category": "jewelry",
+      "subCategory": "ring",
+      "brand": "Generic",
+      "price": 354.61,
+      "originalPrice": 373.27,
+      "rating": 4.3,
+      "badge": "5% off",
+      "image": "https://images.unsplash.com/photo-1599643478514-4a420922880b?w=500&q=80",
+      "sold": 4770
+    },
+    {
+      "id": 20,
+      "title": "Google Pixel 8 Pro",
+      "category": "gadgets",
+      "subCategory": "huawei",
+      "brand": "Generic",
+      "price": 383.11,
+      "originalPrice": null,
+      "rating": 4.1,
+      "badge": null,
+      "image": "https://images.unsplash.com/photo-1605236453806-6ff36851218e?w=500&q=80",
+      "sold": 17083
+    },
+    {
+      "id": 21,
+      "title": "Premium Leather Backpack",
+      "category": "bags",
+      "subCategory": "hand-bag",
+      "brand": "Generic",
+      "price": 424.65,
+      "originalPrice": 447,
+      "rating": 4.9,
+      "badge": "5% off",
+      "image": "https://images.unsplash.com/photo-1547949003-9792a18a2601?w=500&q=80",
+      "sold": 19583
+    },
+    {
+      "id": 22,
+      "title": "Minimalist Gold Anklet",
+      "category": "jewelry",
+      "subCategory": "bangle",
+      "brand": "Generic",
+      "price": 72.08,
+      "originalPrice": null,
+      "rating": 4.3,
+      "badge": null,
+      "image": "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=500&q=80",
+      "sold": 5231
+    },
+    {
+      "id": 23,
+      "title": "Asus ROG Zephyrus G14",
+      "category": "gadgets",
+      "subCategory": "samsung",
+      "brand": "Generic",
+      "price": 79.46,
+      "originalPrice": null,
+      "rating": 4.4,
+      "badge": null,
+      "image": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500&q=80",
+      "sold": 2195
+    },
+    {
+      "id": 24,
+      "title": "Anti-colic Baby Bottle",
+      "category": "baby-items",
+      "subCategory": "baby-gift-set",
+      "brand": "Generic",
+      "price": 454.96,
+      "originalPrice": 505.51,
+      "rating": 4.6,
+      "badge": "10% off",
+      "image": "https://images.unsplash.com/photo-1544126592-807ade215a0b?w=500&q=80",
+      "sold": 4750
+    },
+    {
+      "id": 25,
+      "title": "Vitamin C Face Serum",
+      "category": "beauty-products",
+      "subCategory": "face-serum",
+      "brand": "Generic",
+      "price": 76.06,
+      "originalPrice": null,
+      "rating": 4.9,
+      "badge": null,
+      "image": "https://images.unsplash.com/photo-1596462502278-27bf85033e5a?w=500&q=80",
+      "sold": 14092
+    },
+    {
+      "id": 26,
+      "title": "Business Briefcase",
+      "category": "bags",
+      "subCategory": "backpack",
+      "brand": "Generic",
+      "price": 287.91,
+      "originalPrice": 359.89,
+      "rating": 4.4,
+      "badge": "20% off",
+      "image": "https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?w=500&q=80",
+      "sold": 15377
+    },
+    {
+      "id": 27,
+      "title": "Travel Suitcase 4-Wheel",
+      "category": "bags",
+      "subCategory": "laptop-bag",
+      "brand": "Generic",
+      "price": 398.4,
+      "originalPrice": null,
+      "rating": 4.7,
+      "badge": "Out of stock",
+      "image": "https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?w=500&q=80",
+      "sold": 16211
+    },
+    {
+      "id": 28,
+      "title": "Huawei Mate 60 Pro",
+      "category": "gadgets",
+      "subCategory": "asus",
+      "brand": "Generic",
+      "price": 369.06,
+      "originalPrice": 388.48,
+      "rating": 4.2,
+      "badge": "5% off",
+      "image": "https://images.unsplash.com/photo-1605236453806-6ff36851218e?w=500&q=80",
+      "sold": 9536
+    },
+    {
+      "id": 29,
+      "title": "iPhone 14 Pro Plus Max Black Edition",
+      "category": "gadgets",
+      "subCategory": "huawei",
+      "brand": "Generic",
+      "price": 436.81,
+      "originalPrice": null,
+      "rating": 4.2,
+      "badge": null,
+      "image": "https://images.unsplash.com/photo-1605236453806-6ff36851218e?w=500&q=80",
+      "sold": 3460
+    },
+    {
+      "id": 30,
+      "title": "Hydrating Face Cream",
+      "category": "beauty-products",
+      "subCategory": "body-wash",
+      "brand": "Generic",
+      "price": 385.79,
+      "originalPrice": null,
+      "rating": 4,
+      "badge": null,
+      "image": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&q=80",
+      "sold": 3116
+    },
+    {
+      "id": 31,
+      "title": "Minimalist Wallet",
+      "category": "bags",
+      "subCategory": "briefcase",
+      "brand": "Generic",
+      "price": 424.17,
+      "originalPrice": null,
+      "rating": 4.3,
+      "badge": null,
+      "image": "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=500&q=80",
+      "sold": 5855
+    },
+    {
+      "id": 32,
+      "title": "Organic Body Wash",
+      "category": "beauty-products",
+      "subCategory": "body-wash",
+      "brand": "Generic",
+      "price": 59.87,
+      "originalPrice": 66.52,
+      "rating": 4.8,
+      "badge": "Sale",
+      "image": "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=500&q=80",
+      "sold": 16175
+    },
+    {
+      "id": 33,
+      "title": "Exfoliating Scrub",
+      "category": "beauty-products",
+      "subCategory": "face-serum",
+      "brand": "Generic",
+      "price": 293.96,
+      "originalPrice": null,
+      "rating": 4.2,
+      "badge": null,
+      "image": "https://images.unsplash.com/photo-1596462502278-27bf85033e5a?w=500&q=80",
+      "sold": 16038
+    },
+    {
+      "id": 34,
+      "title": "Huawei Mate 60 Pro",
+      "category": "gadgets",
+      "subCategory": "apple",
+      "brand": "Generic",
+      "price": 27.99,
+      "originalPrice": 31.1,
+      "rating": 4.3,
+      "badge": "Sale",
+      "image": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80",
+      "sold": 5341
+    },
+    {
+      "id": 35,
+      "title": "Huawei Mate 60 Pro",
+      "category": "gadgets",
+      "subCategory": "huawei",
+      "brand": "Generic",
+      "price": 203.37,
+      "originalPrice": 214.07,
+      "rating": 4.7,
+      "badge": "5% off",
+      "image": "https://images.unsplash.com/photo-1605236453806-6ff36851218e?w=500&q=80",
+      "sold": 7485
+    },
+    {
+      "id": 36,
+      "title": "Soft Cotton Baby Socks",
+      "category": "baby-items",
+      "subCategory": "baby-jacket",
+      "brand": "Generic",
+      "price": 174.37,
+      "originalPrice": null,
+      "rating": 4.6,
+      "badge": null,
+      "image": "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=500&q=80",
+      "sold": 3562
+    },
+    {
+      "id": 37,
+      "title": "Diamond Engagement Ring",
+      "category": "jewelry",
+      "subCategory": "bangle",
+      "brand": "Generic",
+      "price": 66.19,
+      "originalPrice": 73.54,
+      "rating": 4.5,
+      "badge": "10% off",
+      "image": "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=500&q=80",
+      "sold": 12279
+    },
+    {
+      "id": 38,
+      "title": "Huawei Mate 60 Pro",
+      "category": "gadgets",
+      "subCategory": "asus",
+      "brand": "Generic",
+      "price": 206.34,
+      "originalPrice": 229.27,
+      "rating": 4.5,
+      "badge": "Sale",
+      "image": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80",
+      "sold": 14228
+    },
+    {
+      "id": 39,
+      "title": "Anti-colic Baby Bottle",
+      "category": "baby-items",
+      "subCategory": "baby-gift-set",
+      "brand": "Generic",
+      "price": 147.59,
+      "originalPrice": 177.11,
+      "rating": 4.7,
+      "badge": null,
+      "image": "https://images.unsplash.com/photo-1544126592-807ade215a0b?w=500&q=80",
+      "sold": 1867
+    },
+    {
+      "id": 40,
+      "title": "Google Pixel 8 Pro",
+      "category": "gadgets",
+      "subCategory": "samsung",
+      "brand": "Generic",
+      "price": 154.05,
+      "originalPrice": 171.17,
+      "rating": 4.5,
+      "badge": "10% off",
+      "image": "https://images.unsplash.com/photo-1605236453806-6ff36851218e?w=500&q=80",
+      "sold": 13067
+    },
+    {
+      "id": 41,
+      "title": "Luxury Handbag",
+      "category": "bags",
+      "subCategory": "purse",
+      "brand": "Generic",
+      "price": 72.42,
+      "originalPrice": null,
+      "rating": 4.5,
+      "badge": null,
+      "image": "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=500&q=80",
+      "sold": 14904
+    },
+    {
+      "id": 42,
+      "title": "Huawei Mate 60 Pro",
+      "category": "gadgets",
+      "subCategory": "asus",
+      "brand": "Generic",
+      "price": 282.28,
+      "originalPrice": 313.64,
+      "rating": 4.3,
+      "badge": "10% off",
+      "image": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500&q=80",
+      "sold": 7968
+    },
+    {
+      "id": 43,
+      "title": "Minimalist Gold Anklet",
+      "category": "jewelry",
+      "subCategory": "bracelet",
+      "brand": "Generic",
+      "price": 384.7,
+      "originalPrice": 461.64,
+      "rating": 4.1,
+      "badge": null,
+      "image": "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=500&q=80",
+      "sold": 6121
+    },
+    {
+      "id": 44,
+      "title": "Minimalist Wallet",
+      "category": "bags",
+      "subCategory": "purse",
+      "brand": "Generic",
+      "price": 418.77,
+      "originalPrice": 523.46,
+      "rating": 4.9,
+      "badge": "20% off",
+      "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&q=80",
+      "sold": 4312
+    },
+    {
+      "id": 45,
+      "title": "Minimalist Wallet",
+      "category": "bags",
+      "subCategory": "laptop-bag",
+      "brand": "Generic",
+      "price": 126.47,
+      "originalPrice": 133.13,
+      "rating": 4.5,
+      "badge": "5% off",
+      "image": "https://images.unsplash.com/photo-1547949003-9792a18a2601?w=500&q=80",
+      "sold": 10314
+    },
+    {
+      "id": 46,
+      "title": "Asus ROG Zephyrus G14",
+      "category": "gadgets",
+      "subCategory": "google",
+      "brand": "Generic",
+      "price": 63.17,
+      "originalPrice": null,
+      "rating": 4.2,
+      "badge": "Out of stock",
+      "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&q=80",
+      "sold": 9618
+    },
+    {
+      "id": 47,
+      "title": "Samsung Galaxy S23 Ultra",
+      "category": "gadgets",
+      "subCategory": "samsung",
+      "brand": "Generic",
+      "price": 319.76,
+      "originalPrice": 355.29,
+      "rating": 4.6,
+      "badge": "10% off",
+      "image": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&q=80",
+      "sold": 18728
+    },
+    {
+      "id": 48,
+      "title": "Silver Charm Bracelet",
+      "category": "jewelry",
+      "subCategory": "bangle",
+      "brand": "Generic",
+      "price": 439.48,
+      "originalPrice": 527.38,
+      "rating": 4.4,
+      "badge": null,
+      "image": "https://images.unsplash.com/photo-1599643478514-4a420922880b?w=500&q=80",
+      "sold": 11168
+    },
+    {
+      "id": 49,
+      "title": "Travel Suitcase 4-Wheel",
+      "category": "bags",
+      "subCategory": "laptop-bag",
+      "brand": "Generic",
+      "price": 433.6,
+      "originalPrice": 481.78,
+      "rating": 4.2,
+      "badge": "10% off",
+      "image": "https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?w=500&q=80",
+      "sold": 5267
+    },
+    {
+      "id": 50,
+      "title": "Baby Party Dress",
+      "category": "baby-items",
+      "subCategory": "baby-dress",
+      "brand": "Generic",
+      "price": 124.3,
+      "originalPrice": null,
+      "rating": 4,
+      "badge": null,
+      "image": "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=500&q=80",
+      "sold": 17495
+    }
+  ],
+  "categories": {
+    "success": true,
+    "message": "Filters fetched successfully",
+    "data": {
+      "filters": [
+        {
+          "key": "category",
+          "label": "Category",
+          "type": "tree",
+          "multiple": true,
+          "options": [
+            {
+              "value": "baby-items",
+              "label": "Baby Items",
+              "children": [
+                {
+                  "value": "baby-bottle",
+                  "label": "Baby Bottle"
+                },
+                {
+                  "value": "baby-dress",
+                  "label": "Baby Dress"
+                },
+                {
+                  "value": "baby-gift-set",
+                  "label": "Baby Gift Set"
+                },
+                {
+                  "value": "baby-jacket",
+                  "label": "Baby Jacket"
+                },
+                {
+                  "value": "baby-shoes",
+                  "label": "Baby Shoes"
+                },
+                {
+                  "value": "baby-skirt",
+                  "label": "Baby Skirt"
+                },
+                {
+                  "value": "baby-socks",
+                  "label": "Baby Socks"
+                }
+              ]
+            },
+            {
+              "value": "bags",
+              "label": "Bags",
+              "children": [
+                {
+                  "value": "backpack",
+                  "label": "Backpack"
+                },
+                {
+                  "value": "briefcase",
+                  "label": "Briefcases"
+                },
+                {
+                  "value": "card-holder",
+                  "label": "Card Holder"
+                },
+                {
+                  "value": "hand-bag",
+                  "label": "Hand Bag"
+                },
+                {
+                  "value": "laptop-bag",
+                  "label": "Laptop Bag"
+                },
+                {
+                  "value": "purse",
+                  "label": "Purse"
+                },
+                {
+                  "value": "suitcase",
+                  "label": "Suitcase"
+                },
+                {
+                  "value": "travel-bag",
+                  "label": "Travel Bag"
+                },
+                {
+                  "value": "wallet",
+                  "label": "Wallet"
+                }
+              ]
+            },
+            {
+              "value": "beauty-products",
+              "label": "Beauty",
+              "children": [
+                {
+                  "value": "body-wash",
+                  "label": "Body Wash"
+                },
+                {
+                  "value": "deodorant",
+                  "label": "Deodorant"
+                },
+                {
+                  "value": "face-serum",
+                  "label": "Face Serum"
+                }
+              ]
+            },
+            {
+              "value": "gadgets",
+              "label": "Gadgets",
+              "children": [
+                {
+                  "value": "apple",
+                  "label": "Apple"
+                },
+                {
+                  "value": "asus",
+                  "label": "Asus"
+                },
+                {
+                  "value": "google",
+                  "label": "Google"
+                },
+                {
+                  "value": "huawei",
+                  "label": "Huawei"
+                },
+                {
+                  "value": "samsung",
+                  "label": "Samsung"
+                }
+              ]
+            },
+            {
+              "value": "jewelry",
+              "label": "Jewelry",
+              "children": [
+                {
+                  "value": "anklet",
+                  "label": "Anklet"
+                },
+                {
+                  "value": "bangle",
+                  "label": "Bangle"
+                },
+                {
+                  "value": "bracelet",
+                  "label": "Bracelet"
+                },
+                {
+                  "value": "earrings",
+                  "label": "Earrings"
+                },
+                {
+                  "value": "necklace",
+                  "label": "Necklace"
+                },
+                {
+                  "value": "ring",
+                  "label": "Ring"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "meta": {
+      "timestamp": "2026-08-30T08:51:17.593Z"
+    }
+  },
+  "users": [
+    {
+      "id": 1,
+      "email": "john@doe.com",
+      "username": "johnd",
+      "password": "mypassword",
+      "name": {
+        "firstname": "john",
+        "lastname": "doe"
+      },
+      "address": {
+        "city": "kilcoole",
+        "street": "new road",
+        "number": 7682,
+        "zipcode": "12926-3874",
+        "geolocation": {
+          "lat": "-37.3159",
+          "long": "81.1496"
+        }
+      },
+      "phone": "1-570-236-7033"
+    }
+  ],
+  "carts": [
+    {
+      "id": 1,
+      "userId": 1,
+      "date": "2020-03-02T00:00:00.000Z",
+      "products": [
+        {
+          "productId": 1,
+          "quantity": 4
+        },
+        {
+          "productId": 2,
+          "quantity": 1
+        },
+        {
+          "productId": 3,
+          "quantity": 6
+        }
+      ]
+    }
+  ],
+  "wishlists": [
+    {
+      "userId": 1,
+      "productId": 5,
+      "id": 1
+    },
+    {
+      "userId": 1,
+      "productId": 6,
+      "id": 2
+    }
+  ],
+  "reviews": [
+    {
+      "id": 1,
+      "productId": 1,
+      "userId": 1,
+      "rating": 5,
+      "date": "13 June, 2023",
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    },
+    {
+      "id": 2,
+      "productId": 1,
+      "userId": 1,
+      "rating": 4,
+      "date": "13 June, 2023",
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    },
+    {
+      "id": 3,
+      "productId": 1,
+      "userId": 1,
+      "rating": 4,
+      "date": "13 June, 2023",
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    },
+    {
+      "id": 4,
+      "productId": 1,
+      "userId": 1,
+      "rating": 4,
+      "date": "13 June, 2023",
+      "comment": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    }
+  ]
+}
