@@ -51,6 +51,14 @@ export const category = {
   list: "/categories",
 };
 
+export const cart = {
+  get: (userId: string) => `/cart?userId=${userId}`,
+  add: "/cart",
+  update: (id: string) => `/cart/${id}`,
+  remove: (id: string, userId: string) => `/cart/${id}?userId=${userId}`,
+  sync: (userId: string) => `/cart?userId=${userId}`,
+};
+
 export const apiUrls = {
   auth,
   wishlist,
@@ -60,4 +68,5 @@ export const apiUrls = {
   orders,
   home,
   category,
+  cart,
 };
