@@ -6,6 +6,7 @@ import { Header } from "./Header.component";
 import { Footer } from "./Footer.component";
 import { StoreFeatures } from "@/components/common/StoreFeatures";
 import { CustomBreadcrumb } from "@/components/common/CustomBreadcrumb";
+import { ScrollToTop } from "@/components/common/ScrollToTop";
 
 export default function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -39,6 +40,7 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
 
   return (
     <>
+      <ScrollToTop />
       {!hideLayout && (
         <Suspense fallback={<div className="h-20 bg-background" />}>
           <Header />
