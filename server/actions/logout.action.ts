@@ -2,17 +2,16 @@
 
 import { auth } from "@/lib/api/apiUrls";
 import { api } from "@/lib/api/axios";
-import { cookies } from "next/headers";
+import { clearSessionCookies } from "@/lib/session-cookie";
 
 export async function logoutAction() {
   try {
-    // Call the external API to invalidate the token if necessary
+    // Ask the backend to invalidate the session first; if that fails we still
+    // clear locally, so a shopper is never left appearing signed in.
     await api.post(auth.logout);
   } catch (error) {
     console.error("Failed to call logout API endpoint:", error);
-    // Even if it fails, we should proceed to clear the local cookie
   } finally {
-    const cookieStore = await cookies();
-    cookieStore.delete("buyer_session");
+    await clearSessionCookies();
   }
 }
