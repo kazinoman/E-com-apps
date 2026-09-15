@@ -3,7 +3,7 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { useDebounce } from "@/hooks/useDebounce";
-import { User, ShoppingBag, Menu, Search, Heart, ArrowRightLeft, SlidersHorizontal, Home as HomeIcon } from "lucide-react";
+import { User, ShoppingBag, Menu, Search, Heart, ArrowRightLeft, SlidersHorizontal, Home as HomeIcon, ShoppingCart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/UserInfoContext";
 import { CartButton } from "../common/CartButton";
@@ -95,12 +95,23 @@ export function Header() {
           <div className="flex items-center gap-6">
             <ThemeToggle />
 
-            <button className="text-[#6B6565] hover:text-foreground transition-colors">
-              <ArrowRightLeft size={24} strokeWidth={1.5} />
+            <button 
+              onClick={() => router.push("/cart")} 
+              className="relative text-foreground"
+            >
+              <ShoppingCart size={24} strokeWidth={1.5} />
+              {cartItemCount > 0 && (
+                <span className="absolute -top-1.5 -right-2 flex h-[18px] w-[18px] items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+                  {cartItemCount > 99 ? "99+" : cartItemCount}
+                </span>
+              )}
             </button>
-            <button className="text-[#6B6565] hover:text-foreground transition-colors">
-              <Heart size={24} strokeWidth={1.5} />
-            </button>
+            
+            {user && (
+              <button className="text-[#6B6565] hover:text-foreground transition-colors">
+                <Heart size={24} strokeWidth={1.5} />
+              </button>
+            )}
 
             {isAuthLoading ? (
               <div className="w-24 h-8 bg-secondary animate-pulse rounded" />
@@ -175,15 +186,27 @@ export function Header() {
           <span className="text-[12px] font-medium">Home</span>
         </button>
 
-        <button className="flex flex-col items-center gap-1 text-[#6B6565] hover:text-foreground transition-colors">
-          <ArrowRightLeft size={22} strokeWidth={1.5} />
-          <span className="text-[12px] font-medium">Compare</span>
+        <button 
+          onClick={() => router.push("/cart")}
+          className="flex flex-col items-center gap-1 text-[#6B6565] hover:text-foreground transition-colors"
+        >
+          <div className="relative">
+            <ShoppingBag size={22} strokeWidth={1.5} />
+            {cartItemCount > 0 && (
+              <span className="absolute -right-2 -top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[9px] font-bold text-primary-foreground">
+                {cartItemCount > 99 ? "99+" : cartItemCount}
+              </span>
+            )}
+          </div>
+          <span className="text-[12px] font-medium">Cart</span>
         </button>
 
-        <button className="flex flex-col items-center gap-1 text-[#6B6565] hover:text-foreground transition-colors relative">
-          <Heart size={22} strokeWidth={1.5} />
-          <span className="text-[12px] font-medium">Wishlist</span>
-        </button>
+        {user && (
+          <button className="flex flex-col items-center gap-1 text-[#6B6565] hover:text-foreground transition-colors relative">
+            <Heart size={22} strokeWidth={1.5} />
+            <span className="text-[12px] font-medium">Wishlist</span>
+          </button>
+        )}
 
         <button
           onClick={() => router.push(user ? PageUrls.profile : PageUrls.login)}

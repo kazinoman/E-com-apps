@@ -37,8 +37,8 @@ export function Footer() {
                 placeholder="username@email.com" 
                 className="w-full bg-[#474747] text-sm px-3 rounded-l-sm text-gray-200 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-white border-none"
               />
-              <button className="bg-white text-[#333333] px-5 text-sm font-medium rounded-r-sm hover:bg-gray-100 transition-colors">
-                Sign up
+              <button className="bg-white text-[#333333] px-5 text-sm font-medium rounded-r-sm hover:bg-gray-100 transition-colors whitespace-nowrap">
+                Subscribe
               </button>
             </div>
           </div>
