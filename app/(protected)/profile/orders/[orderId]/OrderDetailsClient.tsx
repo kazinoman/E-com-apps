@@ -9,9 +9,11 @@ import Link from "next/link";
 
 interface OrderDetailsClientProps {
   order: Order;
+  backUrl?: string;
+  onBack?: () => void;
 }
 
-export function OrderDetailsClient({ order }: OrderDetailsClientProps) {
+export function OrderDetailsClient({ order, backUrl = "/profile/orders/active", onBack }: OrderDetailsClientProps) {
   const [isTrackModalOpen, setIsTrackModalOpen] = useState(false);
   const [expandedSeller, setExpandedSeller] = useState<string | null>(null);
 
@@ -44,9 +46,15 @@ export function OrderDetailsClient({ order }: OrderDetailsClientProps) {
   return (
     <div className="bg-white dark:bg-gray-900 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 p-8 w-full min-h-full">
       <div className="flex items-center gap-4 mb-8">
-        <Link href="/profile/orders/active" className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
-          <ArrowLeft className="w-5 h-5 text-gray-700 dark:text-gray-300" />
-        </Link>
+        {onBack ? (
+          <button onClick={onBack} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
+            <ArrowLeft className="w-5 h-5 text-gray-700 dark:text-gray-300" />
+          </button>
+        ) : (
+          <Link href={backUrl} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
+            <ArrowLeft className="w-5 h-5 text-gray-700 dark:text-gray-300" />
+          </Link>
+        )}
         <h1 className="text-xl font-bold text-[#333333] dark:text-white flex-1 text-center">Order Details</h1>
         <div className="w-9" /> {/* Spacer for centering */}
       </div>

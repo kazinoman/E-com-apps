@@ -39,6 +39,7 @@ export const orders = {
   history: "/orders?status=history",
   detail: (id: string) => `/orders/${id}`,
   create: "/orders",
+  track: "/orders/track",
 };
 
 export const home = {
