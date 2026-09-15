@@ -1,83 +1,61 @@
 import axios from "axios";
 import { cookies } from "next/headers";
 
-const getBaseUrl = () => {
-  if (process.env.API_BASE_URL) {
-    return process.env.API_BASE_URL;
-  }
-  if (process.env.NEXT_PUBLIC_APP_URL) {
-    return `${process.env.NEXT_PUBLIC_APP_URL}/api`;
-  }
-  if (process.env.VERCEL_URL) {
-    return `https://${process.env.VERCEL_URL}/api`;
-  }
-  return "http://localhost:3000/api";
-};
+/**
+ * Server-side HTTP client for the merchant backend.
+ *
+ * This module imports `next/headers`, so it is server-only: Server Components,
+ * Server Actions and route handlers. A Client Component that imports it will
+ * fail to build. That is deliberate — the session lives in an httpOnly cookie
+ * the browser cannot read, so the browser has no business calling the API
+ * directly.
+ */
+
+/**
+ * The backend is NestJS with URI versioning (`bootstrap.ts`: prefix `api/v`,
+ * version `1`) and no global prefix, so every versioned route is
+ * `/api/v1/...`. Liveness is the exception: `@Controller('health')` carries no
+ * version, so it answers at `/health` and `/api/v1/health` is a 404.
+ *
+ * The fallback matches the backend's local dev port. Note the dev server for
+ * this app must therefore run somewhere else — use `next dev -p 3001`.
+ */
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_BASE ?? "http://127.0.0.1:3000/api/v1";
 
 export const api = axios.create({
-  baseURL: getBaseUrl(),
+  baseURL: API_BASE,
   headers: {
     "Content-Type": "application/json",
   },
-  withCredentials: true, // 👈 Only useful if this instance is shared with client-side code
 });
 
-// Request Interceptor: Attach tokens from Next.js cookies
+/**
+ * Forward the caller's session and guest-cart cookies to the backend.
+ *
+ * `buyer_session` is a 30-day JWT set at login. `cart_token` identifies a
+ * guest cart and is issued by the backend on the first `POST /cart/items`.
+ * Both are httpOnly, so this hop is the only way they reach the API.
+ *
+ * Cookies the backend sets in a response are NOT relayed to the browser from
+ * here — a Server Component cannot set a cookie. Anything that needs to
+ * establish a session or a cart token must run in a Server Action or a route
+ * handler and copy the `set-cookie` header across itself.
+ */
 api.interceptors.request.use(async (config) => {
-  // 1. Get the Next.js cookie store (async in Next.js 15/16)
-  const cookieStore = await cookies();
+  const jar = await cookies();
 
-  // 2. Look for the specific cookie you set in your login Server Action
-  const sessionToken = cookieStore.get("buyer_session")?.value;
+  const forwarded = ["buyer_session", "cart_token"]
+    .map((name) => {
+      const value = jar.get(name)?.value;
+      return value ? `${name}=${value}` : null;
+    })
+    .filter(Boolean)
+    .join("; ");
 
-  if (sessionToken) {
-    // OPTION A: If your external API expects this as a Cookie header
-    config.headers.Cookie = `buyer_session=${sessionToken}`;
-
-    // OPTION B: If your external API expects this as a Bearer token, use this instead:
-    // config.headers.Authorization = `Bearer ${sessionToken}`;
+  if (forwarded) {
+    config.headers.Cookie = forwarded;
   }
 
   return config;
 });
-
-// Response Interceptor: Handle 401 and Token Refresh
-api.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
-
-    // If 401 Unauthorized and we haven't already retried
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-
-      try {
-        const cookieStore = await cookies();
-        const refreshToken = cookieStore.get("refreshToken")?.value;
-
-        if (!refreshToken) throw new Error("No refresh token available");
-
-        // Call your external refresh endpoint
-        const refreshResponse = await axios.post(`${process.env.API_BASE_URL}/auth/refresh`, {
-          token: refreshToken,
-        });
-
-        const newAccessToken = refreshResponse.data.accessToken;
-
-        // ⚠️ CRITICAL NEXT.JS LIMITATION:
-        // You cannot call `cookieStore.set()` inside a Server Component.
-        // If this runs during a Server Component render, the server knows the new token,
-        // but it CANNOT send it back to the user's browser.
-        // (See the note below on how to fix this using Middleware).
-
-        // Update the original request with the new token and retry
-        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-        return api(originalRequest);
-      } catch (refreshError) {
-        // If refresh fails, redirect to login or throw
-        return Promise.reject(refreshError);
-      }
-    }
-    return Promise.reject(error);
-  },
-);
