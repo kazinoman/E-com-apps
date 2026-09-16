@@ -1,10 +1,10 @@
 "use server";
 
-import { ProductResponse } from "@/schemas/product";
+import type { Product, ProductCardData } from "@/schemas/product";
 import { products as productsUrls } from "@/lib/api/apiUrls";
 import { api } from "@/lib/api/axios";
 
-export const getProductById = async (id: string): Promise<ProductResponse | null> => {
+export const getProductById = async (id: string): Promise<Product | null> => {
   try {
     const res = await api.get(productsUrls.detail(id));
     return res.data?.data ?? null;
@@ -19,7 +19,7 @@ export const getProductById = async (id: string): Promise<ProductResponse | null
  * "Similar" is everything else in the same category — the catalog has no
  * recommender, and pretending otherwise would just be a shuffled list.
  */
-export const getSimilarProducts = async (category: string, limit = 20): Promise<unknown[]> => {
+export const getSimilarProducts = async (category: string, limit = 20): Promise<ProductCardData[]> => {
   try {
     const res = await api.get(productsUrls.list, {
       params: { category, pageSize: limit },

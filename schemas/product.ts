@@ -107,3 +107,34 @@ export function tierPriceFor(product: Product, quantity: number): Money {
 export function primaryImage(product: Product): string | null {
   return (product.images.find((i) => i.isPrimary) ?? product.images[0])?.url ?? null;
 }
+
+/**
+ * The lighter shape `GET /products` and `GET /search` return per item, which
+ * is what every grid and rail renders. It is not the detail shape: no images
+ * array, no SKUs, no attributes.
+ */
+export interface ProductCardData {
+  id: string;
+  remoteId?: string;
+  title: string;
+  imageUrl: string | null;
+  price: Money;
+  category: string | null;
+  salesCount: number | null;
+  moq: number | null;
+  weightKg?: number | null;
+  /** Null across virtually the whole catalog — nobody has reviewed an import. */
+  ratingAvg: number | null;
+  ratingCount: number | null;
+}
+
+/**
+ * `bags-waist-bag` → `Waist Bag`. Category slugs are `<parent>-<child>` and the
+ * child half is the useful one; the API has no display name on a card.
+ */
+export function categoryLabel(slug: string | null): string | null {
+  if (!slug) return null;
+  const parts = slug.split("-");
+  const tail = parts.length > 1 ? parts.slice(1) : parts;
+  return tail.map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+}
