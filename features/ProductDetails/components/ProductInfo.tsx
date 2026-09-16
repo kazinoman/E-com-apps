@@ -9,6 +9,7 @@ import { CompareButton } from "@/components/common/CompareButton";
 import { Star, Minus, Plus, Heart } from "lucide-react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { vendorScore } from "@/lib/types/vendor";
 
 interface ProductInfoProps {
   product: Product;
@@ -84,6 +85,8 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect }: 
     product.vendor && product.vendor.name && product.vendor.name !== product.vendor.id
       ? product.vendor.name
       : null;
+  // 0 upstream means "unrated", not "rated zero" — see vendorScore.
+  const score = vendorScore(product.vendor?.score);
 
   return (
     <div className="flex flex-col gap-6">
@@ -148,17 +151,17 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect }: 
       <hr className="border-slate-200 dark:border-gray-800" />
 
       {/* Seller */}
-      {(vendorName || product.vendor?.score != null) && (
+      {(vendorName || score !== null) && (
         <div className="space-y-2">
           <p className="text-sm font-medium text-slate-500 dark:text-gray-400">Seller</p>
           <div className="flex items-center gap-3 text-sm">
             {vendorName && (
               <span className="font-semibold text-slate-800 dark:text-gray-200">{vendorName}</span>
             )}
-            {product.vendor?.score != null && (
+            {score !== null && (
               <span className="flex items-center gap-1 text-slate-500 dark:text-gray-400">
                 <Star className="w-3.5 h-3.5 fill-orange-400 text-orange-400" />
-                {product.vendor.score.toFixed(1)}
+                {score.toFixed(1)}
               </span>
             )}
           </div>

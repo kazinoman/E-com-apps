@@ -111,8 +111,27 @@ export const cart = {
   clear: "/cart",
 };
 
+/*
+ * Reviews hang off the product for reading and writing, but an existing review
+ * is edited and deleted by its OWN id at the top level — `PATCH /reviews/:id`,
+ * not `PATCH /products/:pid/reviews/:id`. The backend resolves the author from
+ * `buyer_session` and 404s (not 403s) on someone else's row, so no customer id
+ * belongs in any of these paths.
+ *
+ * `mine` is buyer-authenticated and answers `{ review: ... | null }` — wrapped,
+ * because a bare null short-circuits the response envelope.
+ */
+export const reviews = {
+  list: (productId: string) => `/products/${productId}/reviews`,
+  mine: (productId: string) => `/products/${productId}/reviews/mine`,
+  create: (productId: string) => `/products/${productId}/reviews`,
+  update: (reviewId: string) => `/reviews/${reviewId}`,
+  remove: (reviewId: string) => `/reviews/${reviewId}`,
+};
+
 export const apiUrls = {
   auth,
+  reviews,
   wishlist,
   brands,
   vendors,

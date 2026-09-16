@@ -6,7 +6,7 @@ import { CustomBreadcrumb } from "@/components/common/CustomBreadcrumb";
 import { PaginationNav } from "@/components/common/PaginationNav";
 import { ProductGrid } from "@/components/common/ProductGrid";
 import { parsePage } from "@/lib/types/pagination";
-import { vendorDisplayName } from "@/lib/types/vendor";
+import { vendorDisplayName, vendorScore } from "@/lib/types/vendor";
 import { fetchVendor, fetchVendorProducts } from "@/services/vendor.service";
 
 const PAGE_SIZE = 24;
@@ -57,11 +57,13 @@ export default async function VendorPage({
   const heading = name ?? "Supplier";
 
   const stats: { icon: React.ReactNode; label: string; value: string }[] = [];
-  if (vendor.score !== null && vendor.score !== undefined) {
+  // 0 upstream means "unrated", not "rated zero" — see vendorScore.
+  const score = vendorScore(vendor.score);
+  if (score !== null) {
     stats.push({
       icon: <Star className="w-4 h-4 fill-[#FFB800] text-[#FFB800]" />,
       label: "Supplier score",
-      value: vendor.score.toFixed(1),
+      value: score.toFixed(1),
     });
   }
   if (vendor.productCount !== null && vendor.productCount !== undefined) {

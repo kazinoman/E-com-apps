@@ -6,6 +6,7 @@ import { Order, statusLabel, taka } from "@/types/order";
 import { TrackOrderModal } from "@/components/common/TrackOrderModal";
 import { ChevronDown, ChevronRight, ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { REVIEWABLE_ORDER_STATUSES } from "@/lib/types/review";
 
 interface OrderDetailsClientProps {
   order: Order;
@@ -15,6 +16,16 @@ interface OrderDetailsClientProps {
 
 export function OrderDetailsClient({ order, backUrl = "/profile/orders/active", onBack }: OrderDetailsClientProps) {
   const [isTrackModalOpen, setIsTrackModalOpen] = useState(false);
+
+  /*
+   * A line is reviewable once the order reaches a status the backend counts as
+   * a purchase (paid / confirmed / shipped / delivered — see
+   * `REVIEWABLE_ORDER_STATUSES`, which mirrors the backend's own list). COD
+   * orders are created straight into `confirmed`, so waiting for `delivered`
+   * would hide the link from almost every buyer. This only decides whether to
+   * OFFER the link; the backend still answers 403 if it disagrees.
+   */
+  const canReview = REVIEWABLE_ORDER_STATUSES.has(String(order.status));
 
   // No seller grouping: this is a single-merchant storefront. Every line on an
   // order comes from us.
@@ -94,8 +105,18 @@ export function OrderDetailsClient({ order, backUrl = "/profile/orders/active", 
                       {item.quantity} × {taka(item.unitPriceBdt)}
                     </div>
                   </div>
-                  <div className="text-[13px] font-bold text-[#333333] dark:text-white whitespace-nowrap">
-                    {taka(item.lineTotalBdt)}
+                  <div className="flex flex-col items-end gap-1">
+                    <div className="text-[13px] font-bold text-[#333333] dark:text-white whitespace-nowrap">
+                      {taka(item.lineTotalBdt)}
+                    </div>
+                    {canReview && (
+                      <Link
+                        href={`/products/${item.productId}?tab=reviews`}
+                        className="text-[12px] font-bold text-[#4A85F6] hover:underline whitespace-nowrap"
+                      >
+                        Write a review
+                      </Link>
+                    )}
                   </div>
                 </div>
               ))}

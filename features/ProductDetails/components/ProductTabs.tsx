@@ -1,20 +1,33 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Product, ProductCardData } from "@/schemas/product";
 import { ProductCard } from "@/components/common/ProductCard";
+import { ProductReviews } from "./ProductReviews";
 
 interface ProductTabsProps {
   product: Product;
   similarProducts: ProductCardData[];
 }
 
-type TabType = "Similar product" | "Specifications" | "Description";
+type TabType = "Similar product" | "Specifications" | "Description" | "Reviews";
 
 export const ProductTabs = ({ product, similarProducts }: ProductTabsProps) => {
   const [activeTab, setActiveTab] = useState<TabType>("Similar product");
 
-  const tabs: TabType[] = ["Similar product", "Specifications", "Description"];
+  const tabs: TabType[] = ["Similar product", "Specifications", "Description", "Reviews"];
+
+  /*
+   * `?tab=reviews` opens this tab directly — that is the target of the "write a
+   * review" link on an order. Read from `window.location` in an effect rather
+   * than with `useSearchParams`, which would force the whole PDP out of static
+   * rendering unless it were wrapped in a Suspense boundary.
+   */
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("tab") === "reviews") {
+      setActiveTab("Reviews");
+    }
+  }, []);
 
   return (
     <div className="mt-16 border-t border-gray-200 dark:border-gray-800 pt-10">
@@ -98,6 +111,8 @@ export const ProductTabs = ({ product, similarProducts }: ProductTabsProps) => {
             )}
           </div>
         )}
+
+        {activeTab === "Reviews" && <ProductReviews productId={product.id} />}
 
       </div>
     </div>

@@ -3,6 +3,7 @@
 import { Order } from "@/types/order";
 import { orders as ordersUrls } from "@/lib/api/apiUrls";
 import { api } from "@/lib/api/axios";
+import { clearPendingOrder, writePendingOrder } from "@/lib/pending-order";
 
 /**
  * Orders belong to the session — there is no user id in any path here.
@@ -68,7 +69,22 @@ export async function createOrder(input: {
   try {
     // Snake-cased to address_id / payment_method by the request interceptor.
     const res = await api.post(ordersUrls.create, input);
-    return { ok: true, data: res.data?.data };
+    const data = res.data?.data;
+
+    /*
+     * An online payment sends the shopper off to SSLCommerz, which returns
+     * them to a fixed URL carrying no order reference we can trust. Remember
+     * which order they went to pay for, so the page that greets them on the
+     * way back can report on the real one. COD never leaves the site, so it
+     * clears any stale value instead.
+     */
+    if (data?.gatewayRedirectUrl && data?.order?.id) {
+      await writePendingOrder(String(data.order.id));
+    } else {
+      await clearPendingOrder();
+    }
+
+    return { ok: true, data };
   } catch (error) {
     const response = (error as { response?: { data?: { message?: string } } }).response;
     console.error("Error creating order:", error);
