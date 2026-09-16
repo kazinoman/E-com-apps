@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter, DM_Sans } from "next/font/google";
+import { Geist, Geist_Mono, Inter, DM_Sans, Noto_Sans_Bengali } from "next/font/google";
 import "./globals.css";
 import LayoutWrapper from "@/components/layout/LayoutWrapper.component";
 import { cn } from "@/lib/utils";
@@ -13,6 +13,19 @@ import { ThemeProvider } from "@/contexts/ThemeProvider";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-dm-sans", weight: ["400", "500", "600", "700"] });
+
+// Every price on this storefront is a Taka sign, and U+09F3 is in the Bengali
+// block — no Latin face carries it. DM Sans, Geist and Inter are all
+// latin-subset, so `৳7,020` fell through to whatever the OS happened to have:
+// a mismatched weight on macOS, Nirmala UI on Windows, and a tofu box on a
+// machine with no Bengali font at all.
+//
+// This sits *after* the Latin face in every font stack below, not before.
+// Font fallback is per-glyph: Latin digits and letters still come from DM Sans,
+// and only ৳ resolves here. Google serves this face with a Bengali
+// unicode-range, so the file is fetched only by a page that actually renders
+// one of those code points.
+const notoBengali = Noto_Sans_Bengali({ subsets: ["bengali"], variable: "--font-bengali" });
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -53,7 +66,7 @@ export default async function RootLayout({
     <html
       suppressHydrationWarning
       lang="en"
-      className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable, dmSans.variable)}
+      className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable, dmSans.variable, notoBengali.variable)}
     >
       <body className="min-h-full flex flex-col">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
