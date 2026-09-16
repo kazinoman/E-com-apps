@@ -3,8 +3,9 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Star, Heart } from "lucide-react";
+import { Star, Heart, Package } from "lucide-react";
 import { useWishlist } from "@/contexts/WishlistContext";
+import { CompareButton } from "@/components/common/CompareButton";
 import { cn } from "@/lib/utils";
 import { categoryLabel, type ProductCardData } from "@/schemas/product";
 
@@ -13,6 +14,11 @@ import { categoryLabel, type ProductCardData } from "@/schemas/product";
  * by the client's explicit decision. A strike price requires a real merchant
  * markdown; New means catalog-added within 30 days; unknown stock has no badge.
  * Shipping days are passed from public checkout terms, never a guessed range.
+ *
+ * MOQ badge and card-level CompareButton restored per client's reversal.
+ * Top-left corner: vertical stack (status badge, MOQ pill) with consistent gap.
+ * Top-right corner: unified action toolbar (wishlist + compare) sharing one
+ * rounded surface with a divider — avoids two separate floating circles.
  */
 export type ProductCardProps = ProductCardData & { shippingTime?: string | null };
 
@@ -24,6 +30,7 @@ export function ProductCard({
   category,
   salesCount,
   ratingAvg,
+  moq,
   originalPriceBdt,
   isNew,
   inStock,
@@ -53,6 +60,8 @@ export function ProductCard({
     : badge === "Out of stock" ? "text-[#FF5C5C] border-[#FF5C5C]"
     : "text-[#333333] border-[#333333] dark:text-gray-200 dark:border-gray-200";
 
+  const hasMoq = moq != null && moq > 1;
+
   return (
     <Link
       href={`/products/${id}`}
@@ -60,29 +69,53 @@ export function ProductCard({
     >
       {/* Image Container */}
       <div className="relative w-full aspect-[4/4.5] bg-[#F6F6F9] dark:bg-zinc-800 rounded-xl flex items-center justify-center p-6 overflow-hidden">
-        {/* Wishlist Button — shown signed out too: the backend keeps a guest
-            wishlist against `wishlist_token` and merges it on login. */}
-        <button
-          onClick={handleWishlistClick}
-          aria-label={isWished ? "Remove from wishlist" : "Add to wishlist"}
+
+        {/* ── Top-left: status badge + MOQ pill as a neat vertical stack ── */}
+        {(badge || hasMoq) && (
+          <div className="absolute top-2.5 left-2.5 flex flex-col gap-1.5 z-10">
+            {badge && (
+              <div className={`px-2 py-0.5 text-[11px] font-semibold leading-tight border rounded bg-white dark:bg-zinc-900 ${badgeStyle}`}>
+                {badge}
+              </div>
+            )}
+            {hasMoq && (
+              <div className="flex items-center gap-1 px-1.5 py-0.5 text-[10px] font-semibold leading-tight rounded bg-slate-100 dark:bg-zinc-700 text-slate-600 dark:text-slate-300">
+                <Package className="w-3 h-3 shrink-0" />
+                MOQ&nbsp;{moq}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ── Top-right: unified action toolbar (wishlist + compare) ── */}
+        <div
           className={cn(
-            "absolute top-3 right-3 p-1.5 rounded-full bg-white dark:bg-zinc-900 shadow-sm z-20 transition-all duration-300",
+            "absolute top-2.5 right-2.5 flex flex-col items-center rounded-full bg-white dark:bg-zinc-900 shadow-sm z-20 transition-opacity duration-300",
             isWished ? "opacity-100" : "opacity-100 lg:opacity-0 lg:group-hover:opacity-100"
           )}
         >
-          <Heart
-            className={cn(
-              "w-[18px] h-[18px]",
-              isWished ? "fill-[#FF4D4F] text-[#FF4D4F]" : "text-gray-400 hover:text-[#FF4D4F]"
-            )}
+          <button
+            onClick={handleWishlistClick}
+            aria-label={isWished ? "Remove from wishlist" : "Add to wishlist"}
+            className="p-1.5 rounded-full transition-colors hover:bg-gray-100 dark:hover:bg-zinc-800"
+          >
+            <Heart
+              className={cn(
+                "w-[17px] h-[17px] transition-colors",
+                isWished ? "fill-[#FF4D4F] text-[#FF4D4F]" : "text-gray-400 hover:text-[#FF4D4F]"
+              )}
+            />
+          </button>
+          <div className="w-4 h-px bg-gray-200 dark:bg-zinc-700" />
+          {/* No text-color utility here: CompareButton owns its own
+              active/inactive color, and `cn()` (twMerge) would let a color
+              class passed in here silently win over it, hiding the "already
+              in comparison" state. */}
+          <CompareButton
+            productId={id}
+            className="p-1.5 rounded-full transition-colors hover:bg-gray-100 dark:hover:bg-zinc-800"
           />
-        </button>
-
-        {badge && (
-          <div className={`absolute top-3 left-3 px-2 py-0.5 text-[12px] font-medium border rounded bg-white dark:bg-zinc-900 z-10 ${badgeStyle}`}>
-            {badge}
-          </div>
-        )}
+        </div>
 
         <div className="relative w-full h-full transform group-hover:scale-105 transition-transform duration-500">
           {imageUrl && (
@@ -98,38 +131,38 @@ export function ProductCard({
       </div>
 
       {/* Content Container */}
-      <div className="px-2 pt-4 pb-2 flex flex-col flex-grow justify-between gap-1">
+      <div className="px-2 pt-3.5 pb-2 flex flex-col flex-grow justify-between gap-1">
         <div className="space-y-1">
           {label && (
-            <span className="text-[13px] text-[#999999] dark:text-gray-400 font-medium">{label}</span>
+            <span className="text-[12px] text-[#999999] dark:text-gray-400 font-medium tracking-wide uppercase">{label}</span>
           )}
-          <h3 className="font-semibold text-[15px] leading-snug text-[#333333] dark:text-gray-100 line-clamp-2 min-h-[42px]">
+          <h3 className="font-semibold text-[14px] leading-snug text-[#333333] dark:text-gray-100 line-clamp-2 min-h-[40px]">
             {title}
           </h3>
         </div>
 
-        <div className="flex items-center gap-2 mt-1">
-          <div className="flex items-center gap-1 text-[13px] font-semibold text-[#555555] dark:text-gray-300">
-            {ratingAvg ?? 0} <Star className="w-3.5 h-3.5 fill-[#FFB800] text-[#FFB800]" />
+        <div className="flex items-center gap-2 mt-0.5">
+          <div className="flex items-center gap-1 text-[12px] font-semibold text-[#555555] dark:text-gray-300">
+            {ratingAvg ?? 0} <Star className="w-3 h-3 fill-[#FFB800] text-[#FFB800]" />
           </div>
-          <span className="text-[12px] text-[#999999] border-l border-[#EAE4E3] dark:border-zinc-700 pl-2">
+          <span className="text-[11px] text-[#999999] border-l border-[#EAE4E3] dark:border-zinc-700 pl-2">
             {sold}
           </span>
         </div>
 
         {shippingTime && (
-          <div className="text-[11px] font-medium text-[#00C566] bg-[#00C566]/10 px-1.5 py-0.5 rounded w-fit mt-1">
+          <div className="text-[10px] font-semibold text-[#00C566] bg-[#00C566]/10 px-1.5 py-0.5 rounded w-fit mt-0.5 tracking-wide">
             {shippingTime}
           </div>
         )}
 
         <div className="flex items-center justify-between mt-2">
-          <div className="flex items-center gap-2">
-            <div className="font-bold text-[18px] text-[#333333] dark:text-gray-100">
+          <div className="flex items-baseline gap-2">
+            <div className="font-extrabold text-xl leading-none text-[#333333] dark:text-gray-50 tracking-tight">
               ৳{price.bdt.toLocaleString("en-BD")}
             </div>
             {originalPrice !== null && (
-              <span className="text-[13px] text-[#999999] dark:text-gray-500 line-through font-medium">
+              <span className="text-[12px] text-[#AAAAAA] dark:text-gray-500 line-through font-medium">
                 ৳{originalPrice.toLocaleString("en-BD")}
               </span>
             )}
