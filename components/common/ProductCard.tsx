@@ -70,16 +70,22 @@ export function ProductCard({
       {/* Image Container */}
       <div className="relative w-full aspect-[4/4.5] bg-[#F6F6F9] dark:bg-zinc-800 rounded-xl flex items-center justify-center p-6 overflow-hidden">
 
+        {/* Scrim behind both corners: a busy or dark product photo (this
+            catalog has plenty) can otherwise sit right under a badge or icon
+            with no separation. Fixed height, not tied to badge/toolbar
+            presence, so it never pops in/out as content changes. */}
+        <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/25 to-transparent z-[5] pointer-events-none" />
+
         {/* ── Top-left: status badge + MOQ pill as a neat vertical stack ── */}
         {(badge || hasMoq) && (
           <div className="absolute top-2.5 left-2.5 flex flex-col gap-1.5 z-10">
             {badge && (
-              <div className={`px-2 py-0.5 text-[11px] font-semibold leading-tight border rounded bg-white dark:bg-zinc-900 ${badgeStyle}`}>
+              <div className={`px-2 py-0.5 text-[11px] font-semibold leading-tight border rounded bg-white dark:bg-zinc-900 shadow-sm ${badgeStyle}`}>
                 {badge}
               </div>
             )}
             {hasMoq && (
-              <div className="flex items-center gap-1 px-1.5 py-0.5 text-[10px] font-semibold leading-tight rounded bg-slate-100 dark:bg-zinc-700 text-slate-600 dark:text-slate-300">
+              <div className="flex items-center gap-1 px-1.5 py-0.5 text-[10px] font-semibold leading-tight rounded bg-slate-100 dark:bg-zinc-700 text-slate-600 dark:text-slate-300 shadow-sm">
                 <Package className="w-3 h-3 shrink-0" />
                 MOQ&nbsp;{moq}
               </div>
@@ -87,13 +93,11 @@ export function ProductCard({
           </div>
         )}
 
-        {/* ── Top-right: unified action toolbar (wishlist + compare) ── */}
-        <div
-          className={cn(
-            "absolute top-2.5 right-2.5 flex flex-col items-center rounded-full bg-white dark:bg-zinc-900 shadow-sm z-20 transition-opacity duration-300",
-            isWished ? "opacity-100" : "opacity-100 lg:opacity-0 lg:group-hover:opacity-100"
-          )}
-        >
+        {/* ── Top-right: unified action toolbar (wishlist + compare) ──
+             Always visible, not hover-only: on the previous hover-reveal
+             pattern every card but the one under the cursor showed an empty
+             corner, which read as broken rather than as an affordance. */}
+        <div className="absolute top-2.5 right-2.5 flex flex-col items-center rounded-full bg-white dark:bg-zinc-900 shadow-sm z-10">
           <button
             onClick={handleWishlistClick}
             aria-label={isWished ? "Remove from wishlist" : "Add to wishlist"}
