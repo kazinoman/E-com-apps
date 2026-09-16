@@ -10,7 +10,9 @@ export async function generateMetadata(): Promise<Metadata> {
 
   const allProducts = sections.flatMap((section) => section.products);
   const uniqueTitles = Array.from(new Set(allProducts.map((p) => p.title)));
-  const uniqueCategories = Array.from(new Set(allProducts.map((p) => p.category)));
+  const uniqueCategories = Array.from(
+    new Set(allProducts.map((p) => p.category).filter((c): c is string => c !== null)),
+  );
 
   return {
     title: "Zaag - Premium E-commerce Store",
@@ -40,28 +42,31 @@ export default async function Home() {
       "@type": "ListItem",
       "position": index + 1,
       "url": `https://zaag.com/product/${product.id}`,
+      // Only facts the catalog actually holds. No brand (there is none on a
+      // card) and no aggregateRating unless the product has real reviews —
+      // Google penalises invented review markup, and it would be invented.
       "item": {
         "@type": "Product",
         "name": product.title,
-        "image": product.image,
-        "category": product.category,
-        "brand": {
-          "@type": "Brand",
-          "name": product.brand
-        },
+        "image": product.imageUrl ?? undefined,
+        "category": product.category ?? undefined,
         "offers": {
           "@type": "Offer",
-          "price": product.price,
+          "price": product.price.bdt,
           "priceCurrency": "BDT",
-          "availability": product.badge === "Out of stock" ? "https://schema.org/OutOfStock" : "https://schema.org/InStock"
+          "availability": "https://schema.org/InStock"
         },
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": product.rating,
-          "bestRating": "5",
-          "worstRating": "1",
-          "ratingCount": 1
-        }
+        ...(product.ratingAvg !== null && product.ratingCount
+          ? {
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": product.ratingAvg,
+                "bestRating": "5",
+                "worstRating": "1",
+                "ratingCount": product.ratingCount
+              }
+            }
+          : {})
       }
     }))
   };

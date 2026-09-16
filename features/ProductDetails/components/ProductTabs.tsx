@@ -1,20 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import { Product } from "@/schemas/product";
+import type { Product, ProductCardData } from "@/schemas/product";
 import { ProductCard } from "@/components/common/ProductCard";
 
 interface ProductTabsProps {
   product: Product;
-  similarProducts: any[];
+  similarProducts: ProductCardData[];
 }
 
-type TabType = "Similar product" | "Specifications" | "Package Info";
+type TabType = "Similar product" | "Specifications" | "Description";
 
 export const ProductTabs = ({ product, similarProducts }: ProductTabsProps) => {
   const [activeTab, setActiveTab] = useState<TabType>("Similar product");
 
-  const tabs: TabType[] = ["Similar product", "Specifications", "Package Info"];
+  const tabs: TabType[] = ["Similar product", "Specifications", "Description"];
 
   return (
     <div className="mt-16 border-t border-gray-200 dark:border-gray-800 pt-10">
@@ -57,21 +57,21 @@ export const ProductTabs = ({ product, similarProducts }: ProductTabsProps) => {
         {activeTab === "Specifications" && (
           <div className="w-full">
             <h3 className="text-lg font-semibold mb-6 dark:text-gray-100">Specifications</h3>
-            {product.specifications && product.specifications.length > 0 ? (
+            {/* `attributes` is an opaque upstream key→value bag, preserved
+                verbatim through the API. Rendered as given; never parsed. */}
+            {Object.keys(product.attributes ?? {}).length > 0 ? (
               <div className="border border-gray-200 dark:border-gray-700 rounded-md overflow-hidden bg-white dark:bg-gray-900">
-                <div className="grid grid-cols-2 md:grid-cols-6 bg-gray-200 dark:bg-gray-700 gap-[1px]">
-                  {product.specifications.map((spec, index) => {
-                    return (
-                      <div key={index} className="contents">
-                        <div className="p-4 bg-gray-50/50 dark:bg-gray-800/80 text-gray-600 dark:text-gray-300 text-sm font-medium flex items-center">
-                          {spec.label}
-                        </div>
-                        <div className="p-4 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 text-sm flex items-center">
-                          {spec.value}
-                        </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 bg-gray-200 dark:bg-gray-700 gap-[1px]">
+                  {Object.entries(product.attributes).map(([label, value]) => (
+                    <div key={label} className="contents">
+                      <div className="p-4 bg-gray-50/50 dark:bg-gray-800/80 text-gray-600 dark:text-gray-300 text-sm font-medium flex items-center">
+                        {label}
                       </div>
-                    );
-                  })}
+                      <div className="p-4 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 text-sm flex items-center">
+                        {value}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             ) : (
@@ -80,24 +80,25 @@ export const ProductTabs = ({ product, similarProducts }: ProductTabsProps) => {
           </div>
         )}
 
-        {activeTab === "Package Info" && (
-          <div className="w-full max-w-4xl mx-auto space-y-6">
-            {product.description?.images && product.description.images.length > 0 ? (
-              product.description.images.map((img, i) => (
-                <img
-                  key={i}
-                  src={img}
-                  alt={`${product.title} package info ${i + 1}`}
-                  className="w-full rounded-xl shadow-sm object-cover"
-                />
-              ))
+        {activeTab === "Description" && (
+          <div className="w-full max-w-4xl mx-auto">
+            {/* `descriptionHtml` is null for most of the catalog — the source
+                listings carry no prose at all. Say so rather than showing an
+                empty panel. */}
+            {product.descriptionHtml ? (
+              <div
+                className="prose dark:prose-invert max-w-none"
+                dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
+              />
             ) : (
               <p className="text-gray-500 dark:text-gray-400 text-center py-10">
-                No package images available.
+                This product has no description. The specifications tab lists everything the
+                supplier published.
               </p>
             )}
           </div>
         )}
+
       </div>
     </div>
   );

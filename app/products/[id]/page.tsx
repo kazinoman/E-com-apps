@@ -4,14 +4,16 @@ import { notFound } from "next/navigation";
 
 export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const productResponse = await getProductById(id);
 
-  if (!productResponse || !productResponse.success || !productResponse.data) {
-    notFound();
-  }
+  // `getProductById` already unwraps the response envelope and answers null on
+  // a 404, so there is no `success` flag to check here. Checking for one is
+  // what made every real catalog id 404 on this route.
+  const product = await getProductById(id);
+  if (!product) notFound();
 
-  const product = productResponse.data;
-  const similarProducts = await getSimilarProducts(product.category, 20);
+  const similarProducts = product.category
+    ? await getSimilarProducts(product.category, 20)
+    : [];
 
   return (
     <main className="min-h-screen bg-white dark:bg-gray-950">
