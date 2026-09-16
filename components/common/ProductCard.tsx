@@ -1,10 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Star, Heart, Package } from "lucide-react";
+import { Star, Heart, Package, ShoppingCart, Loader2 } from "lucide-react";
 import { useWishlist } from "@/contexts/WishlistContext";
+import { useCart } from "@/contexts/CartContext";
 import { CompareButton } from "@/components/common/CompareButton";
 import { cn } from "@/lib/utils";
 import { categoryLabel, type ProductCardData } from "@/schemas/product";
@@ -19,6 +20,12 @@ import { categoryLabel, type ProductCardData } from "@/schemas/product";
  * Top-left corner: vertical stack (status badge, MOQ pill) with consistent gap.
  * Top-right corner: unified action toolbar (wishlist + compare) sharing one
  * rounded surface with a divider — avoids two separate floating circles.
+ *
+ * Add-to-cart lives on the card too, next to the price: no SKU is picked
+ * here (that choice belongs on the product page), so it adds the product's
+ * own base price/base image at its real MOQ, exactly what
+ * `CartService.resolveProduct` does for a null SKU. Disabled when the
+ * catalog's own stock signal says `inStock === false`.
  */
 export type ProductCardProps = ProductCardData & { shippingTime?: string | null };
 
@@ -37,11 +44,25 @@ export function ProductCard({
   shippingTime,
 }: ProductCardProps) {
   const { isInWishlist, toggleWishlist } = useWishlist();
+  const { addToCart } = useCart();
   const isWished = isInWishlist(id);
+  const [isAdding, setIsAdding] = useState(false);
 
   const handleWishlistClick = (e: React.MouseEvent) => {
     e.preventDefault();
     toggleWishlist(id);
+  };
+
+  // No SKU picked here — a variant choice belongs on the product page, not a
+  // grid card. The backend resolves that to the product's own base price
+  // (see CartService.resolveProduct), never a guess. Floor at the real MOQ,
+  // same number the badge above already shows, never a hardcoded 1.
+  const handleAddToCart = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (isAdding || inStock === false) return;
+    setIsAdding(true);
+    await addToCart(id, moq && moq > 1 ? moq : 1, null);
+    setIsAdding(false);
   };
 
   const formatSold = (value: number | null) => {
@@ -160,7 +181,7 @@ export function ProductCard({
           </div>
         )}
 
-        <div className="flex items-center justify-between mt-2">
+        <div className="flex items-end justify-between mt-2">
           <div className="flex items-baseline gap-2">
             <div className="font-extrabold text-xl leading-none text-[#333333] dark:text-gray-50 tracking-tight">
               ৳{price.bdt.toLocaleString("en-BD")}
@@ -171,6 +192,20 @@ export function ProductCard({
               </span>
             )}
           </div>
+
+          <button
+            onClick={handleAddToCart}
+            disabled={isAdding || inStock === false}
+            aria-label={inStock === false ? "Out of stock" : "Add to cart"}
+            title={inStock === false ? "Out of stock" : "Add to cart"}
+            className="flex items-center justify-center w-9 h-9 shrink-0 rounded-full bg-slate-800 text-white transition-colors hover:bg-slate-700 disabled:bg-gray-200 disabled:text-gray-400 dark:bg-white dark:text-slate-900 dark:hover:bg-gray-200 dark:disabled:bg-zinc-700 dark:disabled:text-zinc-500"
+          >
+            {isAdding ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <ShoppingCart className="w-4 h-4" />
+            )}
+          </button>
         </div>
       </div>
     </Link>
