@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Star, Heart } from "lucide-react";
 import { useWishlist } from "@/contexts/WishlistContext";
+import { CompareButton } from "@/components/common/CompareButton";
 import { cn } from "@/lib/utils";
 import { categoryLabel, type ProductCardData } from "@/schemas/product";
 
@@ -73,6 +74,14 @@ export function ProductCard({
             )}
           />
         </button>
+
+        <CompareButton
+          productId={id}
+          className={cn(
+            "absolute top-[3.25rem] right-3 p-1.5 rounded-full bg-white dark:bg-zinc-900 shadow-sm z-20 transition-all duration-300",
+            "opacity-100 lg:opacity-0 lg:group-hover:opacity-100",
+          )}
+        />
 
         {moq && moq > 1 && (
           <div className="absolute top-3 left-3 px-2 py-0.5 text-[12px] font-medium border rounded bg-white dark:bg-zinc-900 z-10 text-[#333333] border-[#333333] dark:text-gray-200 dark:border-gray-200">

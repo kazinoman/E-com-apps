@@ -14,7 +14,19 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
   const hideLayout = pathname.includes("login") || pathname.includes("signup");
   const isHomePage = pathname === "/";
   const isAuthPage = pathname.includes("login") || pathname.includes("signup");
-  const showBreadcrumb = !isHomePage && !isAuthPage;
+  /**
+   * The catalog-browsing routes build their own breadcrumb from real data and
+   * opt out of the path-derived one below, which cannot do better than
+   * title-casing URL segments. On those routes it was actively wrong:
+   * `/vendor/BBB5pGRqM8jKpfDH4Dn02mPRg` rendered the opaque supplier id as a
+   * crumb, and `/category/bags` linked a "Category" crumb at `/category`,
+   * which is not a page.
+   */
+  const ownsBreadcrumb = [/^\/categories/, /^\/category\//, /^\/brands/, /^\/vendor\//].some(
+    (route) => route.test(pathname),
+  );
+
+  const showBreadcrumb = !isHomePage && !isAuthPage && !ownsBreadcrumb;
 
   const breadcrumbRoutes = (() => {
     if (isHomePage) return [];

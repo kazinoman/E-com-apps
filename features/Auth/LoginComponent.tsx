@@ -81,7 +81,7 @@ const LoginComponent = () => {
             <div className="flex justify-between items-center ml-1 mb-1.5">
               <label className="text-xs font-semibold text-gray-700">Password</label>
               <Link
-                href="/forget-password"
+                href="/forgot-password"
                 className="text-xs font-semibold text-primary hover:text-primary-hover hover:underline transition-all"
               >
                 Forgot Password?

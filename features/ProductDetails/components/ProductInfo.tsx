@@ -5,6 +5,7 @@ import { tierPriceFor, type Product, type Sku } from "@/schemas/product";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
+import { CompareButton } from "@/components/common/CompareButton";
 import { Star, Minus, Plus, Heart } from "lucide-react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -233,6 +234,11 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect }: 
         >
           {outOfStock ? "Out of stock" : needsChoice ? "Choose an option" : "Add to cart"}
         </Button>
+        <CompareButton
+          productId={product.id}
+          withLabel
+          className="h-12 px-4 rounded-lg border border-slate-300 dark:border-gray-700"
+        />
         <Button
           variant="outline"
           size="icon"

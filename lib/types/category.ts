@@ -22,3 +22,15 @@ export interface CategoryOption {
   label: string;
   children?: { value: string; label: string }[];
 }
+
+/**
+ * `GET /categories/:slug`. `ancestors` is the backend's breadcrumb trail and is
+ * an empty array at the top level. There are no children on this shape — the
+ * two-level tree comes from the flat `GET /categories` list instead.
+ */
+export interface CategoryDetail {
+  slug: string;
+  name: string;
+  parentSlug: string | null;
+  ancestors: { slug: string; name: string }[];
+}

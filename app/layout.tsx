@@ -7,6 +7,7 @@ import { ContextWrapper } from "@/contexts/ContextWrapper";
 import { getCurrentUser } from "@/lib/auth-server";
 import { fetchCart } from "@/services/cart.service";
 import { fetchWishlist } from "@/services/wishlist.service";
+import { fetchCompare } from "@/services/compare.service";
 import { ThemeProvider } from "@/contexts/ThemeProvider";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -37,10 +38,11 @@ export default async function RootLayout({
   // is signed in. The client never bootstraps auth for itself.
   // The cart and the wishlist are server state too — resolved from the session
   // or their own guest cookies, never from localStorage.
-  const [user, cart, wishlistView] = await Promise.all([
+  const [user, cart, wishlistView, compareView] = await Promise.all([
     getCurrentUser(),
     fetchCart(),
     fetchWishlist(),
+    fetchCompare(),
   ]);
 
   return (
@@ -55,7 +57,7 @@ export default async function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <ContextWrapper initialUser={user} initialCart={cart} initialWishlist={wishlistView}>
+          <ContextWrapper initialUser={user} initialCart={cart} initialWishlist={wishlistView} initialCompare={compareView}>
             <LayoutWrapper>{children}</LayoutWrapper>
           </ContextWrapper>
         </ThemeProvider>
