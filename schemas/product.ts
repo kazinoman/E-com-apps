@@ -10,9 +10,8 @@
  *   round either on the client.
  * - **Rating and vendor may be absent.** `ratingAvg` is null for virtually the
  *   whole catalog, because nobody has reviewed a freshly imported product.
- *   Render nothing when it is null. A default of 0, 4.5 or "no reviews yet
- *   ★★★★★" is a fabricated rating, which is the same class of lie as the
- *   invented strikethrough price deleted in v2-4.
+ *   Cards explicitly display 0 when absent, per the client's homepage brief.
+ *   Keep null in the data so structured review markup only uses real reviews.
  */
 
 export interface Money {
@@ -119,6 +118,10 @@ export function primaryImage(product: Product): string | null {
  * array, no SKUs, no attributes.
  */
 export interface ProductCardData {
+  /** Present on product listings; absent on older APIs and saved-item summaries. */
+  originalPriceBdt?: number | null;
+  isNew?: boolean;
+  inStock?: boolean | null;
   id: string;
   remoteId?: string;
   title: string;

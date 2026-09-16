@@ -5,6 +5,8 @@ import { ProductCard } from "@/components/common/ProductCard";
 import { Container } from "@/components/common/Container";
 import { fetchHomeSections, fetchSliderImages } from "@/services/home.service";
 
+import { fetchCheckoutTerms } from "@/services/checkout-terms.service";
+
 export async function generateMetadata(): Promise<Metadata> {
   const sections = await fetchHomeSections();
 
@@ -27,10 +29,16 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Home() {
-  const [sections, sliderImages] = await Promise.all([
+  const [sections, sliderImages, terms] = await Promise.all([
     fetchHomeSections(),
-    fetchSliderImages()
+    fetchSliderImages(),
+    fetchCheckoutTerms()
   ]);
+
+  const { shippingDaysMin: min, shippingDaysMax: max } = terms;
+  const shippingTime = typeof min === "number" && typeof max === "number"
+    && Number.isInteger(min) && Number.isInteger(max) && min >= 0 && max >= min
+    ? `CN to BD ${min === max ? min : `${min}-${max}`} days` : null;
 
   const allProducts = sections.flatMap((section) => section.products);
   const uniqueProducts = Array.from(new Map(allProducts.map(p => [p.id, p])).values());
@@ -54,7 +62,9 @@ export default async function Home() {
           "@type": "Offer",
           "price": product.price.bdt,
           "priceCurrency": "BDT",
-          "availability": "https://schema.org/InStock"
+          ...(product.inStock != null ? {
+            "availability": product.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+          } : {})
         },
         ...(product.ratingAvg !== null && product.ratingCount
           ? {
@@ -88,7 +98,7 @@ export default async function Home() {
             section.products.length > 0 && (
               <SectionSlider key={section.id} title={section.title}>
                 {section.products.map((item) => (
-                  <ProductCard key={item.id} {...item} />
+                  <ProductCard key={item.id} {...item} shippingTime={shippingTime} />
                 ))}
               </SectionSlider>
             )

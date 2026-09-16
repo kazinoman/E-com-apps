@@ -12,53 +12,36 @@ export interface HomeSection {
   products: ProductCardProps[];
 }
 
-/**
- * Merchant-curated homepage rails and the hero slider have no backend yet
- * (HYDRA 3e1d1569). Until they do, the hero stays empty and the page renders
- * without it — calling the mock's `/home/*` against the real API only 404s.
- *
- * The rails themselves don't have to be empty, though: `GET
- * /products?featured=true` is the merchant's hand-picked rail, and nobody has
- * curated one yet (2026-09-16: zero products marked featured across all
- * 48,015), so that call always answers `[]`. Falling back to `sort=popular`
- * means the homepage shows the catalog's real best-sellers instead of a blank
- * page until curation exists — real data, just not merchant-picked, and
- * labelled accordingly rather than passed off as "Featured".
- */
+/** The reference rail order, backed by real catalog queries. See HOMEPAGE-PARITY.md. */
+const HOME_RAILS = [
+  { id: "best-selling", title: "Best Selling", params: { sort: "popular" } },
+  { id: "trending-products", title: "Trending Products", params: { sort: "popular", page: 2 } },
+  { id: "electronics", title: "Top Electronics", params: { category: "gadgets", sort: "popular" } },
+  { id: "fashion", title: "Latest Fashion", params: { category: "women-wear", sort: "newest" } },
+  { id: "bags", title: "Premium Bags", params: { category: "bags", sort: "price_desc" } },
+  { id: "you-may-also-like", title: "You May Also Like", params: { sort: "newest" } },
+] as const;
 
-export async function fetchFeaturedProducts(limit = 12): Promise<ProductCardProps[]> {
+async function fetchProducts(params: Record<string, string | number>): Promise<ProductCardProps[]> {
   try {
-    const res = await api.get(productsUrls.list, {
-      params: { featured: "true", pageSize: limit },
-    });
+    const res = await api.get(productsUrls.list, { params });
     return res.data?.data?.items ?? [];
   } catch (error) {
-    console.error("Error fetching featured products:", error);
+    console.error("Error fetching homepage products:", params, error);
     return [];
   }
 }
 
-async function fetchPopularProducts(limit = 12): Promise<ProductCardProps[]> {
-  try {
-    const res = await api.get(productsUrls.list, {
-      params: { sort: "popular", pageSize: limit },
-    });
-    return res.data?.data?.items ?? [];
-  } catch (error) {
-    console.error("Error fetching popular products:", error);
-    return [];
-  }
+export async function fetchFeaturedProducts(limit = 12): Promise<ProductCardProps[]> {
+  return fetchProducts({ featured: "true", pageSize: limit });
 }
 
 export async function fetchHomeSections(): Promise<HomeSection[]> {
-  const featured = await fetchFeaturedProducts(12);
-  if (featured.length > 0) {
-    return [{ id: "featured", title: "Featured", products: featured }];
-  }
-
-  const popular = await fetchPopularProducts(12);
-  if (popular.length === 0) return [];
-  return [{ id: "popular", title: "Popular right now", products: popular }];
+  return Promise.all(HOME_RAILS.map(async ({ id, title, params }) => ({
+    id,
+    title,
+    products: await fetchProducts({ pageSize: 8, ...params }),
+  })));
 }
 
 export async function fetchSliderImages(): Promise<SlideData[]> {

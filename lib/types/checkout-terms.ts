@@ -5,6 +5,8 @@
  * the product page to show the shipping info block; never hardcoded.
  */
 export interface CheckoutTerms {
+  shippingDaysMin: number | null;
+  shippingDaysMax: number | null;
   advancePct: number;
   minOrderBdt: number;
   sea: {
