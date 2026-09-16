@@ -32,6 +32,11 @@ export const search = {
 
 export const profile = {
   me: "/me",
+  password: "/me/password",
+  email: {
+    request: "/me/email/request",
+    confirm: "/me/email/confirm",
+  },
   /*
    * Two steps, not three: `request` sends a code to the NEW number, `confirm`
    * takes that code plus the account password. There is no endpoint that
@@ -49,6 +54,25 @@ export const profile = {
     remove: (id: string) => `/me/addresses/${id}`,
     makeDefault: (id: string) => `/me/addresses/${id}/default`,
   },
+};
+
+export const brands = {
+  list: "/brands",
+  detail: (slug: string) => `/brands/${slug}`,
+  products: (slug: string) => `/brands/${slug}/products`,
+};
+
+export const vendors = {
+  detail: (id: string) => `/vendors/${id}`,
+  products: (id: string) => `/vendors/${id}/products`,
+};
+
+/** Session-scoped, like the cart and wishlist. Removal is by product id. */
+export const compare = {
+  get: "/compare",
+  add: "/compare/items",
+  remove: (productId: string) => `/compare/items/${productId}`,
+  clear: "/compare",
 };
 
 export const products = {
@@ -90,6 +114,9 @@ export const cart = {
 export const apiUrls = {
   auth,
   wishlist,
+  brands,
+  vendors,
+  compare,
   search,
   profile,
   products,
