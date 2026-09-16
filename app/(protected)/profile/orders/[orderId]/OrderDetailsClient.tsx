@@ -145,13 +145,27 @@ export function OrderDetailsClient({ order, backUrl = "/profile/orders/active", 
               
               <div className="space-y-3 mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
                 <div className="flex justify-between items-center">
-                  <span className="text-[14px] font-medium text-[#8C93A3]">Sub total</span>
+                  <span className="text-[14px] font-medium text-[#8C93A3]">Goods total</span>
                   <span className="text-[14px] font-bold text-[#8C93A3]">{taka(order.itemsTotalBdt)}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-[14px] font-medium text-[#8C93A3]">Delivery</span>
-                  <span className="text-[14px] font-bold text-[#8C93A3]">{taka(order.shippingBdt)}</span>
+                  <span className="text-[14px] font-medium text-[#8C93A3]">Freight</span>
+                  <span className="text-[14px] font-bold text-[#8C93A3] italic">
+                    {order.reconciliation ? taka(order.reconciliation.freightBdt) : "On delivery"}
+                  </span>
                 </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-[14px] font-medium text-[#8C93A3]">Advance ({order.advancePct}%)</span>
+                  <span className="text-[14px] font-bold text-[#8C93A3]">{taka(order.advanceDueBdt)}</span>
+                </div>
+                {order.reconciliation && (
+                  <div className="flex justify-between items-center">
+                    <span className="text-[14px] font-medium text-[#8C93A3]">Balance due</span>
+                    <span className="text-[14px] font-bold text-amber-600 dark:text-amber-400">
+                      {taka(order.reconciliation.balanceDueBdt)}
+                    </span>
+                  </div>
+                )}
               </div>
 
               <div className="flex justify-between items-center">
@@ -188,9 +202,18 @@ export function OrderDetailsClient({ order, backUrl = "/profile/orders/active", 
               <div>
                 <div className="text-[12px] font-bold text-[#333333] dark:text-white mb-1">Payment method</div>
                 <div className="text-[13px] font-medium text-[#8C93A3]">
-                  {order.paymentMethod === "cod" ? "Cash on delivery" : "Online payment"}
+                  {order.paymentMethod === "cod" ? "Advance payment" : "Online payment"}
                 </div>
               </div>
+
+              {order.shippingMode && (
+                <div>
+                  <div className="text-[12px] font-bold text-[#333333] dark:text-white mb-1">Shipping mode</div>
+                  <div className="text-[13px] font-medium text-[#8C93A3]">
+                    {order.shippingMode === "sea" ? "Sea freight" : "Air freight"}
+                  </div>
+                </div>
+              )}
 
               {order.trackingNumber && (
                 <div>

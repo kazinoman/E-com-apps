@@ -7,6 +7,14 @@
  * boundary, so `unitPriceBdt * quantity === lineTotalBdt` exactly and the
  * client must never re-derive a price of its own.
  */
+
+/** Per-item freight rate supplied by the backend on each cart line. */
+export interface FreightRate {
+  code: string;
+  name: string;
+  bdtPerKg: number;
+}
+
 export interface CartLine {
   /** Server cart_item id — the handle for PATCH/DELETE, not a composite key. */
   id: string;
@@ -27,6 +35,8 @@ export interface CartLine {
   unavailable: boolean;
   /** Set when the live price has drifted from the snapshot — the CART_PRICE_CHANGED warning surface. */
   priceChanged: { previousUnitPriceBdt: number } | null;
+  /** Air freight rate for this item, null when the backend has no rate card for it. */
+  freightRate: FreightRate | null;
 }
 
 export interface CartNotice {
@@ -37,16 +47,26 @@ export interface CartNotice {
 export interface CartView {
   items: CartLine[];
   subtotalBdt: number;
-  shippingBdt: number;
   totalBdt: number;
+  /** Advance percentage set by the merchant — never hardcoded. */
+  advancePct: number;
+  /** The advance the buyer pays at checkout. */
+  advanceDueBdt: number;
+  /** Minimum order value in Taka. */
+  minOrderBdt: number;
+  /** True when the cart total is below the merchant's minimum. */
+  belowMinimum: boolean;
   notice: CartNotice | null;
 }
 
 export const EMPTY_CART: CartView = {
   items: [],
   subtotalBdt: 0,
-  shippingBdt: 0,
   totalBdt: 0,
+  advancePct: 0,
+  advanceDueBdt: 0,
+  minOrderBdt: 0,
+  belowMinimum: false,
   notice: null,
 };
 

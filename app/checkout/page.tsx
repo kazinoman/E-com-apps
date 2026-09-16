@@ -10,16 +10,16 @@ import { toast } from "sonner";
 import { ChevronLeft, Loader2 } from "lucide-react";
 import { createOrder } from "@/services/order.service";
 import { getAddresses } from "@/services/profile.service";
+import { fetchCheckoutTerms } from "@/services/checkout-terms.service";
+import type { CheckoutTerms } from "@/lib/types/checkout-terms";
 
 /**
- * Checkout sends three things and nothing more: which saved address to ship
- * to, how the shopper intends to pay, and an optional note. The server prices
- * the order from the cart it already holds — sending items or totals from here
- * would let the browser name its own price.
+ * Checkout sends the address, payment method, shipping mode, and an optional
+ * note. The server prices the order from the cart it already holds — sending
+ * items or totals from here would let the browser name its own price.
  *
  * There are no card fields. Card details are entered on SSLCommerz's own
- * hosted page after the redirect; a PAN typed into this form would be ours to
- * protect, and we have no business holding one.
+ * hosted page after the redirect.
  */
 
 type Address = {
@@ -45,7 +45,7 @@ function formatAddress(a: Address) {
 }
 
 export default function CheckoutPage() {
-  const { cart, cartTotal, shipping, total, cartItemCount, refresh } = useCart();
+  const { cart, cartTotal, total, advancePct, advanceDueBdt, belowMinimum, minOrderBdt, cartItemCount, refresh } = useCart();
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -53,7 +53,40 @@ export default function CheckoutPage() {
   const [addressesLoading, setAddressesLoading] = useState(true);
   const [addressId, setAddressId] = useState<string | null>(null);
   const [paymentMethod, setPaymentMethod] = useState<"cod" | "sslcommerz">("cod");
+  const [shippingMode, setShippingMode] = useState<"air" | "sea">("air");
   const [orderNote, setOrderNote] = useState("");
+  const [terms, setTerms] = useState<CheckoutTerms | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetchCheckoutTerms().then((t) => {
+      if (!cancelled) setTerms(t);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // Sea is a rep-confirmed quote, not a self-serve rate: disabled store-wide
+  // by default, and below its own (higher) order minimum it can't be picked
+  // at all. Both come from the API, never hardcoded, because the merchant
+  // controls them from admin settings.
+  const seaAvailable = !!terms?.sea.enabled && cartTotal >= (terms?.sea.minOrderBdt ?? Infinity);
+
+  // Falling back to air whenever sea stops being a legal choice — the flag
+  // loads after mount, or the cart total drops below the sea minimum.
+  useEffect(() => {
+    if (shippingMode === "sea" && !seaAvailable) {
+      setShippingMode("air");
+    }
+  }, [shippingMode, seaAvailable]);
+
+  // Sea mode only supports COD (advance collected by merchant).
+  useEffect(() => {
+    if (shippingMode === "sea" && paymentMethod !== "cod") {
+      setPaymentMethod("cod");
+    }
+  }, [shippingMode, paymentMethod]);
 
   useEffect(() => {
     let cancelled = false;
@@ -84,17 +117,36 @@ export default function CheckoutPage() {
       toast.error("Your cart is empty!");
       return;
     }
+    if (belowMinimum) {
+      toast.error(`Minimum order is ${taka(minOrderBdt)}.`);
+      return;
+    }
 
     setIsLoading(true);
     const res = await createOrder({
       addressId,
       paymentMethod,
+      shippingMode,
       notes: orderNote.trim() || undefined,
     });
     setIsLoading(false);
 
     if (!res.ok) {
-      toast.error(res.error ?? "Failed to confirm order.");
+      // Handle specific error codes from the backend
+      const code = (res as { errorCode?: string }).errorCode;
+      if (code === "ORDER_BELOW_MINIMUM") {
+        toast.error(`Minimum order is ${taka(minOrderBdt)}.`);
+      } else if (code === "SEA_DISABLED") {
+        toast.error("Sea shipping is not available at the moment.");
+        setShippingMode("air");
+      } else if (code === "SEA_ORDER_BELOW_MINIMUM") {
+        toast.error("Your order does not meet the minimum for sea shipping.");
+      } else if (code === "SEA_REQUIRES_MANUAL_PAYMENT") {
+        toast.error("Sea orders require advance payment (COD).");
+        setPaymentMethod("cod");
+      } else {
+        toast.error(res.error ?? "Failed to confirm order.");
+      }
       return;
     }
 
@@ -127,7 +179,7 @@ export default function CheckoutPage() {
 
       <Container className="">
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-20">
-          {/* Left Column: Delivery + payment */}
+          {/* Left Column: Delivery + shipping mode + payment */}
           <div className="flex-1 space-y-8">
             <div className="border-b border-gray-100 dark:border-gray-800 pb-2 mb-6">
               <h2 className="text-[15px] font-semibold text-[#8C93A3] text-center">Delivery address</h2>
@@ -183,12 +235,61 @@ export default function CheckoutPage() {
               </div>
             )}
 
+            {/* Shipping mode */}
+            <div className="pt-4">
+              <h3 className="text-[14px] font-medium text-gray-700 dark:text-gray-300 mb-3">Shipping mode</h3>
+              <div className="space-y-3">
+                {([
+                  { id: "air" as const, label: "Air freight", hint: "Faster delivery. Freight billed per kg on arrival.", disabled: false },
+                  ...(terms?.sea.enabled
+                    ? [{
+                        id: "sea" as const,
+                        label: "Sea freight",
+                        hint: seaAvailable
+                          ? "Lower cost for heavy items. Rate confirmed by our team after you order. Longer transit time."
+                          : `Requires a minimum order of ${taka(terms.sea.minOrderBdt)}.`,
+                        disabled: !seaAvailable,
+                      }]
+                    : []),
+                ] as const).map((option) => (
+                  <div
+                    key={option.id}
+                    onClick={() => !option.disabled && setShippingMode(option.id)}
+                    className={`flex items-start gap-3 p-4 rounded-md border transition-colors ${
+                      option.disabled
+                        ? "cursor-not-allowed opacity-50 border-gray-200 bg-gray-50 dark:bg-gray-900"
+                        : "cursor-pointer border-gray-200 bg-white dark:bg-gray-900"
+                    } ${
+                      shippingMode === option.id && !option.disabled
+                        ? "border-gray-800 bg-gray-50 dark:bg-gray-800"
+                        : ""
+                    }`}
+                  >
+                    <div
+                      className={`w-4 h-4 mt-1 rounded-full border flex items-center justify-center shrink-0 ${
+                        shippingMode === option.id ? "border-gray-800" : "border-gray-400"
+                      }`}
+                    >
+                      {shippingMode === option.id && <div className="w-2 h-2 bg-gray-800 rounded-full" />}
+                    </div>
+                    <div className="text-left">
+                      <span className="text-[14px] text-gray-700 dark:text-gray-200">{option.label}</span>
+                      <p className="text-[13px] text-[#8C93A3] mt-1">{option.hint}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Payment method */}
             <div className="pt-4">
               <h3 className="text-[14px] font-medium text-gray-700 dark:text-gray-300 mb-3">Payment method</h3>
               <div className="space-y-3">
                 {([
-                  { id: "cod", label: "Cash on delivery", hint: "Pay the courier when your order arrives." },
-                  { id: "sslcommerz", label: "Online payment", hint: "Card, mobile banking or net banking via SSLCommerz." },
+                  { id: "cod" as const, label: "Advance payment", hint: "Pay the advance now. Freight is collected on delivery." },
+                  ...(shippingMode === "sea"
+                    ? []
+                    : [{ id: "sslcommerz" as const, label: "Online payment", hint: "Card, mobile banking or net banking via SSLCommerz." }]),
                 ] as const).map((option) => (
                   <div
                     key={option.id}
@@ -248,20 +349,32 @@ export default function CheckoutPage() {
             <div className="bg-[#F9FAFB] dark:bg-gray-900 rounded-xl p-6 mb-6">
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between">
-                  <span className="text-[14px] text-[#8C93A3]">Sub total</span>
+                  <span className="text-[14px] text-[#8C93A3]">Goods total</span>
                   <span className="text-[14px] text-[#8C93A3]">{taka(cartTotal)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[14px] text-[#8C93A3]">Delivery</span>
-                  <span className="text-[14px] text-[#8C93A3]">{taka(shipping)}</span>
+                  <span className="text-[14px] text-[#8C93A3]">Freight</span>
+                  <span className="text-[14px] text-[#8C93A3] italic">On delivery</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-[14px] text-[#8C93A3]">Advance ({advancePct}%)</span>
+                  <span className="text-[14px] font-semibold text-[#1C244B] dark:text-white">{taka(advanceDueBdt)}</span>
                 </div>
               </div>
 
               <div className="flex justify-between items-center pt-4 border-t border-gray-200 dark:border-gray-800">
-                <span className="text-[16px] font-bold text-[#1C244B] dark:text-white">Total</span>
-                <span className="text-[18px] font-bold text-[#1C244B] dark:text-white">{taka(total)}</span>
+                <span className="text-[16px] font-bold text-[#1C244B] dark:text-white">Pay now</span>
+                <span className="text-[18px] font-bold text-[#1C244B] dark:text-white">{taka(advanceDueBdt)}</span>
               </div>
             </div>
+
+            {belowMinimum && (
+              <div className="bg-amber-50 dark:bg-amber-500/10 rounded-xl p-4 mb-6">
+                <p className="text-sm text-amber-700 dark:text-amber-400 font-medium">
+                  Minimum order is {taka(minOrderBdt)}. Add more items to place your order.
+                </p>
+              </div>
+            )}
 
             <div className="mb-8">
               <label className="block text-[14px] text-[#1C244B] dark:text-white mb-2 font-medium">Order note</label>
@@ -278,7 +391,7 @@ export default function CheckoutPage() {
             <div className="flex flex-col items-center gap-4 mb-12 w-full">
               <Button
                 onClick={handleConfirmOrder}
-                disabled={isLoading || !addressId || cart.length === 0}
+                disabled={isLoading || !addressId || cart.length === 0 || belowMinimum}
                 className="w-full h-12 bg-[#333333] hover:bg-black text-white font-medium text-[15px]"
               >
                 {isLoading ? "Confirming..." : "Confirm order"}

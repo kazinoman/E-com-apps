@@ -64,6 +64,7 @@ export async function getOrder(id: string): Promise<Order | null> {
 export async function createOrder(input: {
   addressId: string;
   paymentMethod: "cod" | "sslcommerz";
+  shippingMode?: "air" | "sea";
   notes?: string;
 }) {
   try {
@@ -86,9 +87,13 @@ export async function createOrder(input: {
 
     return { ok: true, data };
   } catch (error) {
-    const response = (error as { response?: { data?: { message?: string } } }).response;
+    const response = (error as { response?: { data?: { message?: string; errorCode?: string } } }).response;
     console.error("Error creating order:", error);
-    return { ok: false, error: response?.data?.message ?? "An error occurred. Please try again." };
+    return {
+      ok: false,
+      error: response?.data?.message ?? "An error occurred. Please try again.",
+      errorCode: response?.data?.errorCode,
+    };
   }
 }
 

@@ -10,9 +10,11 @@ import { Container } from "@/components/common/Container";
 interface ProductDetailsProps {
   product: Product;
   similarProducts?: ProductCardData[];
+  /** Merchant's current advance percentage — fetched server-side, never hardcoded. */
+  advancePct: number;
 }
 
-export const ProductDetails = ({ product, similarProducts = [] }: ProductDetailsProps) => {
+export const ProductDetails = ({ product, similarProducts = [], advancePct }: ProductDetailsProps) => {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [selectedSku, setSelectedSku] = useState<Sku | undefined>(undefined);
 
@@ -59,7 +61,7 @@ export const ProductDetails = ({ product, similarProducts = [] }: ProductDetails
 
         {/* Right Column: Info */}
         <div className="w-full">
-          <ProductInfo product={product} selectedSku={selectedSku} onSkuSelect={handleSkuSelect} />
+          <ProductInfo product={product} selectedSku={selectedSku} onSkuSelect={handleSkuSelect} advancePct={advancePct} />
         </div>
       </div>
 

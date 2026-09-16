@@ -15,11 +15,13 @@ interface ProductInfoProps {
   product: Product;
   selectedSku?: Sku;
   onSkuSelect?: (sku: Sku) => void;
+  /** Merchant's current advance percentage — fetched server-side, never hardcoded. */
+  advancePct: number;
 }
 
 const taka = (n: number) => `৳${n.toLocaleString()}`;
 
-export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect }: ProductInfoProps) => {
+export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect, advancePct }: ProductInfoProps) => {
   const { addToCart, isPending } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
 
@@ -216,17 +218,30 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect }: 
         </p>
       </div>
 
-      {/*
-        Delivery is quoted at checkout from the merchant's own shipping
-        settings. The per-kg rate card and the 70/30 advance split that used to
-        sit here were copied from skybuybd and match nothing this backend
-        charges — see HYDRA 8a4109f5, the open shipping/pricing decision.
-      */}
-      {product.weightKg ? (
-        <p className="text-sm text-slate-500 dark:text-gray-400">
-          Approximate weight {product.weightKg} kg per piece. Delivery is calculated at checkout.
+      {/* Shipping info block */}
+      <div className="space-y-2 text-sm text-slate-500 dark:text-gray-400">
+        {product.freight?.air && (
+          <p>
+            Air freight: <span className="font-medium text-slate-700 dark:text-gray-300">৳{product.freight.air.bdtPerKg}/kg</span>
+            {" "}(customs included)
+          </p>
+        )}
+        {product.freight?.sea && (
+          <p>
+            Sea freight: <span className="font-medium text-slate-700 dark:text-gray-300">৳{product.freight.sea.minBdtPerKg}–৳{product.freight.sea.maxBdtPerKg}/kg</span>
+          </p>
+        )}
+        {product.weightKg ? (
+          <p>Approximate weight {product.weightKg} kg per piece.</p>
+        ) : null}
+        <p className="font-medium text-slate-700 dark:text-gray-300">
+          Pay {Math.round(advancePct * 100)}% now, rest on delivery
         </p>
-      ) : null}
+        <p className="text-xs text-slate-400 dark:text-gray-500">
+          Freight is billed on delivery, by actual weight — customs is already
+          included in the per-kg rate above.
+        </p>
+      </div>
 
       {/* Actions */}
       <div className="flex items-center gap-4 mt-2">

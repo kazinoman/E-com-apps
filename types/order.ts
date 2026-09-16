@@ -16,6 +16,10 @@ export interface OrderItem {
   attributes: unknown;
   unitPriceBdt: number;
   lineTotalBdt: number;
+  /** Air freight rate for this item, null before reconciliation. */
+  freightRate: { code: string; name: string; bdtPerKg: number } | null;
+  /** Actual measured weight, null until reconciled. */
+  actualWeightKg: number | null;
 }
 
 export interface OrderPayment {
@@ -47,6 +51,13 @@ export type OrderStatus =
   | "cancelled"
   | "refunded";
 
+export interface Reconciliation {
+  actualWeightKg: number;
+  freightBdt: number;
+  balanceDueBdt: number;
+  reconciledAt: string;
+}
+
 export interface Order {
   id: string;
   orderNo: string;
@@ -69,6 +80,16 @@ export interface Order {
 
   itemsTotalBdt: number;
   shippingBdt: number;
+  /** Shipping mode chosen at checkout: air (default) or sea. */
+  shippingMode: "air" | "sea" | null;
+  /** Advance percentage applied at checkout. */
+  advancePct: number;
+  /** Advance the buyer paid (or owes) at checkout. */
+  advanceDueBdt: number;
+  /** Total actually paid so far. */
+  paidBdt: number;
+  /** Filled once the parcel is weighed and freight is computed. */
+  reconciliation: Reconciliation | null;
   grandTotalBdt: number;
   notes: string | null;
 

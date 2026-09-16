@@ -81,6 +81,11 @@ export const products = {
   detail: (id: string) => `/products/${id}`,
 };
 
+/** Public, no auth required. */
+export const checkout = {
+  terms: "/checkout/terms",
+};
+
 /*
  * `POST /checkout` creates the order — there is no `POST /orders`. Listing is
  * paginated only; the backend has no status filter, so the active/history
@@ -142,4 +147,6 @@ export const apiUrls = {
   orders,
   category,
   cart,
+  checkout,
 };
+

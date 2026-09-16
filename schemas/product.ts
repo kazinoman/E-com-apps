@@ -75,6 +75,11 @@ export interface Product {
   /** Minimum order quantity. null means none — a first lot of 1 is not a rule. */
   moq: number | null;
   weightKg: number | null;
+  /** Freight rate card for this product, attached by the backend. */
+  freight: {
+    air: { code: string; name: string; bdtPerKg: number };
+    sea: { minBdtPerKg: number; maxBdtPerKg: number; minOrderBdt: number } | null;
+  } | null;
 
   ratingAvg: number | null;
   ratingCount: number | null;

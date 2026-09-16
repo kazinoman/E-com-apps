@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 const taka = (n: number) => `৳ ${n.toLocaleString()}`;
 
 export const CartSummary = () => {
-  const { cart, cartTotal, shipping, total, cartItemCount, isPending } = useCart();
+  const { cart, cartTotal, advancePct, advanceDueBdt, belowMinimum, minOrderBdt, cartItemCount, isPending } = useCart();
   const router = useRouter();
 
   // A line the catalog has dropped is priced off its snapshot and left out of
@@ -23,20 +23,26 @@ export const CartSummary = () => {
 
       <div className="space-y-4 mb-6 text-sm">
         <div className="flex justify-between items-center">
-          <span className="text-gray-600 dark:text-gray-400">Subtotal</span>
+          <span className="text-gray-600 dark:text-gray-400">Goods total</span>
           <span className="font-semibold text-gray-900 dark:text-gray-100">{taka(cartTotal)}</span>
         </div>
 
         <div className="flex justify-between items-center">
-          <span className="text-gray-600 dark:text-gray-400">Delivery</span>
-          <span className="font-semibold text-gray-900 dark:text-gray-100">{taka(shipping)}</span>
+          <span className="text-gray-600 dark:text-gray-400">Freight</span>
+          <span className="text-sm text-gray-500 dark:text-gray-400 italic">Billed on delivery</span>
         </div>
 
         <div className="flex justify-between items-center pt-3 border-t border-gray-100 dark:border-gray-800">
-          <span className="font-semibold text-[#1C244B] dark:text-white">Total</span>
-          <span className="font-bold text-base text-gray-900 dark:text-gray-100">{taka(total)}</span>
+          <span className="text-gray-600 dark:text-gray-400">Advance ({advancePct}%)</span>
+          <span className="font-bold text-base text-gray-900 dark:text-gray-100">{taka(advanceDueBdt)}</span>
         </div>
       </div>
+
+      {belowMinimum && (
+        <p className="text-sm text-amber-600 dark:text-amber-400 mb-4">
+          Minimum order is {taka(minOrderBdt)}. Add more items to check out.
+        </p>
+      )}
 
       {blocked && (
         <p className="text-sm text-amber-600 dark:text-amber-400 mb-4">
@@ -46,7 +52,7 @@ export const CartSummary = () => {
 
       <Button
         className="w-full bg-[#117C43] hover:bg-[#0e6336] text-white h-12 rounded-lg font-bold text-base tracking-wide shadow-md hover:shadow-lg transition-all"
-        disabled={cartItemCount === 0 || blocked || isPending}
+        disabled={cartItemCount === 0 || blocked || belowMinimum || isPending}
         onClick={() => router.push('/checkout')}
       >
         Checkout

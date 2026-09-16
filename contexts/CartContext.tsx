@@ -25,10 +25,18 @@ import { EMPTY_CART, type CartLine, type CartResult, type CartView } from "@/lib
  */
 interface CartContextType {
   cart: CartLine[];
-  /** Subtotal in whole Taka, excluding delivery. */
+  /** Subtotal in whole Taka, excluding freight. */
   cartTotal: number;
-  shipping: number;
+  /** Goods total (same as subtotal since freight is billed on delivery). */
   total: number;
+  /** Advance percentage from the merchant — never hardcoded. */
+  advancePct: number;
+  /** Advance due at checkout. */
+  advanceDueBdt: number;
+  /** Minimum order value in Taka. */
+  minOrderBdt: number;
+  /** True when the cart total is below the merchant's minimum. */
+  belowMinimum: boolean;
   cartItemCount: number;
   notice: CartView["notice"];
   isPending: boolean;
@@ -128,8 +136,11 @@ export const CartProvider = ({
       value={{
         cart: view.items,
         cartTotal: view.subtotalBdt,
-        shipping: view.shippingBdt,
         total: view.totalBdt,
+        advancePct: view.advancePct,
+        advanceDueBdt: view.advanceDueBdt,
+        minOrderBdt: view.minOrderBdt,
+        belowMinimum: view.belowMinimum,
         cartItemCount,
         notice: view.notice,
         isPending,

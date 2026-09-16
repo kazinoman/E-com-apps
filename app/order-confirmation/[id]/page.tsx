@@ -131,18 +131,22 @@ export default function OrderConfirmationPage() {
 
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between">
-                  <span className="text-[14px] text-[#8C93A3]">Sub total</span>
+                  <span className="text-[14px] text-[#8C93A3]">Goods total</span>
                   <span className="text-[14px] text-[#8C93A3]">{taka(order.itemsTotalBdt)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[14px] text-[#8C93A3]">Delivery</span>
-                  <span className="text-[14px] text-[#8C93A3]">{taka(order.shippingBdt)}</span>
+                  <span className="text-[14px] text-[#8C93A3]">Freight</span>
+                  <span className="text-[14px] text-[#8C93A3] italic">On delivery</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-[14px] text-[#8C93A3]">Advance ({order.advancePct}%)</span>
+                  <span className="text-[14px] font-semibold text-[#1C244B] dark:text-white">{taka(order.advanceDueBdt)}</span>
                 </div>
               </div>
 
               <div className="flex justify-between items-center pt-4 border-t border-gray-200 dark:border-gray-800">
-                <span className="text-[16px] font-bold text-[#1C244B] dark:text-white">Total</span>
-                <span className="text-[18px] font-bold text-[#1C244B] dark:text-white">{taka(order.grandTotalBdt)}</span>
+                <span className="text-[16px] font-bold text-[#1C244B] dark:text-white">Advance paid</span>
+                <span className="text-[18px] font-bold text-[#1C244B] dark:text-white">{taka(order.advanceDueBdt)}</span>
               </div>
             </div>
 

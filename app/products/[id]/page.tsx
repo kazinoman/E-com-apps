@@ -1,4 +1,5 @@
 import { getProductById, getSimilarProducts } from "@/services/product.service";
+import { fetchCheckoutTerms } from "@/services/checkout-terms.service";
 import { ProductDetails } from "@/features/ProductDetails/ProductDetails";
 import { notFound } from "next/navigation";
 
@@ -8,7 +9,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
   // `getProductById` already unwraps the response envelope and answers null on
   // a 404, so there is no `success` flag to check here. Checking for one is
   // what made every real catalog id 404 on this route.
-  const product = await getProductById(id);
+  const [product, terms] = await Promise.all([getProductById(id), fetchCheckoutTerms()]);
   if (!product) notFound();
 
   const similarProducts = product.category
@@ -17,7 +18,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
 
   return (
     <main className="min-h-screen bg-white dark:bg-gray-950">
-      <ProductDetails product={product} similarProducts={similarProducts} />
+      <ProductDetails product={product} similarProducts={similarProducts} advancePct={terms.advancePct} />
     </main>
   );
 }
