@@ -15,14 +15,19 @@ export const MegaMenu = () => {
     fetchCategories().then(setCategories);
   }, []);
 
+  // `/search` is a text-search results page — it 400s with no `q` and was
+  // never meant to browse a category. `/category/[slug]` is the real browse
+  // page (server-rendered, backed by `GET /products?category=`), and it
+  // already resolves a leaf slug's ancestors on its own, so a subcategory
+  // click needs nothing beyond its own id.
   const handleCategoryClick = (categoryId: string) => {
-    router.push(`/search?category=${encodeURIComponent(categoryId)}`);
+    router.push(`/category/${encodeURIComponent(categoryId)}`);
     setActiveHover(null);
   };
 
   const handleSubcategoryClick = (categoryId: string, subcategoryId: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    router.push(`/search?category=${encodeURIComponent(categoryId)}&subCategory=${encodeURIComponent(subcategoryId)}`);
+    router.push(`/category/${encodeURIComponent(subcategoryId)}`);
     setActiveHover(null);
   };
 
