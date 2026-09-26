@@ -51,7 +51,6 @@ export default function ProfileTrackOrderPage() {
 
   return (
     <div className="bg-white dark:bg-gray-900 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 w-full min-h-full flex flex-col items-center p-8 sm:p-12">
-      <h1 className="text-[20px] font-bold text-[#333333] dark:text-white mb-8">Track Order</h1>
       
       <div className="flex justify-center mb-10 w-full relative h-[160px] sm:h-[180px]">
         <Image 
