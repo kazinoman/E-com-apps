@@ -28,27 +28,27 @@ interface HeroSliderProps {
 const defaultSlides: SlideData[] = [
   {
     id: 1,
-    title: "Wireless Headphone",
+    title: "Premium Smart Watch",
     linkText: "Shop now",
     linkUrl: "#",
-    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1000&auto=format&fit=crop",
-    backgroundColor: "bg-[#4895EF]",
+    image: "/images/banners/ecommerce_banner_tech_1790453728020.jpg",
+    backgroundColor: "bg-[#111111]",
   },
   {
     id: 2,
-    title: "Smart Watch Series 9",
+    title: "Premium Accessories",
     linkText: "Shop now",
     linkUrl: "#",
-    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1000&auto=format&fit=crop",
-    backgroundColor: "bg-[#FF7B54]",
+    image: "/images/banners/ecommerce_banner_fashion_1790453741657.jpg",
+    backgroundColor: "bg-[#d4c3b3]",
   },
   {
     id: 3,
-    title: "Premium Camera Lens",
+    title: "High-End Wireless Audio",
     linkText: "Shop now",
     linkUrl: "#",
-    image: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=1000&auto=format&fit=crop",
-    backgroundColor: "bg-[#2ECC71]",
+    image: "/images/banners/ecommerce_banner_audio_1790453752960.jpg",
+    backgroundColor: "bg-[#0f1115]",
   }
 ];
 
@@ -87,7 +87,7 @@ export function HeroSlider({ slides = defaultSlides }: HeroSliderProps) {
           }}
           autoplay={{ delay: 5000, disableOnInteraction: false }}
           loop={true}
-          className="w-full aspect-[16/5] min-h-[250px]"
+          className="w-full aspect-16/5 min-h-62.5"
         >
           {slides.map((slide) => (
             <SwiperSlide key={slide.id}>

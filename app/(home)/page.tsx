@@ -91,7 +91,7 @@ export default async function Home() {
       <main className="flex flex-1 w-full flex-col dark:bg-background">
         {/* No hero until the merchant can set one (HYDRA 3e1d1569) — an empty
             slider beats stock photography standing in for merchandising. */}
-        {sliderImages.length > 0 && <HeroSlider slides={sliderImages} />}
+        <HeroSlider />
 
         <Container className="mt-12 space-y-4 flex flex-col ">
           {sections.map((section) => (
