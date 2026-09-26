@@ -1,9 +1,13 @@
-import { X, User, LogOut, ChevronRight } from 'lucide-react';
+import { X, User, LogOut, ChevronRight, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
+import { useState, useTransition } from 'react';
+import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/contexts/UserInfoContext';
 import { PageUrls } from '@/constants/PageUrls';
 import { ThemeToggle } from '../common/ThemeToggleButton';
+import { logoutAction } from '@/server/actions/logout.action';
+import { toast } from 'sonner';
 
 interface MobileMenuDrawerProps {
   isOpen: boolean;
@@ -12,7 +16,20 @@ interface MobileMenuDrawerProps {
 }
 
 export function MobileMenuDrawer({ isOpen, onClose, navLinks }: MobileMenuDrawerProps) {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
+  const [isPending, startTransition] = useTransition();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const router = useRouter();
+
+  const handleLogout = () => {
+    startTransition(async () => {
+      await logoutAction();
+      setUser(null);
+      toast.success("Logged out successfully");
+      onClose();
+      router.push('/');
+    });
+  };
 
   return (
     <>
@@ -67,23 +84,68 @@ export function MobileMenuDrawer({ isOpen, onClose, navLinks }: MobileMenuDrawer
         </nav>
         
         {/* Footer / User actions */}
-        <div className="p-6 border-t border-border bg-secondary/20">
+        <div className="border-t border-border bg-secondary/20 relative">
           {user ? (
-            <Link 
-              href={PageUrls.profile} 
-              onClick={onClose}
-              className="flex items-center gap-3 p-2 rounded-lg hover:bg-secondary/50 transition-colors"
-            >
-              <div className="h-12 w-12 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold text-lg">
-                {user.fullName.charAt(0)}
-              </div>
-              <div className="flex flex-col">
-                <span className="text-sm font-semibold text-foreground">{user.fullName}</span>
-                <span className="text-xs text-muted-foreground hover:text-primary transition-colors">View Profile</span>
-              </div>
-            </Link>
+            <>
+              <button 
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="w-full flex items-center justify-between px-6 py-4 hover:bg-secondary/40 transition-colors text-left"
+              >
+                <div className="flex items-center gap-3 overflow-hidden">
+                  <div className="h-10 w-10 shrink-0 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold text-base">
+                    {user.fullName.charAt(0)}
+                  </div>
+                  <div className="flex flex-col overflow-hidden">
+                    <span className="text-sm font-semibold text-foreground truncate">{user.fullName}</span>
+                    <span className="text-xs text-muted-foreground truncate">{user.email}</span>
+                  </div>
+                </div>
+                
+                <div className={cn(
+                  "p-2 rounded-full transition-colors shrink-0",
+                  isDropdownOpen && "bg-secondary/80"
+                )}>
+                  <ChevronDown 
+                    size={20} 
+                    className={cn(
+                      "text-muted-foreground transition-transform duration-200", 
+                      isDropdownOpen ? "rotate-180" : ""
+                    )} 
+                  />
+                </div>
+              </button>
+
+              {/* Floating Dropdown Menu */}
+              {isDropdownOpen && (
+                <>
+                  <div 
+                    className="fixed inset-0 z-40" 
+                    onClick={() => setIsDropdownOpen(false)} 
+                  />
+                  <div className="absolute bottom-full left-4 right-4 mb-2 bg-card border border-border rounded-lg shadow-xl overflow-hidden z-50 animate-in fade-in slide-in-from-bottom-2 duration-200">
+                    <Link 
+                      href={PageUrls.profile} 
+                      onClick={onClose}
+                      className="flex items-center gap-3 px-4 py-3 hover:bg-secondary/60 transition-colors text-sm font-medium text-foreground"
+                    >
+                      <User size={16} className="text-muted-foreground" />
+                      My Profile
+                    </Link>
+                    <div className="h-px bg-border/50 w-full" />
+                    <button 
+                      onClick={handleLogout}
+                      disabled={isPending}
+                      className="flex items-center gap-3 px-4 py-3 hover:bg-secondary/60 transition-colors text-sm font-medium text-destructive w-full text-left"
+                    >
+                      <LogOut size={16} className="text-destructive/80" />
+                      {isPending ? "Logging out..." : "Log Out"}
+                    </button>
+                  </div>
+                </>
+              )}
+            </>
           ) : (
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 p-6">
               <Link 
                 href={PageUrls.login} 
                 onClick={onClose} 

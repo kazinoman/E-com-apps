@@ -137,7 +137,7 @@ export function Header() {
       </header>
 
       {/* Desktop Header Bottom Bar */}
-      <div className="hidden md:block bg-[#333333] text-white">
+      <div className="hidden md:block bg-[#333333] dark:bg-card text-white sticky top-0 z-40 shadow-md">
         <Container className="h-[52px] flex items-center justify-between">
           <MegaMenu />
 

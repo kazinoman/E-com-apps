@@ -21,13 +21,13 @@ export const MegaMenu = () => {
   // already resolves a leaf slug's ancestors on its own, so a subcategory
   // click needs nothing beyond its own id.
   const handleCategoryClick = (categoryId: string) => {
-    router.push(`/category/${encodeURIComponent(categoryId)}`);
+    router.push(`/search?category=${encodeURIComponent(categoryId)}`);
     setActiveHover(null);
   };
 
   const handleSubcategoryClick = (categoryId: string, subcategoryId: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    router.push(`/category/${encodeURIComponent(subcategoryId)}`);
+    router.push(`/search?category=${encodeURIComponent(subcategoryId)}`);
     setActiveHover(null);
   };
 
@@ -56,7 +56,7 @@ export const MegaMenu = () => {
                 <div key={cat.id} className="flex flex-col">
                   <button 
                     onClick={() => handleCategoryClick(cat.id)}
-                    className="font-bold text-[15px] text-[#1A1A1A] dark:text-gray-200 text-left hover:text-[#F05C22] dark:hover:text-[#F05C22] mb-4 transition-colors"
+                    className="font-bold text-[15px] text-[#1A1A1A] dark:text-gray-200 text-left hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-black dark:hover:text-white px-2 py-1.5 -ml-2 rounded-md mb-2 transition-all"
                   >
                     {cat.name}
                   </button>
@@ -65,7 +65,7 @@ export const MegaMenu = () => {
                       <button
                         key={sub.id}
                         onClick={(e) => handleSubcategoryClick(cat.id, sub.id, e)}
-                        className="text-[14px] text-[#666666] dark:text-gray-400 text-left hover:text-[#F05C22] dark:hover:text-[#F05C22] transition-colors"
+                        className="text-[14px] text-[#666666] dark:text-gray-400 text-left hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-black dark:hover:text-white px-2 py-1.5 -ml-2 rounded-md transition-all"
                       >
                         {sub.name}
                       </button>
@@ -106,7 +106,7 @@ export const MegaMenu = () => {
                     <button
                       key={sub.id}
                       onClick={(e) => handleSubcategoryClick(cat.id, sub.id, e)}
-                      className="text-[14px] text-[#4A4A4A] dark:text-gray-300 text-left hover:text-[#F05C22] dark:hover:text-[#F05C22] transition-colors whitespace-nowrap overflow-hidden text-ellipsis"
+                      className="text-[14px] text-[#4A4A4A] dark:text-gray-300 text-left hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-black dark:hover:text-white px-2 py-1.5 -ml-2 rounded-md transition-all whitespace-nowrap overflow-hidden text-ellipsis"
                     >
                       {sub.name}
                     </button>

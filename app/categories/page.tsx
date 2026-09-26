@@ -51,7 +51,7 @@ export default async function CategoriesPage() {
                 className="flex flex-col bg-white dark:bg-zinc-900 border border-[#F0F0F0] dark:border-zinc-800 rounded-2xl p-5 hover:shadow-lg transition-shadow duration-300"
               >
                 <Link
-                  href={`/category/${encodeURIComponent(category.id)}`}
+                  href={`/search?category=${encodeURIComponent(category.id)}`}
                   className="group flex items-center justify-between gap-2"
                 >
                   <h2 className="font-bold text-[16px] text-[#1A1A1A] dark:text-gray-100 group-hover:text-[#F05C22] transition-colors">
@@ -65,7 +65,7 @@ export default async function CategoriesPage() {
                     {category.subcategories.map((sub) => (
                       <li key={sub.id}>
                         <Link
-                          href={`/category/${encodeURIComponent(sub.id)}`}
+                          href={`/search?subCategory=${encodeURIComponent(sub.id)}`}
                           className="text-[14px] text-[#666666] dark:text-gray-400 hover:text-[#F05C22] dark:hover:text-[#F05C22] transition-colors"
                         >
                           {sub.name}

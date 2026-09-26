@@ -45,7 +45,7 @@ const features = [
 
 export function StoreFeatures() {
   return (
-    <div className="w-full bg-[#F8F9FA] dark:bg-zinc-900 border-y border-[#EAE4E3] dark:border-zinc-800">
+    <div className="w-full bg-[#F8F9FA] dark:bg-card border-y border-[#EAE4E3] dark:border-border">
       <Container className="py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-4">
           {features.map((feature, index) => {
@@ -63,18 +63,18 @@ export function StoreFeatures() {
                 key={index} 
                 className={cn(
                   "flex items-start gap-4 px-4 sm:px-6",
-                  isTabletRight ? "md:border-r md:border-[#EAE4E3] dark:md:border-zinc-800" : "md:border-r-0",
-                  isDesktopRight ? "lg:border-r lg:border-[#EAE4E3] dark:lg:border-zinc-800" : "lg:border-r-0"
+                  isTabletRight ? "md:border-r md:border-[#EAE4E3] dark:md:border-border" : "md:border-r-0",
+                  isDesktopRight ? "lg:border-r lg:border-[#EAE4E3] dark:lg:border-border" : "lg:border-r-0"
                 )}
               >
                 <div className="flex-shrink-0 mt-1">
                   <Icon className="w-8 h-8 text-[#8B8BA7]" strokeWidth={1.5} />
                 </div>
                 <div className="flex flex-col">
-                  <h4 className="text-[14px] font-bold text-[#333333] dark:text-gray-200 mb-1">
+                  <h4 className="text-[14px] font-bold text-[#333333] dark:text-foreground mb-1">
                     {feature.title}
                   </h4>
-                  <p className="text-[12px] leading-relaxed text-[#8B8BA7] dark:text-gray-400">
+                  <p className="text-[12px] leading-relaxed text-[#8B8BA7] dark:text-muted-foreground">
                     {feature.description}
                   </p>
                 </div>

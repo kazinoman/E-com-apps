@@ -82,13 +82,13 @@ export default async function Home() {
   };
 
   return (
-    <div className="flex flex-col flex-1 bg-zinc-50 font-sans dark:bg-black pb-20">
+    <div className="flex flex-col flex-1 bg-zinc-50 font-sans dark:bg-background pb-20">
       {/* JSON-LD Structured Data for SEO */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <main className="flex flex-1 w-full flex-col dark:bg-black">
+      <main className="flex flex-1 w-full flex-col dark:bg-background">
         {/* No hero until the merchant can set one (HYDRA 3e1d1569) — an empty
             slider beats stock photography standing in for merchandising. */}
         {sliderImages.length > 0 && <HeroSlider slides={sliderImages} />}

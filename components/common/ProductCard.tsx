@@ -89,10 +89,10 @@ export function ProductCard({
   return (
     <Link
       href={`/products/${id}`}
-      className="group flex flex-col h-full w-full min-w-[200px] bg-white dark:bg-zinc-900 border border-[#F0F0F0] dark:border-zinc-800 rounded-2xl p-2.5 hover:shadow-lg transition-shadow duration-300"
+      className="group flex flex-col h-full w-full min-w-[200px] bg-white dark:bg-card border border-[#F0F0F0] dark:border-border rounded-2xl p-2.5 hover:shadow-lg transition-shadow duration-300"
     >
       {/* Image Container */}
-      <div className="relative w-full aspect-[4/4] bg-[#F6F6F9] dark:bg-zinc-800 rounded-md flex items-center justify-center overflow-hidden">
+      <div className="relative w-full aspect-[4/4] bg-[#F6F6F9] dark:bg-background rounded-md flex items-center justify-center overflow-hidden">
 
         {/* Scrim behind the status badge: a busy or dark product photo (this
             catalog has plenty) can otherwise sit right under it with no
@@ -102,7 +102,7 @@ export function ProductCard({
 
         {/* ── Top-left: status badge only — MOQ moved into the rating row ── */}
         {badge && (
-          <div className={`absolute top-2.5 left-2.5 z-10 px-2 py-0.5 text-[11px] font-semibold leading-tight border rounded bg-white dark:bg-zinc-900 shadow-sm ${badgeStyle}`}>
+          <div className={`absolute top-2.5 left-2.5 z-10 px-2 py-0.5 text-[11px] font-semibold leading-tight border rounded bg-white dark:bg-card shadow-sm ${badgeStyle}`}>
             {badge}
           </div>
         )}
@@ -113,8 +113,8 @@ export function ProductCard({
             className={cn(
               "absolute top-3 right-3 rounded-full shadow-sm z-20 transition-all duration-300",
               isWished
-                ? "opacity-100 bg-white/10 backdrop-blur-2xl dark:bg-zinc-900/30 p-1.5 scale-95"
-                : "opacity-100 lg:opacity-0 lg:group-hover:opacity-100 bg-white dark:bg-zinc-900 p-1.5"
+                ? "opacity-100 bg-white/10 backdrop-blur-2xl dark:bg-card/30 p-1.5 scale-95"
+                : "opacity-100 lg:opacity-0 lg:group-hover:opacity-100 bg-white dark:bg-card p-1.5"
             )}
           >
             <Heart
