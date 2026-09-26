@@ -96,6 +96,7 @@ export const orders = {
   detail: (id: string) => `/orders/${id}`,
   create: "/checkout",
   cancel: (id: string) => `/orders/${id}/cancel`,
+  track: "/track-order",
 };
 
 export const category = {

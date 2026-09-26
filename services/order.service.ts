@@ -116,8 +116,14 @@ export async function cancelOrder(id: string) {
  * endpoint lands and the flag flips.
  */
 export async function trackPublicOrder(
-  _phone: string,
-  _orderNo: string,
+  phone: string,
+  orderNo: string,
 ): Promise<{ ok: boolean; data?: Order; error?: string }> {
-  return { ok: false, error: "Order tracking isn't available yet. Sign in to see your orders." };
+  try {
+    const res = await api.post(ordersUrls.track, { orderNo, phone });
+    return { ok: true, data: res.data?.data };
+  } catch (error) {
+    const response = (error as { response?: { data?: { message?: string } } }).response;
+    return { ok: false, error: response?.data?.message ?? "Order tracking failed." };
+  }
 }

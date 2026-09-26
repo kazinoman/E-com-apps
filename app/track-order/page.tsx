@@ -9,23 +9,24 @@ import { OrderDetailsClient } from "@/app/(protected)/profile/orders/[orderId]/O
 import { Order } from "@/types/order";
 import { toast } from "sonner";
 import Link from "next/link";
-import { Loader2 } from "lucide-react";
+import { useAuth } from "@/contexts/UserInfoContext";
+import { TrackOrderForm } from "@/components/common/TrackOrderForm";
 
 export default function TrackOrderPage() {
   const [phone, setPhone] = useState("");
   const [orderId, setOrderId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [order, setOrder] = useState<Order | null>(null);
+  const { isLogin } = useAuth();
 
-  const handleTrack = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!phone || !orderId) {
+  const handleTrack = async (phoneStr: string, orderIdStr: string) => {
+    if (!phoneStr || !orderIdStr) {
       toast.error("Please enter both phone number and order ID.");
       return;
     }
-    
+
     setIsLoading(true);
-    const res = await trackPublicOrder(phone, orderId);
+    const res = await trackPublicOrder(phoneStr, orderIdStr);
     setIsLoading(false);
 
     if (res.ok && res.data) {
@@ -36,44 +37,22 @@ export default function TrackOrderPage() {
     }
   };
 
-  // No backend behind this yet (HYDRA ab4cc8b4). Say so plainly rather than
-  // showing a form whose every submission fails.
-  if (!FEATURES.guestOrderTracking) {
-    return (
-      <div className="bg-[#F8F9FA] dark:bg-black min-h-screen flex flex-col">
-        <div className="py-16 flex-1">
-          <Container className="max-w-xl text-center">
-            <h1 className="text-[22px] font-bold text-[#333333] dark:text-white mb-3">Track your order</h1>
-            <p className="text-[14px] text-[#8C93A3] mb-8">
-              Tracking an order by phone number isn&apos;t available yet. Sign in and your
-              orders, with their current status, are on your profile.
-            </p>
-            <Link
-              href="/login"
-              className="inline-block bg-[#333333] hover:bg-black text-white px-6 py-3 rounded-lg text-[13px] font-bold transition-colors"
-            >
-              Sign in
-            </Link>
-          </Container>
-        </div>
-      </div>
-    );
-  }
+
 
   if (order) {
     return (
-      <div className="bg-[#F8F9FA] dark:bg-black min-h-screen flex flex-col">
+      <div className="bg-zinc-50 font-sans dark:bg-background min-h-screen flex flex-col">
         <div className="py-8 flex-1">
-          <Container className="max-w-4xl">
-            <button 
-              onClick={() => setOrder(null)} 
+          <Container className="">
+            <button
+              onClick={() => setOrder(null)}
               className="mb-6 text-[14px] font-medium text-[#4A85F6] hover:underline"
             >
               ← Track another order
             </button>
-            <OrderDetailsClient 
-              order={order} 
-              onBack={() => setOrder(null)} 
+            <OrderDetailsClient
+              order={order}
+              onBack={() => setOrder(null)}
             />
           </Container>
         </div>
@@ -82,64 +61,25 @@ export default function TrackOrderPage() {
   }
 
   return (
-    <div className="bg-[#F8F9FA] dark:bg-black min-h-screen flex flex-col">
+    <div className="bg-zinc-50 font-sans dark:bg-background min-h-screen flex flex-col">
       <div className="py-8 sm:py-12 flex justify-center px-4 flex-1">
-      <div className="w-full max-w-[500px] bg-white dark:bg-gray-900 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 p-8 sm:p-12 relative flex flex-col items-center">
-        <h1 className="text-[20px] font-bold text-[#333333] dark:text-white mb-8">Track Order</h1>
-        
-        <div className="flex justify-center mb-10 w-full relative h-[160px] sm:h-[180px]">
-          <Image 
-            src="/images/track-order-illustration.png" 
-            alt="Track Order Illustration" 
-            fill
-            className="object-contain"
-          />
-        </div>
+        <div className="w-full max-w-[500px] bg-white dark:bg-gray-900 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 p-8 sm:p-12 relative flex flex-col items-center">
+          <h1 className="text-[20px] font-bold text-[#333333] dark:text-white mb-8">Track Order</h1>
 
-        <div className="w-full">
-          <h2 className="text-[22px] font-bold text-[#333333] dark:text-white mb-2">Track your order</h2>
-          <p className="text-[14px] text-[#8C93A3] mb-8 leading-relaxed">
-            Enter your phone number and order id to get the latest update on your order status
-          </p>
+          <div className="flex justify-center mb-10 w-full relative h-[160px] sm:h-[180px]">
+            <Image
+              src="/images/track-order-illustration.png"
+              alt="Track Order Illustration"
+              fill
+              className="object-contain"
+            />
+          </div>
 
-          <form onSubmit={handleTrack} className="space-y-6">
-            <div>
-              <label className="block text-[13px] font-medium text-[#333333] dark:text-gray-300 mb-2">Phone number</label>
-              <input 
-                type="text" 
-                placeholder="+880 - 1234567890" 
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                className="w-full bg-[#F8F9FA] dark:bg-gray-800 border border-transparent focus:border-primary focus:ring-1 focus:ring-primary rounded-xl px-4 py-3.5 text-[14px] outline-none text-[#333333] dark:text-white transition-all placeholder:text-[#8C93A3]"
-              />
-            </div>
-
-            <div>
-              <label className="block text-[13px] font-medium text-[#333333] dark:text-gray-300 mb-2">Order Id</label>
-              <input 
-                type="text" 
-                placeholder="e.g. #123456789" 
-                value={orderId}
-                onChange={(e) => setOrderId(e.target.value)}
-                className="w-full bg-[#F8F9FA] dark:bg-gray-800 border border-transparent focus:border-primary focus:ring-1 focus:ring-primary rounded-xl px-4 py-3.5 text-[14px] outline-none text-[#333333] dark:text-white transition-all placeholder:text-[#8C93A3]"
-              />
-            </div>
-
-            <button 
-              type="submit" 
-              disabled={isLoading}
-              className="w-full bg-[#333333] dark:bg-white text-white dark:text-[#333333] rounded-xl py-4 text-[15px] font-bold mt-2 hover:bg-black dark:hover:bg-gray-200 transition-colors flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
-            >
-              {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Track your order"}
-            </button>
-          </form>
-
-          <div className="text-center mt-8 text-[13px] text-[#8C93A3]">
-            Facing some difficulties, please visit <Link href="/contact" className="font-bold text-[#333333] dark:text-white hover:underline">Contact us</Link> page.
+          <div className="w-full">
+            <TrackOrderForm onTrack={handleTrack} isLoading={isLoading} />
           </div>
         </div>
       </div>
-    </div>
     </div>
   );
 }
