@@ -52,10 +52,10 @@ export const ProductTabs = ({ product, similarProducts }: ProductTabsProps) => {
       {/* Tabs Content */}
       <div className="py-8">
         {activeTab === "Similar product" && (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6 justify-start">
+          <div className="grid grid-cols-1 min-[450px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
             {similarProducts.length > 0 ? (
               similarProducts.slice(0, 15).map((p) => (
-                <div key={p.id} className="w-full max-w-[280px]">
+                <div key={p.id} className="w-full max-w-[280px] mx-auto min-[450px]:mx-0">
                   <ProductCard {...p} />
                 </div>
               ))

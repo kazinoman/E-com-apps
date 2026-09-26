@@ -10,6 +10,7 @@ import { Star, Minus, Plus, Heart } from "lucide-react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { vendorScore } from "@/lib/types/vendor";
+import { toast } from "sonner";
 
 interface ProductInfoProps {
   product: Product;
@@ -80,6 +81,16 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect, ad
   const outOfStock = selectedSku?.stock === 0;
   const needsChoice = product.variantAxes.length > 0 && !selectedSku;
   const isWished = isInWishlist(product.id);
+
+  const handleAddToCart = () => {
+    if (quantity < 3) {
+      toast.info("Please select at least 3 items. We require a minimum quantity of 3 to process an order. Thank you!", {
+        className: "!bg-blue-50 dark:!bg-blue-950 !text-blue-700 dark:!text-blue-300 !border-blue-200 dark:!border-blue-800"
+      });
+      return;
+    }
+    addToCart(product.id, quantity, selectedSku?.skuId ?? null);
+  };
 
   // The vendor's name is the vendor id for part of the catalog (an upstream
   // backfill that never completed). An opaque token is not a seller name.
@@ -246,23 +257,28 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect, ad
       {/* Actions */}
       <div className="flex items-center gap-4 mt-2">
         <Button
-          onClick={() => addToCart(product.id, quantity, selectedSku?.skuId ?? null)}
+          onClick={handleAddToCart}
           disabled={isPending || needsChoice || outOfStock}
           className="flex-1 bg-slate-800 hover:bg-slate-700 text-white dark:bg-white dark:text-slate-900 dark:hover:bg-gray-200 h-12 rounded-lg font-medium text-base"
         >
           {outOfStock ? "Out of stock" : needsChoice ? "Choose an option" : "Add to cart"}
         </Button>
-        <CompareButton
+        {/* <CompareButton
           productId={product.id}
           withLabel
           className="h-12 px-4 rounded-lg border border-slate-300 dark:border-gray-700"
-        />
+        /> */}
         <Button
           variant="outline"
           size="icon"
           onClick={() => toggleWishlist(product.id)}
           aria-label={isWished ? "Remove from wishlist" : "Add to wishlist"}
-          className="w-12 h-12 rounded-lg border-slate-300 dark:border-gray-700 text-slate-500 dark:text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+          className={cn(
+            "w-12 h-12 rounded-lg transition-colors hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20",
+            isWished
+              ? "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-900/30 text-red-500"
+              : "border-slate-300 dark:border-gray-700 text-slate-500 dark:text-gray-400"
+          )}
         >
           <Heart className={cn("w-5 h-5", isWished && "fill-[#FF4D4F] text-[#FF4D4F]")} />
         </Button>
