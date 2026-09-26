@@ -36,7 +36,7 @@ type Address = {
   isDefault: boolean;
 };
 
-const taka = (n: number) => `৳ ${n.toLocaleString()}`;
+const taka = (n?: number) => `৳ ${(n ?? 0).toLocaleString()}`;
 
 function formatAddress(a: Address) {
   return [a.line1, a.line2, a.area, a.city, a.district, a.postalCode]

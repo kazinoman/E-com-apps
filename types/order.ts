@@ -125,4 +125,4 @@ const STATUS_LABELS: Record<string, string> = {
 export const statusLabel = (status: string) => STATUS_LABELS[status] ?? status;
 
 /** Whole taka, no decimals. */
-export const taka = (amount: number) => `৳${amount.toLocaleString()}`;
+export const taka = (amount?: number | null) => `৳${(amount ?? 0).toLocaleString()}`;

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 
 import { useRouter } from "next/navigation";
 
-const taka = (n: number) => `৳ ${n.toLocaleString()}`;
+const taka = (n?: number) => `৳ ${(n ?? 0).toLocaleString()}`;
 
 export const CartSummary = () => {
   const { cart, cartTotal, advancePct, advanceDueBdt, belowMinimum, minOrderBdt, cartItemCount, isPending } = useCart();

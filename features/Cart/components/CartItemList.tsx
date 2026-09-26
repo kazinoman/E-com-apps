@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Trash2, Plus, Minus, AlertTriangle } from "lucide-react";
 
 /** Taka is never fractional — the backend rounds at one boundary, so no decimals here. */
-const taka = (n: number) => `৳${n.toLocaleString()}`;
+const taka = (n?: number) => `৳${(n ?? 0).toLocaleString()}`;
 
 /** `attributes` is opaque by contract: render what is there, assume nothing. */
 function describe(attributes: unknown): string | null {

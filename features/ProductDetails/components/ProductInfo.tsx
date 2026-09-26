@@ -19,7 +19,7 @@ interface ProductInfoProps {
   advancePct: number;
 }
 
-const taka = (n: number) => `৳${n.toLocaleString()}`;
+const taka = (n?: number) => `৳${(n ?? 0).toLocaleString()}`;
 
 export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect, advancePct }: ProductInfoProps) => {
   const { addToCart, isPending } = useCart();
