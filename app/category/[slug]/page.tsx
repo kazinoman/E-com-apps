@@ -96,7 +96,7 @@ export default async function CategoryPage({
   const chipActive = "bg-[#F05C22] border-[#F05C22] text-white";
 
   return (
-    <div className="bg-zinc-50 dark:bg-black min-h-screen">
+    <div className="bg-zinc-50 dark:bg-background min-h-screen">
       <CustomBreadcrumb routes={trail} />
 
       <Container className="py-8 lg:py-10">

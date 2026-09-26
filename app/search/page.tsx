@@ -35,7 +35,7 @@ export default async function SearchPage({ searchParams }: { searchParams: any }
 
 
   return (
-    <div className="bg-zinc-50 dark:bg-black min-h-screen">
+    <div className="bg-zinc-50 dark:bg-background min-h-screen">
       <Container className="py-2 lg:py-8 flex flex-col lg:flex-row gap-2 lg:gap-8">
         {/* Mobile & Tablet Header & Drawer */}
         <div className="lg:hidden flex justify-between items-center mb-0">
@@ -44,7 +44,7 @@ export default async function SearchPage({ searchParams }: { searchParams: any }
         </div>
 
         {/* Desktop Sidebar */}
-        <aside className="hidden lg:block w-[240px] shrink-0 sticky top-0 max-h-screen overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] pr-1 pb-10">
+        <aside className="hidden lg:block w-60 shrink-0 sticky top-0 max-h-screen overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none pr-1 pb-10">
            <FilterSidebar categories={categories} />
         </aside>
 

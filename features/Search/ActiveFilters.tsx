@@ -49,7 +49,7 @@ export function ActiveFilters({ total }: { total: number }) {
   const activeFilters = getActiveFilters();
 
   return (
-    <div className="flex flex-row items-center justify-between gap-4 sticky top-0 z-20 bg-zinc-50 dark:bg-black pt-1 pb-2 lg:pb-3 -mt-1 border-b border-transparent">
+    <div className="flex flex-row items-center justify-between gap-4 sticky top-0 z-20 bg-zinc-50 dark:bg-background pt-1 pb-2 lg:pb-3 -mt-1 border-b border-transparent">
       
       <div className="flex-1 min-w-0">
         {activeFilters.length > 0 && (
@@ -85,7 +85,7 @@ export function ActiveFilters({ total }: { total: number }) {
                 </div>
               ))}
               {activeFilters.length > 3 && (
-                <button className="flex items-center justify-center w-8 h-[34px] rounded-lg bg-[#F8F8F8] dark:bg-zinc-800 hover:bg-gray-100 transition-colors border border-transparent">
+                <button className="flex items-center justify-center w-8 h-8.5 rounded-lg bg-[#F8F8F8] dark:bg-zinc-800 hover:bg-gray-100 transition-colors border border-transparent">
                   <ChevronRight className="w-4 h-4 text-[#888888]" />
                 </button>
               )}

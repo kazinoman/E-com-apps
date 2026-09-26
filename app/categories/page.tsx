@@ -25,7 +25,7 @@ export default async function CategoriesPage() {
   const categories = await fetchCategories();
 
   return (
-    <div className="bg-zinc-50 dark:bg-black min-h-screen">
+    <div className="bg-zinc-50 dark:bg-background min-h-screen">
       <CustomBreadcrumb routes={[{ label: "Home", href: "/" }, { label: "Categories" }]} />
 
       <Container className="py-8 lg:py-12">
@@ -48,7 +48,7 @@ export default async function CategoriesPage() {
             {categories.map((category) => (
               <section
                 key={category.id}
-                className="flex flex-col bg-white dark:bg-zinc-900 border border-[#F0F0F0] dark:border-zinc-800 rounded-2xl p-5 hover:shadow-lg transition-shadow duration-300"
+                className="flex flex-col bg-white dark:bg-gray-900 border border-[#F0F0F0] dark:border-gray-800 rounded-2xl p-5 hover:shadow-lg transition-shadow duration-300"
               >
                 <Link
                   href={`/search?category=${encodeURIComponent(category.id)}`}

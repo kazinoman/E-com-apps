@@ -167,7 +167,7 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950 pb-20">
+    <div className="min-h-screen bg-zinc-50 dark:bg-background pb-20 font-sans">
       <header className="border-b border-gray-100 dark:border-gray-800 py-4 mb-8">
         <Container className="flex items-center justify-center relative">
           <button onClick={() => router.back()} className="absolute left-4 top-1/2 -translate-y-1/2">
@@ -207,10 +207,10 @@ export default function CheckoutPage() {
                   <div
                     key={a.id}
                     onClick={() => setAddressId(a.id)}
-                    className={`flex items-start gap-3 p-4 rounded-md border cursor-pointer transition-colors ${
+                    className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-colors ${
                       addressId === a.id
-                        ? "border-gray-800 bg-gray-50 dark:bg-gray-800"
-                        : "border-gray-200 bg-white dark:bg-gray-900"
+                        ? "border-gray-800 dark:border-gray-600 bg-white dark:bg-gray-800 shadow-sm"
+                        : "border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900"
                     }`}
                   >
                     <div
@@ -255,13 +255,13 @@ export default function CheckoutPage() {
                   <div
                     key={option.id}
                     onClick={() => !option.disabled && setShippingMode(option.id)}
-                    className={`flex items-start gap-3 p-4 rounded-md border transition-colors ${
+                    className={`flex items-start gap-3 p-4 rounded-xl border transition-colors ${
                       option.disabled
-                        ? "cursor-not-allowed opacity-50 border-gray-200 bg-gray-50 dark:bg-gray-900"
-                        : "cursor-pointer border-gray-200 bg-white dark:bg-gray-900"
+                        ? "cursor-not-allowed opacity-50 border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50"
+                        : "cursor-pointer border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900"
                     } ${
                       shippingMode === option.id && !option.disabled
-                        ? "border-gray-800 bg-gray-50 dark:bg-gray-800"
+                        ? "border-gray-800 dark:border-gray-600 bg-white dark:bg-gray-800 shadow-sm"
                         : ""
                     }`}
                   >
@@ -294,10 +294,10 @@ export default function CheckoutPage() {
                   <div
                     key={option.id}
                     onClick={() => setPaymentMethod(option.id)}
-                    className={`flex items-start gap-3 p-4 rounded-md border cursor-pointer transition-colors ${
+                    className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-colors ${
                       paymentMethod === option.id
-                        ? "border-gray-800 bg-gray-50 dark:bg-gray-800"
-                        : "border-gray-200 bg-white dark:bg-gray-900"
+                        ? "border-gray-800 dark:border-gray-600 bg-white dark:bg-gray-800 shadow-sm"
+                        : "border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900"
                     }`}
                   >
                     <div
@@ -318,12 +318,12 @@ export default function CheckoutPage() {
           </div>
 
           {/* Right Column: Summary */}
-          <div className="w-full lg:w-[450px] xl:w-[500px]">
+          <div className="w-full lg:w-112.5 xl:w-125">
             <div className="border-b border-gray-100 dark:border-gray-800 pb-2 mb-6 text-center lg:text-left">
               <h2 className="text-[15px] font-semibold text-[#8C93A3]">Order summary</h2>
             </div>
 
-            <div className="bg-[#F9FAFB] dark:bg-gray-900 rounded-xl p-6 mb-6">
+            <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-3xl p-6 mb-6 shadow-sm">
               <div className="flex justify-between items-center mb-6 pb-4 border-b border-gray-200 dark:border-gray-800">
                 <span className="font-semibold text-[14px]">
                   Total items <span className="text-[#8C93A3] font-normal">({cartItemCount} items)</span>
@@ -346,7 +346,7 @@ export default function CheckoutPage() {
               </div>
             </div>
 
-            <div className="bg-[#F9FAFB] dark:bg-gray-900 rounded-xl p-6 mb-6">
+            <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-3xl p-6 mb-6 shadow-sm">
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between">
                   <span className="text-[14px] text-[#8C93A3]">Goods total</span>
@@ -385,7 +385,7 @@ export default function CheckoutPage() {
             <div className="mb-8">
               <label className="block text-[14px] text-[#1C244B] dark:text-white mb-2 font-medium">Order note</label>
               <textarea
-                className="w-full h-24 p-4 text-[14px] bg-[#F9FAFB] dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-md focus:outline-none focus:ring-1 focus:ring-primary resize-none placeholder:text-[#8C93A3]"
+                className="w-full h-24 p-4 text-[14px] bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl focus:outline-none focus:ring-1 focus:ring-primary resize-none placeholder:text-[#8C93A3]"
                 placeholder="Write your order instructions here..."
                 maxLength={500}
                 value={orderNote}
@@ -398,7 +398,7 @@ export default function CheckoutPage() {
               <Button
                 onClick={handleConfirmOrder}
                 disabled={isLoading || !addressId || cart.length === 0 || belowMinimum}
-                className="w-full h-12 bg-[#333333] hover:bg-black text-white font-medium text-[15px]"
+                className="w-full h-14 bg-[#333333] hover:bg-black dark:bg-white dark:text-[#333333] dark:hover:bg-gray-200 text-white font-bold text-[15px] rounded-xl"
               >
                 {isLoading ? "Confirming..." : "Confirm order"}
               </Button>

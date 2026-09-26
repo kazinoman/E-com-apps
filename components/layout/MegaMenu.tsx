@@ -42,7 +42,7 @@ export const MegaMenu = () => {
         onMouseEnter={() => setActiveHover("all")}
         onMouseLeave={() => setActiveHover(null)}
       >
-        <button className="flex items-center gap-2 bg-[#F0F2F5] dark:bg-gray-800 text-[#333333] dark:text-gray-200 px-5 py-2.5 rounded-md font-medium text-[14px] transition-colors hover:bg-white dark:hover:bg-gray-700">
+        <button className="flex items-center gap-2 bg-[#F0F2F5] dark:bg-gray-900 text-[#333333] dark:text-gray-200 px-5 py-2.5 rounded-md font-medium text-[14px] transition-colors hover:bg-white dark:hover:bg-gray-800">
           <Grid className="w-4 h-4" />
           All Categories
           <ChevronDown className="w-4 h-4 text-gray-500 dark:text-gray-400" />
@@ -50,22 +50,22 @@ export const MegaMenu = () => {
 
         {/* Mega Menu Dropdown */}
         {activeHover === "all" && (
-          <div className="absolute top-full left-0 mt-2 w-[80vw] max-w-[1200px] bg-white dark:bg-gray-900 text-black dark:text-gray-100 shadow-2xl rounded-xl p-8 border border-gray-100 dark:border-gray-800 max-h-[75vh] overflow-y-auto z-50">
-            <div className="grid grid-cols-4 xl:grid-cols-5 gap-x-8 gap-y-10">
+          <div className="absolute top-full left-0 mt-2 w-[80vw] max-w-300 bg-white dark:bg-gray-950 text-black dark:text-gray-100 shadow-2xl rounded-xl p-6 border border-gray-100 dark:border-gray-800 max-h-[75vh] overflow-y-auto z-50">
+            <div className="grid grid-cols-4 xl:grid-cols-5 gap-x-8 gap-y-8">
               {categories.map((cat) => (
                 <div key={cat.id} className="flex flex-col">
                   <button 
                     onClick={() => handleCategoryClick(cat.id)}
-                    className="font-bold text-[15px] text-[#1A1A1A] dark:text-gray-200 text-left hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-black dark:hover:text-white px-2 py-1.5 -ml-2 rounded-md mb-2 transition-all"
+                    className="font-bold text-[15px] text-[#1A1A1A] dark:text-gray-200 text-left hover:bg-gray-100 dark:hover:bg-gray-900 hover:text-black dark:hover:text-white px-2 py-1.5 -ml-2 rounded-md mb-1 transition-all"
                   >
                     {cat.name}
                   </button>
-                  <div className="flex flex-col gap-2.5">
+                  <div className="flex flex-col gap-0.5">
                     {cat.subcategories.map((sub) => (
                       <button
                         key={sub.id}
                         onClick={(e) => handleSubcategoryClick(cat.id, sub.id, e)}
-                        className="text-[14px] text-[#666666] dark:text-gray-400 text-left hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-black dark:hover:text-white px-2 py-1.5 -ml-2 rounded-md transition-all"
+                        className="text-[14px] text-[#666666] dark:text-gray-400 text-left hover:bg-gray-100 dark:hover:bg-gray-900 hover:text-black dark:hover:text-white px-2 py-1 -ml-2 rounded-md transition-all"
                       >
                         {sub.name}
                       </button>
@@ -97,16 +97,16 @@ export const MegaMenu = () => {
 
             {/* Subcategory Dropdown */}
             {activeHover === cat.id && (
-              <div className="absolute top-[100%] left-0 w-80 bg-white dark:bg-gray-900 text-black dark:text-gray-100 shadow-xl rounded-lg p-5 border border-gray-100 dark:border-gray-800 flex flex-col gap-4 z-50">
-                <div className="text-[12px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">
+              <div className="absolute top-full left-0 w-80 bg-white dark:bg-gray-950 text-black dark:text-gray-100 shadow-xl rounded-lg p-4 border border-gray-100 dark:border-gray-800 flex flex-col gap-3 z-50">
+                <div className="text-[12px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-0.5">
                   {cat.name}
                 </div>
-                <div className="grid grid-cols-2 gap-x-6 gap-y-3">
+                <div className="grid grid-cols-2 gap-x-6 gap-y-1">
                   {cat.subcategories.map((sub) => (
                     <button
                       key={sub.id}
                       onClick={(e) => handleSubcategoryClick(cat.id, sub.id, e)}
-                      className="text-[14px] text-[#4A4A4A] dark:text-gray-300 text-left hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-black dark:hover:text-white px-2 py-1.5 -ml-2 rounded-md transition-all whitespace-nowrap overflow-hidden text-ellipsis"
+                      className="text-[14px] text-[#4A4A4A] dark:text-gray-300 text-left hover:bg-gray-100 dark:hover:bg-gray-900 hover:text-black dark:hover:text-white px-2 py-1 -ml-2 rounded-md transition-all whitespace-nowrap overflow-hidden text-ellipsis"
                     >
                       {sub.name}
                     </button>
