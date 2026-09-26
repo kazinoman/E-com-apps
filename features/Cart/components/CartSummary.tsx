@@ -27,15 +27,21 @@ export const CartSummary = () => {
           <span className="font-semibold text-gray-900 dark:text-gray-100">{taka(cartTotal)}</span>
         </div>
 
-        <div className="flex justify-between items-center">
+        {/* <div className="flex justify-between items-center">
           <span className="text-gray-600 dark:text-gray-400">Freight</span>
           <span className="text-sm text-gray-500 dark:text-gray-400 italic">Billed on delivery</span>
-        </div>
+        </div> */}
 
         <div className="flex justify-between items-center pt-3 border-t border-gray-100 dark:border-gray-800">
-          <span className="text-gray-600 dark:text-gray-400">Advance ({advancePct}%)</span>
-          <span className="font-bold text-base text-gray-900 dark:text-gray-100">{taka(advanceDueBdt)}</span>
+          <span className="text-gray-600 dark:text-gray-400">Advance (70%)</span>
+          <span className="font-bold text-base text-gray-900 dark:text-gray-100">{taka(cartTotal * 0.7)}</span>
         </div>
+      </div>
+
+      <div className="bg-blue-50 dark:bg-blue-500/10 border border-blue-100 dark:border-blue-900 rounded-lg p-3 mb-4">
+        <p className="text-sm text-blue-800 dark:text-blue-300 font-medium leading-snug">
+          Pay {taka(cartTotal * 0.7)} (70% advance) to place order. Shipping and customs charges will be added.
+        </p>
       </div>
 
       {belowMinimum && (

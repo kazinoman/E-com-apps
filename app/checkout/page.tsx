@@ -352,20 +352,26 @@ export default function CheckoutPage() {
                   <span className="text-[14px] text-[#8C93A3]">Goods total</span>
                   <span className="text-[14px] text-[#8C93A3]">{taka(cartTotal)}</span>
                 </div>
-                <div className="flex justify-between">
+                {/* <div className="flex justify-between">
                   <span className="text-[14px] text-[#8C93A3]">Freight</span>
                   <span className="text-[14px] text-[#8C93A3] italic">On delivery</span>
-                </div>
+                </div> */}
                 <div className="flex justify-between">
-                  <span className="text-[14px] text-[#8C93A3]">Advance ({advancePct}%)</span>
-                  <span className="text-[14px] font-semibold text-[#1C244B] dark:text-white">{taka(advanceDueBdt)}</span>
+                  <span className="text-[14px] text-[#8C93A3]">Advance (70%)</span>
+                  <span className="text-[14px] font-semibold text-[#1C244B] dark:text-white">{taka(cartTotal * 0.7)}</span>
                 </div>
               </div>
 
               <div className="flex justify-between items-center pt-4 border-t border-gray-200 dark:border-gray-800">
                 <span className="text-[16px] font-bold text-[#1C244B] dark:text-white">Pay now</span>
-                <span className="text-[18px] font-bold text-[#1C244B] dark:text-white">{taka(advanceDueBdt)}</span>
+                <span className="text-[18px] font-bold text-[#1C244B] dark:text-white">{taka(cartTotal * 0.7)}</span>
               </div>
+            </div>
+
+            <div className="bg-blue-50 dark:bg-blue-500/10 border border-blue-100 dark:border-blue-900 rounded-xl p-4 mb-6">
+              <p className="text-sm text-blue-800 dark:text-blue-300 font-medium leading-snug">
+                Pay {taka(cartTotal * 0.7)} (70% advance) to place order. Shipping and customs charges will be added.
+              </p>
             </div>
 
             {belowMinimum && (

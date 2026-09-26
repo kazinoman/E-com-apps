@@ -148,15 +148,15 @@ export function OrderDetailsClient({ order, backUrl = "/profile/orders/active", 
                   <span className="text-[14px] font-medium text-[#8C93A3]">Goods total</span>
                   <span className="text-[14px] font-bold text-[#8C93A3]">{taka(order.itemsTotalBdt)}</span>
                 </div>
-                <div className="flex justify-between items-center">
+                {/* <div className="flex justify-between items-center">
                   <span className="text-[14px] font-medium text-[#8C93A3]">Freight</span>
                   <span className="text-[14px] font-bold text-[#8C93A3] italic">
                     {order.reconciliation ? taka(order.reconciliation.freightBdt) : "On delivery"}
                   </span>
-                </div>
+                </div> */}
                 <div className="flex justify-between items-center">
-                  <span className="text-[14px] font-medium text-[#8C93A3]">Advance ({order.advancePct}%)</span>
-                  <span className="text-[14px] font-bold text-[#8C93A3]">{taka(order.advanceDueBdt)}</span>
+                  <span className="text-[14px] font-medium text-[#8C93A3]">Advance (70%)</span>
+                  <span className="text-[14px] font-bold text-[#8C93A3]">{taka(order.itemsTotalBdt * 0.7)}</span>
                 </div>
                 {order.reconciliation && (
                   <div className="flex justify-between items-center">
@@ -172,6 +172,12 @@ export function OrderDetailsClient({ order, backUrl = "/profile/orders/active", 
                 <span className="text-[16px] font-bold text-[#333333] dark:text-white">Total</span>
                 <span className="text-[18px] font-black text-[#333333] dark:text-white">{taka(order.grandTotalBdt)}</span>
               </div>
+            </div>
+
+            <div className="bg-blue-50 dark:bg-blue-500/10 border border-blue-100 dark:border-blue-900 rounded-xl p-4">
+              <p className="text-sm text-blue-800 dark:text-blue-300 font-medium leading-snug">
+                70% advance ({taka(order.itemsTotalBdt * 0.7)}) applies to this order. Shipping and customs charges will be added.
+              </p>
             </div>
           </div>
 
