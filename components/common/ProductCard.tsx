@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Star, Heart, Package, ShoppingCart, Loader2 } from "lucide-react";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { useCart } from "@/contexts/CartContext";
+import { useAuth } from "@/contexts/UserInfoContext";
 import { CompareButton } from "@/components/common/CompareButton";
 import { cn } from "@/lib/utils";
 import { categoryLabel, type ProductCardData } from "@/schemas/product";
@@ -45,11 +46,13 @@ export function ProductCard({
 }: ProductCardProps) {
   const { isInWishlist, toggleWishlist } = useWishlist();
   const { addToCart } = useCart();
+  const { isLogin } = useAuth();
   const isWished = isInWishlist(id);
   const [isAdding, setIsAdding] = useState(false);
 
   const handleWishlistClick = (e: React.MouseEvent) => {
     e.preventDefault();
+    if (!isLogin) return;
     toggleWishlist(id);
   };
 
@@ -79,7 +82,7 @@ export function ProductCard({
   const badge = inStock === false ? "Out of stock" : originalPrice ? "Sale" : isNew ? "New" : null;
   const badgeStyle = badge === "Sale" ? "text-[#00C566] border-[#00C566]"
     : badge === "Out of stock" ? "text-[#FF5C5C] border-[#FF5C5C]"
-    : "text-[#333333] border-[#333333] dark:text-gray-200 dark:border-gray-200";
+      : "text-[#333333] border-[#333333] dark:text-gray-200 dark:border-gray-200";
 
   const hasMoq = moq != null && moq > 1;
 
@@ -89,7 +92,7 @@ export function ProductCard({
       className="group flex flex-col h-full w-full min-w-[200px] bg-white dark:bg-zinc-900 border border-[#F0F0F0] dark:border-zinc-800 rounded-2xl p-2.5 hover:shadow-lg transition-shadow duration-300"
     >
       {/* Image Container */}
-      <div className="relative w-full aspect-[4/4.5] bg-[#F6F6F9] dark:bg-zinc-800 rounded-xl flex items-center justify-center p-6 overflow-hidden">
+      <div className="relative w-full aspect-[4/4] bg-[#F6F6F9] dark:bg-zinc-800 rounded-md flex items-center justify-center overflow-hidden">
 
         {/* Scrim behind the status badge: a busy or dark product photo (this
             catalog has plenty) can otherwise sit right under it with no
@@ -104,13 +107,34 @@ export function ProductCard({
           </div>
         )}
 
+        {isLogin && (
+          <button
+            onClick={handleWishlistClick}
+            className={cn(
+              "absolute top-3 right-3 rounded-full shadow-sm z-20 transition-all duration-300",
+              isWished
+                ? "opacity-100 bg-white/10 backdrop-blur-2xl dark:bg-zinc-900/30 p-1.5 scale-95"
+                : "opacity-100 lg:opacity-0 lg:group-hover:opacity-100 bg-white dark:bg-zinc-900 p-1.5"
+            )}
+          >
+            <Heart
+              className={cn(
+                "transition-all duration-300",
+                isWished
+                  ? "w-4 h-4 fill-[#FF4D4F] text-[#FF4D4F]"
+                  : "w-[18px] h-[18px] text-gray-400 hover:text-[#FF4D4F]"
+              )}
+            />
+          </button>
+        )}
+
         <div className="relative w-full h-full transform group-hover:scale-105 transition-transform duration-500">
           {imageUrl && (
             <Image
               src={imageUrl}
               alt={title}
               fill
-              className="object-contain drop-shadow-sm mix-blend-multiply dark:mix-blend-normal"
+              className="object-cover"
               sizes="(max-width: 768px) 50vw, 25vw"
             />
           )}
@@ -118,7 +142,7 @@ export function ProductCard({
       </div>
 
       {/* Content Container */}
-      <div className="px-2 pt-3.5 pb-2 flex flex-col flex-grow justify-between gap-1">
+      <div className="pt-2 pb-2 flex flex-col flex-grow justify-between gap-1">
         <div className="space-y-1">
           {label && (
             <span className="text-[12px] text-[#999999] dark:text-gray-400 font-medium tracking-wide uppercase">{label}</span>
@@ -128,12 +152,15 @@ export function ProductCard({
           </h3>
         </div>
 
-        <div className="flex items-center gap-2 mt-0.5">
+        <div className="flex flex-wrap items-center gap-2 mt-0.5">
           <div className="flex items-center gap-1 text-[12px] font-semibold text-[#555555] dark:text-gray-300">
             {ratingAvg ?? 0} <Star className="w-3 h-3 fill-[#FFB800] text-[#FFB800]" />
           </div>
           <span className="text-[11px] text-[#999999] border-l border-[#EAE4E3] dark:border-zinc-700 pl-2">
             {sold}
+          </span>
+          <span className="text-[10px] font-semibold text-[#00C566] bg-[#00C566]/10 px-1.5 py-0.5 rounded tracking-wide">
+            {shippingTime || "Delivery 15-20d"}
           </span>
           {hasMoq && (
             <span className="flex items-center gap-1 text-[11px] text-[#999999] border-l border-[#EAE4E3] dark:border-zinc-700 pl-2">
@@ -142,12 +169,6 @@ export function ProductCard({
             </span>
           )}
         </div>
-
-        {shippingTime && (
-          <div className="text-[10px] font-semibold text-[#00C566] bg-[#00C566]/10 px-1.5 py-0.5 rounded w-fit mt-0.5 tracking-wide">
-            {shippingTime}
-          </div>
-        )}
 
         <div className="flex items-end justify-between mt-2">
           <div className="flex items-baseline gap-2">
@@ -164,7 +185,9 @@ export function ProductCard({
           {/* Wishlist, compare and add-to-cart as one action row, beside
               the price — nothing floats over the product photo. */}
           <div className="flex items-center gap-1 shrink-0">
-            <button
+            {/*
+            
+             <button
               onClick={handleWishlistClick}
               aria-label={isWished ? "Remove from wishlist" : "Add to wishlist"}
               className="flex items-center justify-center w-9 h-9 rounded-full border border-[#F0F0F0] dark:border-zinc-700 transition-colors hover:bg-gray-100 dark:hover:bg-zinc-800"
@@ -176,27 +199,7 @@ export function ProductCard({
                 )}
               />
             </button>
-            {/* No text-color utility here: CompareButton owns its own
-                active/inactive color, and `cn()` (twMerge) would let a color
-                class passed in here silently win over it, hiding the
-                "already in comparison" state. */}
-            <CompareButton
-              productId={id}
-              className="flex items-center justify-center w-9 h-9 rounded-full border border-[#F0F0F0] dark:border-zinc-700 transition-colors hover:bg-gray-100 dark:hover:bg-zinc-800"
-            />
-            <button
-              onClick={handleAddToCart}
-              disabled={isAdding || inStock === false}
-              aria-label={inStock === false ? "Out of stock" : "Add to cart"}
-              title={inStock === false ? "Out of stock" : "Add to cart"}
-              className="flex items-center justify-center w-9 h-9 rounded-full bg-slate-800 text-white transition-colors hover:bg-slate-700 disabled:bg-gray-200 disabled:text-gray-400 dark:bg-white dark:text-slate-900 dark:hover:bg-gray-200 dark:disabled:bg-zinc-700 dark:disabled:text-zinc-500"
-            >
-              {isAdding ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
-              ) : (
-                <ShoppingCart className="w-4 h-4" />
-              )}
-            </button>
+            */}
           </div>
         </div>
       </div>

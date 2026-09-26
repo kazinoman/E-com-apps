@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { InputField } from "@/components/ui/input-with-icons";
@@ -13,11 +14,15 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { LoginFormValues, loginSchema } from "@/schemas/auth/signIn-and-signup";
 import { login } from "@/server/actions/login.action";
 import { useAuth } from "@/contexts/UserInfoContext";
+import { useWishlist } from "@/contexts/WishlistContext";
+import { useCart } from "@/contexts/CartContext";
 
 const LoginComponent = () => {
   const router = useRouter();
 
   const { setUser } = useAuth();
+  const { refresh: refreshWishlist } = useWishlist();
+  const { refresh: refreshCart } = useCart();
   const [showPassword, setShowPassword] = useState(false);
   const [isPending, startTransition] = useTransition();
 
@@ -40,14 +45,27 @@ const LoginComponent = () => {
     startTransition(async () => {
       delete data.remember;
 
-      const result = await login(data);
-      setUser(result.data);
+      try {
+        const result = await login(data);
 
-      if (!result.success) {
-        return;
+        if (!result.success) {
+          toast.error(result.message || "Invalid credentials. Please try again.");
+          return;
+        }
+
+        toast.success("Successfully signed in!");
+        setUser(result.data);
+        
+        // Refresh server states now that we have a user session
+        await Promise.all([
+          refreshWishlist(),
+          refreshCart()
+        ]);
+        
+        router.push("/");
+      } catch (error) {
+        toast.error("An unexpected error occurred. Please try again later.");
       }
-
-      router.push("/");
     });
   };
 
@@ -58,12 +76,6 @@ const LoginComponent = () => {
           <h1 className="text-[32px] font-bold text-[#82111b] mb-2 tracking-tight">Welcome Back</h1>
           <p className="text-[15px] font-medium text-[#6B6565]">Please sign in to access your Luxe account.</p>
         </div>
-
-        {/* {state?.message && (
-        <div className="mb-6 text-sm text-rose-800 bg-rose-50 border border-rose-200 p-3 rounded-xl">
-          {state.message}
-        </div>
-      )} */}
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           <InputField
@@ -121,8 +133,8 @@ const LoginComponent = () => {
           <Button
             type="submit"
             variant="default"
-            // disabled={isPending}
-            // className="w-full bg-[#7E1A20] text-white py-3 rounded-xl font-semibold text-sm hover:bg-[#681419] transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-[#7E1A20] disabled:opacity-80 disabled:cursor-not-allowed mt-2 shadow-sm"
+          // disabled={isPending}
+          // className="w-full bg-[#7E1A20] text-white py-3 rounded-xl font-semibold text-sm hover:bg-[#681419] transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-[#7E1A20] disabled:opacity-80 disabled:cursor-not-allowed mt-2 shadow-sm"
           >
             {isPending ? "Signing In..." : "Sign In"}
           </Button>

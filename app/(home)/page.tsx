@@ -68,14 +68,14 @@ export default async function Home() {
         },
         ...(product.ratingAvg !== null && product.ratingCount
           ? {
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": product.ratingAvg,
-                "bestRating": "5",
-                "worstRating": "1",
-                "ratingCount": product.ratingCount
-              }
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": product.ratingAvg,
+              "bestRating": "5",
+              "worstRating": "1",
+              "ratingCount": product.ratingCount
             }
+          }
           : {})
       }
     }))
@@ -92,7 +92,7 @@ export default async function Home() {
         {/* No hero until the merchant can set one (HYDRA 3e1d1569) — an empty
             slider beats stock photography standing in for merchandising. */}
         {sliderImages.length > 0 && <HeroSlider slides={sliderImages} />}
-        
+
         <Container className="mt-12 space-y-4 flex flex-col ">
           {sections.map((section) => (
             section.products.length > 0 && (

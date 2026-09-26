@@ -40,8 +40,10 @@ function toFailure(error: unknown): WishlistResult {
 export async function fetchWishlist(): Promise<WishlistView> {
   try {
     return toView(await api.get(wishlistUrls.get));
-  } catch (error) {
-    console.error("wishlist: fetch failed", error);
+  } catch (error: any) {
+    if (error.response?.status !== 401) {
+      console.error("wishlist: fetch failed", error);
+    }
     return EMPTY_WISHLIST;
   }
 }
