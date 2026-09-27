@@ -35,15 +35,15 @@ export function OrderCard({ order }: OrderCardProps) {
 
   return (
     <Link href={`/profile/orders/${order.id}`} className="block mb-4">
-      <div className="bg-[#F7F7FA] dark:bg-gray-800 rounded-2xl p-6 transition-transform hover:-translate-y-0.5 hover:shadow-sm">
+      <div className="bg-muted rounded-2xl p-6 transition-transform hover:-translate-y-0.5 hover:shadow-sm">
         <div className="flex items-start justify-between mb-4">
           <div className="space-y-2">
             <div className="flex items-center gap-2 text-[14px] text-[#8C93A3] font-medium">
               <CalendarIcon className="w-4 h-4" />
               <span>{formattedDate}</span>
             </div>
-            <div className="text-[15px] font-bold text-[#333333] dark:text-white">
-              Order <span className="text-[#333333] dark:text-white">{order.orderNo}</span>
+            <div className="text-[15px] font-bold text-foreground">
+              Order <span className="text-foreground">{order.orderNo}</span>
             </div>
           </div>
           
@@ -62,7 +62,7 @@ export function OrderCard({ order }: OrderCardProps) {
           <div className={`px-3 py-1.5 rounded-md text-[13px] font-bold ${getStatusColor(order.status)}`}>
             {statusLabel(order.status)}
           </div>
-          <div className="text-[18px] font-black text-[#333333] dark:text-white">
+          <div className="text-[18px] font-black text-foreground">
             {taka(order.grandTotalBdt)}
           </div>
         </div>

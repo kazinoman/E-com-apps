@@ -88,7 +88,7 @@ export default async function CategoriesPage() {
                 <Link
                   key={`pill-${cat.id}`}
                   href={`#cat-${cat.id}`}
-                  className="px-4 py-2.5 bg-white dark:bg-card hover:bg-gray-100 dark:hover:bg-secondary text-[13px] font-semibold text-gray-700 dark:text-gray-200 rounded-full transition-colors whitespace-nowrap shadow-sm border border-gray-100 dark:border-gray-800"
+                  className="px-4 py-2.5 bg-card hover:bg-gray-100 dark:hover:bg-secondary text-[13px] font-semibold text-gray-700 dark:text-gray-200 rounded-full transition-colors whitespace-nowrap shadow-sm border border-border"
                 >
                   {cat.name}
                 </Link>
@@ -128,7 +128,7 @@ export default async function CategoriesPage() {
                         <Link
                           key={sub.id}
                           href={`/search?subCategory=${encodeURIComponent(sub.id)}`}
-                          className="relative flex flex-col rounded-[16px] overflow-hidden border border-gray-100 dark:border-gray-800/60 group hover:shadow-lg transition-all duration-300 bg-white dark:bg-card hover:-translate-y-0.5"
+                          className="relative flex flex-col rounded-[16px] overflow-hidden border border-border/60 group hover:shadow-lg transition-all duration-300 bg-card hover:-translate-y-0.5"
                         >
                           {/* Gradient Top */}
                           <div className={cn("h-[75px] w-full transition-opacity duration-300 group-hover:opacity-90", style.bg)} />
@@ -146,7 +146,7 @@ export default async function CategoriesPage() {
                               {sub.name}
                             </span>
 
-                            <div className="w-[22px] h-[22px] rounded-full bg-gray-50 dark:bg-gray-800 flex items-center justify-center shrink-0 text-gray-400 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                            <div className="w-[22px] h-[22px] rounded-full bg-muted flex items-center justify-center shrink-0 text-gray-400 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
                               <ArrowUpRight className="w-3 h-3" />
                             </div>
                           </div>

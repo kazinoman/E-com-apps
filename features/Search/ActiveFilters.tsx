@@ -58,7 +58,7 @@ export function ActiveFilters({ total }: { total: number }) {
               {activeFilters.map((filter, index) => (
                 <div 
                   key={index} 
-                  className="flex items-center gap-1.5 px-3 py-1.5 text-[13px] border border-gray-200 dark:border-zinc-800 rounded-lg bg-white dark:bg-zinc-900"
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-[13px] border border-border rounded-lg bg-background"
                 >
                   <span className="text-[#888888] dark:text-gray-400">{filter.label} :</span>
                   <span className="font-semibold text-[#333333] dark:text-gray-200">{filter.value}</span>

@@ -16,8 +16,8 @@ export const CartSummary = () => {
   const blocked = cart.some((item) => item.unavailable || item.belowMoq);
 
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 p-6 sticky top-24 transition-colors">
-      <h2 className="text-xl font-bold text-center text-[#1C244B] dark:text-white mb-6 border-b border-gray-100 dark:border-gray-800 pb-4">
+    <div className="bg-card rounded-xl shadow-sm border border-border p-6 sticky top-24 transition-colors">
+      <h2 className="text-xl font-bold text-center text-[#1C244B] dark:text-white mb-6 border-b border-border pb-4">
         Cart Summary
       </h2>
 
@@ -32,7 +32,7 @@ export const CartSummary = () => {
           <span className="text-sm text-gray-500 dark:text-gray-400 italic">Billed on delivery</span>
         </div> */}
 
-        <div className="flex justify-between items-center pt-3 border-t border-gray-100 dark:border-gray-800">
+        <div className="flex justify-between items-center pt-3 border-t border-border">
           <span className="text-gray-600 dark:text-gray-400">Advance (70%)</span>
           <span className="font-bold text-base text-gray-900 dark:text-gray-100">{taka(cartTotal * 0.7)}</span>
         </div>

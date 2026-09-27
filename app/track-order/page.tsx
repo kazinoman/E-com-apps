@@ -63,8 +63,8 @@ export default function TrackOrderPage() {
   return (
     <div className="bg-zinc-50 font-sans dark:bg-background min-h-screen flex flex-col">
       <div className="py-8 sm:py-12 flex justify-center px-4 flex-1">
-        <div className="w-full max-w-[500px] bg-white dark:bg-gray-900 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 p-8 sm:p-12 relative flex flex-col items-center">
-          <h1 className="text-[20px] font-bold text-[#333333] dark:text-white mb-8">Track Order</h1>
+        <div className="w-full max-w-[500px] bg-card rounded-3xl shadow-sm border border-border p-8 sm:p-12 relative flex flex-col items-center">
+          <h1 className="text-[20px] font-bold text-foreground mb-8">Track Order</h1>
 
           <div className="flex justify-center mb-10 w-full relative h-[160px] sm:h-[180px]">
             <Image

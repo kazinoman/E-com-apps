@@ -34,7 +34,7 @@ export default function ProfileTrackOrderPage() {
 
   if (order) {
     return (
-      <div className="bg-white dark:bg-gray-900 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 w-full min-h-full flex flex-col p-8">
+      <div className="bg-card rounded-3xl shadow-sm border border-border w-full min-h-full flex flex-col p-8">
         <button 
           onClick={() => setOrder(null)} 
           className="mb-6 text-[14px] font-medium text-[#4A85F6] hover:underline self-start"
@@ -50,7 +50,7 @@ export default function ProfileTrackOrderPage() {
   }
 
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 w-full min-h-full flex flex-col items-center p-8 sm:p-12">
+    <div className="bg-card rounded-3xl shadow-sm border border-border w-full min-h-full flex flex-col items-center p-8 sm:p-12">
       
       <div className="flex justify-center mb-10 w-full relative h-[160px] sm:h-[180px]">
         <Image 

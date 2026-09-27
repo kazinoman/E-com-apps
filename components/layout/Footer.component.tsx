@@ -37,7 +37,7 @@ export function Footer() {
                 placeholder="username@email.com"
                 className="w-full bg-[#474747] dark:bg-slate-800 text-sm px-3 rounded-l-sm text-gray-200 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-white border-none"
               />
-              <button className="bg-white dark:bg-slate-700 text-[#333333] dark:text-white px-5 text-sm font-medium rounded-r-sm hover:bg-gray-100 dark:hover:bg-slate-600 transition-colors whitespace-nowrap">
+              <button className="bg-white dark:bg-slate-700 text-foreground px-5 text-sm font-medium rounded-r-sm hover:bg-gray-100 dark:hover:bg-slate-600 transition-colors whitespace-nowrap">
                 Subscribe
               </button>
             </div>

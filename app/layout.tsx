@@ -68,7 +68,7 @@ export default async function RootLayout({
       lang="en"
       className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable, dmSans.variable, notoBengali.variable)}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col bg-background text-foreground transition-colors duration-300">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <ContextWrapper initialUser={user} initialCart={cart} initialWishlist={wishlistView} initialCompare={compareView}>
             <LayoutWrapper>{children}</LayoutWrapper>

@@ -12,7 +12,7 @@ export function OrderTabs() {
   ];
 
   return (
-    <div className="flex items-center gap-8 border-b border-gray-200 dark:border-gray-800 mb-6">
+    <div className="flex items-center gap-8 border-b border-border mb-6">
       {tabs.map((tab) => {
         const isActive = pathname === tab.href;
         return (
@@ -21,7 +21,7 @@ export function OrderTabs() {
             href={tab.href}
             className={`pb-3 px-1 text-[15px] font-bold transition-colors ${
               isActive
-                ? "text-[#333333] dark:text-white border-b-2 border-[#333333] dark:border-white"
+                ? "text-foreground border-b-2 border-[#333333] dark:border-white"
                 : "text-[#8C93A3] hover:text-[#333333] dark:hover:text-gray-300"
             }`}
           >

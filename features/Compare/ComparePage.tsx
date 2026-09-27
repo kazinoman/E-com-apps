@@ -78,7 +78,7 @@ export function ComparePage() {
 
   const Row = ({ label, values }: { label: string; values: (string | null)[] }) => (
     <div
-      className="grid items-start gap-4 px-4 py-3 border-t border-gray-100 dark:border-gray-800 text-[13px]"
+      className="grid items-start gap-4 px-4 py-3 border-t border-border text-[13px]"
       style={{ gridTemplateColumns: columns }}
     >
       <div className="font-bold text-[#8C93A3]">{label}</div>
@@ -91,7 +91,7 @@ export function ComparePage() {
   );
 
   return (
-    <main className="min-h-screen py-12 bg-white dark:bg-gray-950 transition-colors">
+    <main className="min-h-screen py-12 bg-background transition-colors">
       <Container>
         <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
           <h1 className="text-2xl font-bold text-[#1C244B] dark:text-white">
@@ -114,7 +114,7 @@ export function ComparePage() {
         </div>
 
         {items.length === 0 ? (
-          <div className="flex flex-col items-center justify-center p-12 bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm text-center space-y-6 transition-colors">
+          <div className="flex flex-col items-center justify-center p-12 bg-card rounded-xl border border-border shadow-sm text-center space-y-6 transition-colors">
             <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100">
               Nothing to compare yet
             </h2>
@@ -134,7 +134,7 @@ export function ComparePage() {
               </p>
             ) : null}
 
-            <div className="overflow-x-auto rounded-2xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm">
+            <div className="overflow-x-auto rounded-2xl border border-border bg-card shadow-sm">
               <div className="min-w-[640px]">
                 {/* Product header row */}
                 <div

@@ -50,7 +50,7 @@ export const MegaMenu = () => {
 
         {/* Mega Menu Dropdown */}
         {activeHover === "all" && (
-          <div className="absolute top-full left-0 mt-2 w-[80vw] max-w-300 bg-white dark:bg-gray-950 text-black dark:text-gray-100 shadow-2xl rounded-xl p-6 border border-gray-100 dark:border-gray-800 max-h-[75vh] overflow-y-auto z-50">
+          <div className="absolute top-full left-0 mt-2 w-[80vw] max-w-300 bg-background text-black dark:text-gray-100 shadow-2xl rounded-xl p-6 border border-border max-h-[75vh] overflow-y-auto z-50">
             <div className="grid grid-cols-4 xl:grid-cols-5 gap-x-8 gap-y-8">
               {categories.map((cat) => (
                 <div key={cat.id} className="flex flex-col">
@@ -97,7 +97,7 @@ export const MegaMenu = () => {
 
             {/* Subcategory Dropdown */}
             {activeHover === cat.id && (
-              <div className="absolute top-full left-0 w-80 bg-white dark:bg-gray-950 text-black dark:text-gray-100 shadow-xl rounded-lg p-4 border border-gray-100 dark:border-gray-800 flex flex-col gap-3 z-50">
+              <div className="absolute top-full left-0 w-80 bg-background text-black dark:text-gray-100 shadow-xl rounded-lg p-4 border border-border flex flex-col gap-3 z-50">
                 <div className="text-[12px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-0.5">
                   {cat.name}
                 </div>

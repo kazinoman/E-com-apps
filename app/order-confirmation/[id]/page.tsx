@@ -40,7 +40,7 @@ export default function OrderConfirmationPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-950">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#1C244B] dark:border-white"></div>
       </div>
     );
@@ -48,7 +48,7 @@ export default function OrderConfirmationPage() {
 
   if (error || !order) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-white dark:bg-gray-950 text-center space-y-4">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-background text-center space-y-4">
         <h2 className="text-2xl font-bold text-red-500">Oops!</h2>
         <p className="text-gray-600 dark:text-gray-400">{error || "Something went wrong."}</p>
         <Link href="/">
@@ -62,7 +62,7 @@ export default function OrderConfirmationPage() {
   const totalItems = items.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950 pb-20">
+    <div className="min-h-screen bg-background pb-20">
       <header className="py-6 mb-8 text-center">
         <h1 className="text-[18px] font-bold text-[#1C244B] dark:text-white">Order Confirmation</h1>
       </header>
@@ -94,7 +94,7 @@ export default function OrderConfirmationPage() {
 
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Items List */}
-          <div className="flex-1 bg-[#F9FAFB] dark:bg-gray-900 rounded-xl p-6">
+          <div className="flex-1 bg-card rounded-xl p-6">
             <div className="flex justify-between items-center mb-6 pb-4 border-b border-gray-200 dark:border-gray-800">
               <span className="font-semibold text-[14px] text-gray-800 dark:text-gray-200">
                 Total items <span className="text-[#8C93A3] font-normal">({totalItems} items)</span>
@@ -123,7 +123,7 @@ export default function OrderConfirmationPage() {
 
           {/* Totals Summary */}
           <div className="w-full lg:w-[350px]">
-            <div className="bg-[#F9FAFB] dark:bg-gray-900 rounded-xl p-6 mb-6">
+            <div className="bg-card rounded-xl p-6 mb-6">
               <div className="flex justify-between items-center mb-4 pb-4 border-b border-gray-200 border-dashed dark:border-gray-800">
                 <span className="text-[14px] font-medium text-[#1C244B] dark:text-white">Total items</span>
                 <span className="text-[14px] font-medium text-[#1C244B] dark:text-white">{totalItems}</span>

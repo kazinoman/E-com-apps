@@ -75,7 +75,7 @@ export function ChangePasswordFlow({ onBack, onComplete }: ChangePasswordFlowPro
           onChange={(e) => setValue(e.target.value)}
           autoComplete={autoComplete}
           placeholder="••••••••"
-          className="w-full bg-[#F7F7FA] dark:bg-gray-800 border-none rounded-xl p-4 pr-12 text-[14px] text-[#333333] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#4A85F6]"
+          className="w-full bg-muted border-none rounded-xl p-4 pr-12 text-[14px] text-foreground focus:outline-none focus:ring-2 focus:ring-[#4A85F6]"
         />
         <button
           type="button"
@@ -91,7 +91,7 @@ export function ChangePasswordFlow({ onBack, onComplete }: ChangePasswordFlowPro
   );
 
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 p-8 w-full min-h-full">
+    <div className="bg-card rounded-3xl shadow-sm border border-border p-8 w-full min-h-full">
       <div className="flex items-center gap-4 mb-8">
         <button
           onClick={onBack}
@@ -99,14 +99,14 @@ export function ChangePasswordFlow({ onBack, onComplete }: ChangePasswordFlowPro
         >
           <ChevronLeft className="w-5 h-5 text-[#333333] dark:text-gray-300" strokeWidth={2.5} />
         </button>
-        <h1 className="text-[18px] font-bold text-[#333333] dark:text-white flex-1 text-center">
+        <h1 className="text-[18px] font-bold text-foreground flex-1 text-center">
           Change Password
         </h1>
         <div className="w-9" />
       </div>
 
       <div className="max-w-[400px] mx-auto">
-        <h3 className="text-[20px] font-bold text-[#333333] dark:text-white mb-2 text-left">
+        <h3 className="text-[20px] font-bold text-foreground mb-2 text-left">
           Set a new password
         </h3>
         <p className="text-[13px] text-[#8C93A3] mb-8 text-left">

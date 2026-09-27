@@ -47,7 +47,7 @@ export function CountdownTimer({ targetDate, variant = "home", className }: Coun
 
   if (variant === "home") {
     return (
-      <div className={cn("flex items-center gap-4 bg-white dark:bg-card px-4 py-2.5 rounded-full shadow-sm border border-gray-100 dark:border-gray-800", className)}>
+      <div className={cn("flex items-center gap-4 bg-card px-4 py-2.5 rounded-full shadow-sm border border-border", className)}>
         <div className="flex items-center gap-1.5 text-[#F05C22] dark:text-[#F05C22] font-semibold text-xs tracking-wide">
           <Clock className="w-3.5 h-3.5" /> ENDS IN:
         </div>

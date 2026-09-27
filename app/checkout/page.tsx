@@ -170,7 +170,7 @@ export default function CheckoutPage() {
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-background pb-20 font-sans">
-      <header className="border-b border-gray-100 dark:border-gray-800 py-4 mb-8">
+      <header className="border-b border-border py-4 mb-8">
         <Container className="flex items-center justify-center relative">
           <button onClick={() => router.back()} className="absolute left-4 top-1/2 -translate-y-1/2">
             <ChevronLeft className="w-5 h-5 text-gray-600 dark:text-gray-300" />
@@ -183,7 +183,7 @@ export default function CheckoutPage() {
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-20">
           {/* Left Column: Delivery + shipping mode + payment */}
           <div className="flex-1 space-y-8">
-            <div className="border-b border-gray-100 dark:border-gray-800 pb-2 mb-6">
+            <div className="border-b border-border pb-2 mb-6">
               <h2 className="text-[15px] font-semibold text-[#8C93A3] text-center">Delivery address</h2>
             </div>
 
@@ -192,13 +192,13 @@ export default function CheckoutPage() {
                 {[1, 2].map((i) => (
                   <div
                     key={i}
-                    className="flex items-start gap-3 p-4 rounded-xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900/50 animate-pulse"
+                    className="flex items-start gap-3 p-4 rounded-xl border border-border bg-card/50 animate-pulse"
                   >
-                    <div className="w-4 h-4 mt-1 rounded-full bg-gray-200 dark:bg-gray-700 shrink-0"></div>
+                    <div className="w-4 h-4 mt-1 rounded-full bg-muted shrink-0"></div>
                     <div className="w-full text-left">
-                      <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2 mb-2.5"></div>
-                      <div className="h-3 bg-gray-100 dark:bg-gray-800 rounded w-full mb-1.5"></div>
-                      <div className="h-3 bg-gray-100 dark:bg-gray-800 rounded w-4/5"></div>
+                      <div className="h-4 bg-muted rounded w-1/2 mb-2.5"></div>
+                      <div className="h-3 bg-muted rounded w-full mb-1.5"></div>
+                      <div className="h-3 bg-muted rounded w-4/5"></div>
                     </div>
                   </div>
                 ))}
@@ -235,8 +235,8 @@ export default function CheckoutPage() {
                     onClick={() => setAddressId(a.id)}
                     className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-colors ${
                       addressId === a.id
-                        ? "border-gray-800 dark:border-gray-600 bg-white dark:bg-gray-800 shadow-sm"
-                        : "border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900"
+                        ? "border-gray-800 dark:border-gray-600 bg-card shadow-sm"
+                        : "border-border bg-card"
                     }`}
                   >
                     <div
@@ -283,11 +283,11 @@ export default function CheckoutPage() {
                     onClick={() => !option.disabled && setShippingMode(option.id)}
                     className={`flex items-start gap-3 p-4 rounded-xl border transition-colors ${
                       option.disabled
-                        ? "cursor-not-allowed opacity-50 border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50"
-                        : "cursor-pointer border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900"
+                        ? "cursor-not-allowed opacity-50 border-border bg-muted/50"
+                        : "cursor-pointer border-border bg-card"
                     } ${
                       shippingMode === option.id && !option.disabled
-                        ? "border-gray-800 dark:border-gray-600 bg-white dark:bg-gray-800 shadow-sm"
+                        ? "border-gray-800 dark:border-gray-600 bg-card shadow-sm"
                         : ""
                     }`}
                   >
@@ -322,8 +322,8 @@ export default function CheckoutPage() {
                     onClick={() => setPaymentMethod(option.id)}
                     className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-colors ${
                       paymentMethod === option.id
-                        ? "border-gray-800 dark:border-gray-600 bg-white dark:bg-gray-800 shadow-sm"
-                        : "border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900"
+                        ? "border-gray-800 dark:border-gray-600 bg-card shadow-sm"
+                        : "border-border bg-card"
                     }`}
                   >
                     <div
@@ -345,12 +345,12 @@ export default function CheckoutPage() {
 
           {/* Right Column: Summary */}
           <div className="w-full lg:w-112.5 xl:w-125">
-            <div className="border-b border-gray-100 dark:border-gray-800 pb-2 mb-6 text-center lg:text-left">
+            <div className="border-b border-border pb-2 mb-6 text-center lg:text-left">
               <h2 className="text-[15px] font-semibold text-[#8C93A3]">Order summary</h2>
             </div>
 
-            <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-3xl p-6 mb-6 shadow-sm">
-              <div className="flex justify-between items-center mb-6 pb-4 border-b border-gray-200 dark:border-gray-800">
+            <div className="bg-card border border-border rounded-3xl p-6 mb-6 shadow-sm">
+              <div className="flex justify-between items-center mb-6 pb-4 border-b border-border">
                 <span className="font-semibold text-[14px]">
                   Total items <span className="text-[#8C93A3] font-normal">({cartItemCount} items)</span>
                 </span>
@@ -376,7 +376,7 @@ export default function CheckoutPage() {
               </div>
             </div>
 
-            <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-3xl p-6 mb-6 shadow-sm">
+            <div className="bg-card border border-border rounded-3xl p-6 mb-6 shadow-sm">
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between">
                   <span className="text-[14px] text-[#8C93A3]">Goods total</span>
@@ -392,7 +392,7 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
-              <div className="flex justify-between items-center pt-4 border-t border-gray-200 dark:border-gray-800">
+              <div className="flex justify-between items-center pt-4 border-t border-border">
                 <span className="text-[16px] font-bold text-[#1C244B] dark:text-white">Pay now</span>
                 <span className="text-[18px] font-bold text-[#1C244B] dark:text-white">{taka(cartTotal * 0.7)}</span>
               </div>
@@ -415,7 +415,7 @@ export default function CheckoutPage() {
             <div className="mb-8">
               <label className="block text-[14px] text-[#1C244B] dark:text-white mb-2 font-medium">Order note</label>
               <textarea
-                className="w-full h-32 p-4 text-[14px] bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl focus:outline-none focus:ring-1 focus:ring-primary resize-none placeholder:text-[#8C93A3]"
+                className="w-full h-32 p-4 text-[14px] bg-card border border-border rounded-xl focus:outline-none focus:ring-1 focus:ring-primary resize-none placeholder:text-[#8C93A3]"
                 placeholder="Write your order instructions here..."
                 maxLength={1500}
                 value={orderNote}

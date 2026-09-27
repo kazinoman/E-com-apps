@@ -123,7 +123,7 @@ export default async function PaymentReturnPage({
   const verdict = verdictFor(order, outcome);
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950 py-12">
+    <div className="min-h-screen bg-background py-12">
       <Container className="max-w-2xl">
         <div className={`rounded-xl border p-6 mb-8 ${TONES[verdict.tone]}`}>
           <p className="text-[16px] font-bold">{verdict.title}</p>
@@ -141,7 +141,7 @@ export default async function PaymentReturnPage({
               {statusLabel(order.status)}
             </span>
           </div>
-          <div className="flex justify-between items-center pt-4 border-t border-gray-200 dark:border-gray-800">
+          <div className="flex justify-between items-center pt-4 border-t border-border">
             <span className="text-[15px] font-bold text-[#1C244B] dark:text-white">Total</span>
             <span className="text-[17px] font-bold text-[#1C244B] dark:text-white">
               {taka(order.grandTotalBdt)}

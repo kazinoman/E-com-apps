@@ -17,7 +17,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
     : [];
 
   return (
-    <main className="min-h-screen bg-white dark:bg-gray-950">
+    <main className="min-h-screen bg-background">
       <ProductDetails product={product} similarProducts={similarProducts} advancePct={terms.advancePct} />
     </main>
   );

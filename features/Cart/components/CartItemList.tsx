@@ -40,9 +40,9 @@ export const CartItemList = () => {
         );
 
         return (
-          <div key={productId} className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden transition-colors">
-            <div className="flex gap-4 p-5 border-b border-gray-100 dark:border-gray-800">
-              <div className="relative w-[100px] h-[100px] flex-shrink-0 bg-gray-50 dark:bg-gray-800 rounded-md border border-gray-100 dark:border-gray-700 overflow-hidden">
+          <div key={productId} className="bg-card rounded-xl shadow-sm border border-border overflow-hidden transition-colors">
+            <div className="flex gap-4 p-5 border-b border-border">
+              <div className="relative w-[100px] h-[100px] flex-shrink-0 bg-muted rounded-md border border-border overflow-hidden">
                 {head.imageUrl && (
                   <Image
                     src={head.imageUrl}
@@ -64,7 +64,7 @@ export const CartItemList = () => {
                 const min = item.moq ?? 1;
 
                 return (
-                  <div key={item.id} className="flex flex-col md:flex-row md:items-center justify-between p-5 border-b border-gray-100 dark:border-gray-800 gap-4 md:gap-6 transition-colors">
+                  <div key={item.id} className="flex flex-col md:flex-row md:items-center justify-between p-5 border-b border-border gap-4 md:gap-6 transition-colors">
                     <div className="flex-1 min-w-[200px] space-y-1">
                       <p className="text-sm font-medium text-gray-800 dark:text-gray-200">
                         {variant ?? "Default variant"}
@@ -101,7 +101,7 @@ export const CartItemList = () => {
                         <p className="font-bold text-gray-900 dark:text-gray-100">{taka(item.lineTotalBdt)}</p>
                       </div>
 
-                      <div className="flex items-center gap-3 border border-gray-200 dark:border-gray-700 rounded-md overflow-hidden bg-white dark:bg-gray-900 shrink-0">
+                      <div className="flex items-center gap-3 border border-border rounded-md overflow-hidden bg-card shrink-0">
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity - 1)}
                           disabled={isPending || item.quantity <= min}
@@ -132,7 +132,7 @@ export const CartItemList = () => {
               })}
             </div>
 
-            <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800/50 text-sm font-semibold text-gray-800 dark:text-gray-200 border-t border-gray-100 dark:border-gray-800">
+            <div className="flex items-center justify-between p-4 bg-muted/50 text-sm font-semibold text-gray-800 dark:text-gray-200 border-t border-border">
               <span>Item Summary</span>
               <span>{totalItemsInGroup} items</span>
               <span className="text-gray-900 dark:text-gray-100 text-base">{taka(groupTotal)}</span>

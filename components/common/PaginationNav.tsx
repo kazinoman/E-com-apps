@@ -58,9 +58,9 @@ export function PaginationNav({ pagination, basePath, params, className }: Pagin
   const box =
     "inline-flex items-center justify-center h-9 min-w-9 px-3 rounded-lg border text-[14px] font-medium transition-colors";
   const idle =
-    "bg-white dark:bg-zinc-900 border-[#EAE4E3] dark:border-zinc-800 text-[#333333] dark:text-gray-200 hover:border-[#F05C22] hover:text-[#F05C22]";
+    "bg-background border-[#EAE4E3] dark:border-zinc-800 text-[#333333] dark:text-gray-200 hover:border-[#F05C22] hover:text-[#F05C22]";
   const disabled =
-    "bg-white dark:bg-zinc-900 border-[#F0F0F0] dark:border-zinc-800 text-[#CCCCCC] dark:text-zinc-700 pointer-events-none";
+    "bg-background border-[#F0F0F0] dark:border-zinc-800 text-[#CCCCCC] dark:text-zinc-700 pointer-events-none";
 
   return (
     <nav

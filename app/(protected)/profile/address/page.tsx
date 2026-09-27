@@ -117,7 +117,7 @@ function AddressPageContent() {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 w-full min-h-full p-8 relative">
+    <div className="bg-card rounded-3xl shadow-sm border border-border w-full min-h-full p-8 relative">
       
       {/* Header */}
       <div className="flex justify-between items-center mb-10">
@@ -147,8 +147,8 @@ function AddressPageContent() {
               key={address.id} 
               className={`flex items-center justify-between p-6 rounded-xl border-[2px] transition-colors ${
                 address.isDefault 
-                  ? "border-[#333333] bg-[#F7F7FA] dark:bg-gray-800" 
-                  : "border-[#F7F7FA] dark:border-gray-800 bg-[#F7F7FA] dark:bg-gray-800"
+                  ? "border-[#333333] bg-muted" 
+                  : "border-[#F7F7FA] dark:border-gray-800 bg-muted"
               }`}
             >
               <div className="flex items-start gap-4">
@@ -166,7 +166,7 @@ function AddressPageContent() {
                 {/* Address Details */}
                 <div>
                   <div className="flex items-center gap-3 mb-1.5">
-                    <span className="text-[15px] font-bold text-[#333333] dark:text-white">
+                    <span className="text-[15px] font-bold text-foreground">
                       {address.recipientName}
                       {address.label ? (
                         <span className="text-[#8C93A3] font-medium"> · {address.label}</span>
@@ -185,7 +185,7 @@ function AddressPageContent() {
               </div>
 
               {/* Actions */}
-              <div className="flex items-center gap-4 border-l border-gray-200 dark:border-gray-700 pl-6 ml-4">
+              <div className="flex items-center gap-4 border-l border-border pl-6 ml-4">
                 <button 
                   onClick={() => handleEdit(address)}
                   className="text-[#8C93A3] hover:text-[#333333] dark:hover:text-white transition-colors"

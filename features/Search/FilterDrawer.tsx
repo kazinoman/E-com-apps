@@ -8,12 +8,12 @@ import type { CategoryOption } from "@/lib/types/category";
 export function FilterDrawer({ categories }: { categories: CategoryOption[] }) {
   return (
     <Drawer direction="left">
-      <DrawerTrigger className="flex items-center gap-2 px-4 py-2 border border-gray-200 dark:border-zinc-800 rounded-lg text-sm font-medium hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors">
+      <DrawerTrigger className="flex items-center gap-2 px-4 py-2 border border-border rounded-lg text-sm font-medium hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors">
         <SlidersHorizontal className="w-4 h-4" />
         Filters
       </DrawerTrigger>
       <DrawerContent className="h-full w-[80vw] sm:w-[350px] mt-0 rounded-none">
-        <DrawerHeader className="flex flex-row items-center justify-between border-b border-gray-200 dark:border-zinc-800">
+        <DrawerHeader className="flex flex-row items-center justify-between border-b border-border">
           <DrawerTitle>Filters</DrawerTitle>
           <DrawerClose className="p-2 -mr-2 rounded-full hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors">
             <X className="w-5 h-5 text-gray-500" />

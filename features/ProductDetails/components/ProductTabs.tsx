@@ -30,9 +30,9 @@ export const ProductTabs = ({ product, similarProducts }: ProductTabsProps) => {
   }, []);
 
   return (
-    <div className="mt-16 border-t border-gray-200 dark:border-gray-800 pt-10">
+    <div className="mt-16 border-t border-border pt-10">
       {/* Tabs Header */}
-      <div className="flex gap-8 border-b border-gray-200 dark:border-gray-800">
+      <div className="flex gap-8 border-b border-border">
         {tabs.map((tab) => (
           <button
             key={tab}
@@ -43,7 +43,7 @@ export const ProductTabs = ({ product, similarProducts }: ProductTabsProps) => {
           >
             {tab}
             {activeTab === tab && (
-              <span className="absolute bottom-0 left-0 w-full h-[2px] bg-gray-900 dark:bg-gray-100" />
+              <span className="absolute bottom-0 left-0 w-full h-[2px] bg-muted" />
             )}
           </button>
         ))}
@@ -73,14 +73,14 @@ export const ProductTabs = ({ product, similarProducts }: ProductTabsProps) => {
             {/* `attributes` is an opaque upstream key→value bag, preserved
                 verbatim through the API. Rendered as given; never parsed. */}
             {Object.keys(product.attributes ?? {}).length > 0 ? (
-              <div className="border border-gray-200 dark:border-gray-700 rounded-md overflow-hidden bg-white dark:bg-gray-900">
-                <div className="grid grid-cols-2 md:grid-cols-4 bg-gray-200 dark:bg-gray-700 gap-[1px]">
+              <div className="border border-border rounded-md overflow-hidden bg-card">
+                <div className="grid grid-cols-2 md:grid-cols-4 bg-muted gap-[1px]">
                   {Object.entries(product.attributes).map(([label, value]) => (
                     <div key={label} className="contents">
                       <div className="p-4 bg-gray-50/50 dark:bg-gray-800/80 text-gray-600 dark:text-gray-300 text-sm font-medium flex items-center">
                         {label}
                       </div>
-                      <div className="p-4 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 text-sm flex items-center">
+                      <div className="p-4 bg-card text-gray-900 dark:text-gray-100 text-sm flex items-center">
                         {value}
                       </div>
                     </div>

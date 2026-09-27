@@ -4,7 +4,7 @@ import { ChevronRight } from "lucide-react";
 
 export default function ProductDetailsSkeleton() {
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950 pb-20">
+    <div className="min-h-screen bg-background pb-20">
       <Container>
         {/* Breadcrumb Skeleton */}
         <div className="flex items-center gap-2 py-6">

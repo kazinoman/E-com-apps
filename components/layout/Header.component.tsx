@@ -65,7 +65,7 @@ export function Header() {
   return (
     <>
       {/* Desktop Header Top Bar */}
-      <header className="hidden md:block border-b border-[#EAE4E3] bg-background">
+      <header className="hidden md:block border-b border-border bg-background">
         <Container className="h-[80px] flex items-center justify-between gap-8">
           {/* Logo */}
           <button onClick={() => router.push("/")} className="text-4xl font-black text-foreground tracking-tight">
@@ -85,7 +85,7 @@ export function Header() {
                 setSearchTerm(e.target.value);
               }}
               placeholder="Search Product Name"
-              className="w-full h-[46px] pl-12 pr-12 bg-[#F6F7F9] dark:bg-secondary/50 border border-transparent rounded-lg focus:outline-none focus:ring-1 focus:ring-primary focus:border-transparent text-[15px] transition-all text-foreground"
+              className="w-full h-[46px] pl-12 pr-12 bg-muted/50 border border-transparent rounded-lg focus:outline-none focus:ring-1 focus:ring-primary focus:border-transparent text-[15px] transition-all text-foreground"
             />
             <button title="Search by Image (Coming Soon)" className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors">
               <Camera size={20} strokeWidth={1.5} />
@@ -125,7 +125,7 @@ export function Header() {
                     <img 
                       src={user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.fullName)}&background=F3F4F6&color=374151&rounded=true`} 
                       alt={user.fullName}
-                      className="w-7 h-7 rounded-full object-cover border border-gray-200 dark:border-gray-700 group-hover:border-gray-400 transition-colors"
+                      className="w-7 h-7 rounded-full object-cover border border-border group-hover:border-gray-400 transition-colors"
                     />
                     <span>{user.fullName}</span>
                   </Link>
@@ -161,7 +161,7 @@ export function Header() {
       </div>
 
       {/* Mobile Header */}
-      <header className="md:hidden flex items-center justify-between px-4 h-16 border-b border-[#EAE4E3] bg-background sticky top-0 z-50">
+      <header className="md:hidden flex items-center justify-between px-4 h-16 border-b border-border bg-background sticky top-0 z-50">
         {!isMobileSearchOpen ? (
           <>
             <button className="text-foreground" onClick={() => setIsMobileMenuOpen(true)}>

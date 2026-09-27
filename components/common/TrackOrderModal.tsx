@@ -73,7 +73,7 @@ export function TrackOrderModal({ isOpen, onClose, history, paymentMethod }: Tra
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
-      <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl w-full max-w-[420px] max-h-[90vh] overflow-y-auto relative scrollbar-hide">
+      <div className="bg-card rounded-2xl shadow-xl w-full max-w-[420px] max-h-[90vh] overflow-y-auto relative scrollbar-hide">
         <button 
           onClick={onClose}
           className="absolute top-5 right-5 text-[#333333] hover:text-black dark:text-gray-300 dark:hover:text-white"
@@ -82,7 +82,7 @@ export function TrackOrderModal({ isOpen, onClose, history, paymentMethod }: Tra
         </button>
 
         <div className="p-6 pb-2 text-center">
-          <h2 className="text-[17px] font-bold text-[#333333] dark:text-white">Track Order</h2>
+          <h2 className="text-[17px] font-bold text-foreground">Track Order</h2>
         </div>
 
         <div className="p-6 pt-4">
@@ -100,7 +100,7 @@ export function TrackOrderModal({ isOpen, onClose, history, paymentMethod }: Tra
                 <div key={index} className="flex flex-col items-center relative z-10 flex-1">
                   {/* Icon */}
                   <div className={`mb-4 ${
-                    step.completed ? "text-[#333333] dark:text-white" : "text-[#9FA7CF]"
+                    step.completed ? "text-foreground" : "text-[#9FA7CF]"
                   }`}>
                     <step.icon className="w-7 h-7" strokeWidth={1.5} />
                   </div>
@@ -114,7 +114,7 @@ export function TrackOrderModal({ isOpen, onClose, history, paymentMethod }: Tra
                   <div className={`w-[18px] h-[18px] rounded-full flex items-center justify-center border-[2px] ${
                     step.completed 
                       ? "bg-[#333333] border-[#333333] text-white" 
-                      : "bg-white dark:bg-gray-900 border-[#9FA7CF] text-[#9FA7CF]"
+                      : "bg-card border-[#9FA7CF] text-[#9FA7CF]"
                   }`}>
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                   </div>
@@ -132,7 +132,7 @@ export function TrackOrderModal({ isOpen, onClose, history, paymentMethod }: Tra
             <div className="space-y-6">
               {dates.map((date, dateIndex) => (
                 <div key={date}>
-                  <div className="text-[13px] font-bold text-[#333333] dark:text-white mb-5">
+                  <div className="text-[13px] font-bold text-foreground mb-5">
                     {date}
                   </div>
                   <div className="pl-6 space-y-6">
@@ -153,10 +153,10 @@ export function TrackOrderModal({ isOpen, onClose, history, paymentMethod }: Tra
                             <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                           </div>
                           
-                          <div className="text-[14px] font-semibold text-[#333333] dark:text-white">
+                          <div className="text-[14px] font-semibold text-foreground">
                             {event.status}
                           </div>
-                          <div className="text-[13px] font-medium text-[#333333] dark:text-white">
+                          <div className="text-[13px] font-medium text-foreground">
                             {event.time}
                           </div>
                         </div>

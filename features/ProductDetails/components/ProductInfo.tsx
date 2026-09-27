@@ -149,14 +149,14 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect, ad
                   onClick={() => pick(axis.axis, v.value)}
                   title={v.value}
                   className={cn(
-                    "flex items-center gap-2 p-1.5 rounded-xl border-2 transition-all duration-200 bg-white dark:bg-gray-800",
+                    "flex items-center gap-2 p-1.5 rounded-xl border-2 transition-all duration-200 bg-card",
                     active
                       ? "border-slate-800 dark:border-gray-200 ring-1 ring-slate-800 dark:ring-gray-200"
                       : "border-slate-200 dark:border-gray-700 hover:border-slate-300 dark:hover:border-gray-600",
                   )}
                 >
                   {v.imageUrl && (
-                    <span className="relative w-9 h-9 rounded-lg overflow-hidden bg-slate-50 dark:bg-gray-900 block">
+                    <span className="relative w-9 h-9 rounded-lg overflow-hidden bg-card block">
                       <Image src={v.imageUrl} alt={v.value} fill className="object-cover" />
                     </span>
                   )}
@@ -200,7 +200,7 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect, ad
 
         <p className="text-sm font-medium text-slate-500 dark:text-gray-400">Quantity</p>
         <div className="flex flex-col gap-1">
-          <div className="flex items-center rounded-lg bg-slate-50 dark:bg-gray-800 p-1 w-fit">
+          <div className="flex items-center rounded-lg bg-card p-1 w-fit">
             <button
               onClick={decreaseQuantity}
               disabled={quantity <= moq}
@@ -228,7 +228,7 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect, ad
               onBlur={() => {
                 if (quantity < moq) setQuantity(moq);
               }}
-              className="w-12 text-center font-medium text-slate-800 dark:text-gray-200 bg-white dark:bg-gray-900 border border-slate-300 dark:border-gray-600 rounded-md mx-1 py-1 focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
+              className="w-12 text-center font-medium text-slate-800 dark:text-gray-200 bg-card border border-slate-300 dark:border-gray-600 rounded-md mx-1 py-1 focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
             />
             <button
               onClick={increaseQuantity}
@@ -261,7 +261,7 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect, ad
         <Button
           onClick={handleAddToCart}
           disabled={isPending || needsChoice || outOfStock}
-          className="flex-1 bg-slate-800 hover:bg-slate-700 text-white dark:bg-white dark:text-slate-900 dark:hover:bg-gray-200 h-12 rounded-lg font-medium text-base"
+          className="flex-1 bg-slate-800 hover:bg-slate-700 text-white dark:bg-primary dark:text-primary-foreground dark:hover:bg-gray-200 h-12 rounded-lg font-medium text-base"
         >
           {outOfStock ? "Out of stock" : needsChoice ? "Choose an option" : "Add to cart"}
         </Button>
@@ -300,7 +300,7 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect, ad
           </h3>
           <button 
             onClick={() => setIsFreightModalOpen(true)}
-            className="text-xs font-medium text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 flex items-center gap-1 bg-white/50 dark:bg-gray-800/50 px-2.5 py-1.5 rounded-lg border border-indigo-100 dark:border-indigo-900/50 hover:bg-white dark:hover:bg-gray-800 transition-colors z-10"
+            className="text-xs font-medium text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 flex items-center gap-1 bg-card px-2.5 py-1.5 rounded-lg border border-indigo-100 dark:border-indigo-900/50 hover:bg-white dark:hover:bg-gray-800 transition-colors z-10"
           >
             Details <ExternalLink className="w-3 h-3" />
           </button>
@@ -308,7 +308,7 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect, ad
         
         <div className="flex flex-col">
           <div className="flex items-center gap-3 text-sm group">
-            <div className="w-8 h-8 rounded-full bg-white dark:bg-gray-800 shadow-sm border border-slate-100 dark:border-gray-700 flex items-center justify-center text-slate-400 group-hover:text-indigo-500 group-hover:border-indigo-200 transition-colors shrink-0">
+            <div className="w-8 h-8 rounded-full bg-card shadow-sm border border-slate-100 dark:border-gray-700 flex items-center justify-center text-slate-400 group-hover:text-indigo-500 group-hover:border-indigo-200 transition-colors shrink-0">
               <Plane className="w-4 h-4" />
             </div>
             <p className="text-slate-600 dark:text-gray-300">
@@ -318,7 +318,7 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect, ad
           </div>
 
           <div className="flex items-center gap-3 text-sm group">
-            <div className="w-8 h-8 rounded-full bg-white dark:bg-gray-800 shadow-sm border border-slate-100 dark:border-gray-700 flex items-center justify-center text-slate-400 group-hover:text-orange-500 group-hover:border-orange-200 transition-colors shrink-0">
+            <div className="w-8 h-8 rounded-full bg-card shadow-sm border border-slate-100 dark:border-gray-700 flex items-center justify-center text-slate-400 group-hover:text-orange-500 group-hover:border-orange-200 transition-colors shrink-0">
               <Scale className="w-4 h-4" />
             </div>
             <p className="text-slate-600 dark:text-gray-300">
@@ -327,7 +327,7 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect, ad
           </div>
           
           <div className="flex items-center gap-3 text-sm group">
-            <div className="w-8 h-8 rounded-full bg-white dark:bg-gray-800 shadow-sm border border-slate-100 dark:border-gray-700 flex items-center justify-center text-slate-400 group-hover:text-emerald-500 group-hover:border-emerald-200 transition-colors shrink-0">
+            <div className="w-8 h-8 rounded-full bg-card shadow-sm border border-slate-100 dark:border-gray-700 flex items-center justify-center text-slate-400 group-hover:text-emerald-500 group-hover:border-emerald-200 transition-colors shrink-0">
               <CreditCard className="w-4 h-4" />
             </div>
             <p className="text-slate-600 dark:text-gray-300">

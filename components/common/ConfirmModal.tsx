@@ -25,10 +25,10 @@ export function ConfirmModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-      <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl w-full max-w-[400px] relative animate-in fade-in zoom-in-95 duration-200">
+      <div className="bg-card rounded-2xl shadow-xl w-full max-w-[400px] relative animate-in fade-in zoom-in-95 duration-200">
         {/* Header */}
-        <div className="p-6 pb-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center">
-          <h2 className="text-[17px] font-bold text-[#333333] dark:text-white">{title}</h2>
+        <div className="p-6 pb-4 border-b border-border flex justify-between items-center">
+          <h2 className="text-[17px] font-bold text-foreground">{title}</h2>
           <button 
             onClick={onClose}
             className="text-[#333333] hover:text-black dark:text-gray-300 dark:hover:text-white"
@@ -44,7 +44,7 @@ export function ConfirmModal({
           <div className="flex gap-4">
             <button
               onClick={onClose}
-              className="flex-1 border border-gray-200 dark:border-gray-700 bg-transparent text-[#333333] dark:text-white py-3 rounded-lg text-[14px] font-bold transition-colors hover:bg-gray-50 dark:hover:bg-gray-800"
+              className="flex-1 border border-border bg-transparent text-foreground py-3 rounded-lg text-[14px] font-bold transition-colors hover:bg-gray-50 dark:hover:bg-gray-800"
             >
               {cancelText}
             </button>

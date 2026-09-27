@@ -74,7 +74,7 @@ const LoginComponent = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-zinc-50 dark:bg-background font-sans p-4 py-8">
-      <div className="w-full max-w-125 bg-white dark:bg-gray-900 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 p-6 sm:p-8 relative flex flex-col items-center">
+      <div className="w-full max-w-125 bg-card rounded-3xl shadow-sm border border-border p-6 sm:p-8 relative flex flex-col items-center">
         <div className="flex justify-center mb-6 w-full ">
           <Image
             src="/Tablet_login.gif"
@@ -88,7 +88,7 @@ const LoginComponent = () => {
         </div>
 
         <div className="w-full">
-          <h2 className="text-[22px] font-bold text-[#333333] dark:text-white mb-2">Sign In</h2>
+          <h2 className="text-[22px] font-bold text-foreground mb-2">Sign In</h2>
           <p className="text-[14px] text-[#8C93A3] mb-6 leading-relaxed">
             Enter your phone number and password to sign in!
           </p>
@@ -99,7 +99,7 @@ const LoginComponent = () => {
               <input
                 type="text"
                 placeholder="+880 - 1234567890"
-                className="w-full bg-[#F8F9FA] dark:bg-gray-800 border border-transparent focus:border-[#4A85F6] focus:ring-1 focus:ring-[#4A85F6] rounded-xl px-4 py-3.5 text-[14px] outline-none text-[#333333] dark:text-white transition-all placeholder:text-[#8C93A3]"
+                className="w-full bg-[#F8F9FA] dark:bg-gray-800 border border-transparent focus:border-[#4A85F6] focus:ring-1 focus:ring-[#4A85F6] rounded-xl px-4 py-3.5 text-[14px] outline-none text-foreground transition-all placeholder:text-[#8C93A3]"
                 {...register("email")}
               />
               {errors.email && <p className="text-xs text-red-500 mt-1.5">{errors.email.message}</p>}
@@ -111,7 +111,7 @@ const LoginComponent = () => {
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="Min. 8 characters"
-                  className="w-full bg-[#F8F9FA] dark:bg-gray-800 border border-transparent focus:border-[#4A85F6] focus:ring-1 focus:ring-[#4A85F6] rounded-xl px-4 py-3.5 pr-12 text-[14px] outline-none text-[#333333] dark:text-white transition-all placeholder:text-[#8C93A3]"
+                  className="w-full bg-[#F8F9FA] dark:bg-gray-800 border border-transparent focus:border-[#4A85F6] focus:ring-1 focus:ring-[#4A85F6] rounded-xl px-4 py-3.5 pr-12 text-[14px] outline-none text-foreground transition-all placeholder:text-[#8C93A3]"
                   {...register("password")}
                 />
                 <button
@@ -139,7 +139,7 @@ const LoginComponent = () => {
               </div>
               <Link
                 href="/forgot-password"
-                className="text-[13px] font-bold text-[#333333] dark:text-white hover:underline transition-all"
+                className="text-[13px] font-bold text-foreground hover:underline transition-all"
               >
                 Forget password?
               </Link>
@@ -158,20 +158,20 @@ const LoginComponent = () => {
             Don't have an account ?{" "}
             <Link
               href="/signup"
-              className="font-bold text-[#333333] dark:text-white hover:underline transition-colors"
+              className="font-bold text-foreground hover:underline transition-colors"
             >
               Sign up
             </Link>
           </div>
 
           <div className="my-6 flex items-center">
-            <div className="flex-1 border-t border-gray-200 dark:border-gray-800"></div>
+            <div className="flex-1 border-t border-border"></div>
             <span className="px-4 text-[13px] font-medium text-[#8C93A3]">Or continue with</span>
-            <div className="flex-1 border-t border-gray-200 dark:border-gray-800"></div>
+            <div className="flex-1 border-t border-border"></div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <button className="w-full flex items-center justify-center gap-2.5 border border-gray-200 dark:border-gray-700 bg-transparent rounded-lg py-2.5 text-[14px] font-semibold text-[#333333] dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all">
+            <button className="w-full flex items-center justify-center gap-2.5 border border-border bg-transparent rounded-lg py-2.5 text-[14px] font-semibold text-[#333333] dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all">
               <svg className="w-[18px] h-[18px]" viewBox="0 0 24 24">
                 <path
                   fill="#4285F4"
@@ -193,7 +193,7 @@ const LoginComponent = () => {
               Google
             </button>
 
-            <button className="w-full flex items-center justify-center gap-2.5 border border-gray-200 dark:border-gray-700 bg-transparent rounded-lg py-2.5 text-[14px] font-semibold text-[#333333] dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all">
+            <button className="w-full flex items-center justify-center gap-2.5 border border-border bg-transparent rounded-lg py-2.5 text-[14px] font-semibold text-[#333333] dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all">
               <svg className="w-[18px] h-[18px]" viewBox="0 0 24 24">
                 <path
                   fill="#1877F2"

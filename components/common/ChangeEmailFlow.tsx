@@ -96,7 +96,7 @@ export function ChangeEmailFlow({ onBack, onComplete, currentEmail }: ChangeEmai
   };
 
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 p-8 w-full min-h-full">
+    <div className="bg-card rounded-3xl shadow-sm border border-border p-8 w-full min-h-full">
       <div className="flex items-center gap-4 mb-8">
         <button
           onClick={step === "REQUEST" ? onBack : () => setStep("REQUEST")}
@@ -104,7 +104,7 @@ export function ChangeEmailFlow({ onBack, onComplete, currentEmail }: ChangeEmai
         >
           <ChevronLeft className="w-5 h-5 text-[#333333] dark:text-gray-300" strokeWidth={2.5} />
         </button>
-        <h1 className="text-[18px] font-bold text-[#333333] dark:text-white flex-1 text-center">
+        <h1 className="text-[18px] font-bold text-foreground flex-1 text-center">
           {step === "REQUEST" ? "Change Email Address" : "Verification code"}
         </h1>
         <div className="w-9" />
@@ -113,7 +113,7 @@ export function ChangeEmailFlow({ onBack, onComplete, currentEmail }: ChangeEmai
       <div className="max-w-[400px] mx-auto text-center">
         {step === "REQUEST" && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-300">
-            <h3 className="text-[20px] font-bold text-[#333333] dark:text-white mb-2 text-left">
+            <h3 className="text-[20px] font-bold text-foreground mb-2 text-left">
               Change your email address
             </h3>
             <p className="text-[13px] text-[#8C93A3] mb-8 text-left">
@@ -131,7 +131,7 @@ export function ChangeEmailFlow({ onBack, onComplete, currentEmail }: ChangeEmai
                 onChange={(e) => setNewEmail(e.target.value)}
                 autoComplete="email"
                 maxLength={254}
-                className="w-full bg-[#F7F7FA] dark:bg-gray-800 border-none rounded-xl p-4 text-[14px] text-[#333333] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#4A85F6]"
+                className="w-full bg-muted border-none rounded-xl p-4 text-[14px] text-foreground focus:outline-none focus:ring-2 focus:ring-[#4A85F6]"
                 placeholder="you@example.com"
               />
             </div>
@@ -148,7 +148,7 @@ export function ChangeEmailFlow({ onBack, onComplete, currentEmail }: ChangeEmai
 
         {step === "VERIFY" && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-300">
-            <h3 className="text-[20px] font-bold text-[#333333] dark:text-white mb-2 text-left">
+            <h3 className="text-[20px] font-bold text-foreground mb-2 text-left">
               Verify your email address
             </h3>
             <p className="text-[13px] text-[#8C93A3] mb-8 text-left">
@@ -178,7 +178,7 @@ export function ChangeEmailFlow({ onBack, onComplete, currentEmail }: ChangeEmai
                   value={digit}
                   onChange={(e) => handleOtpChange(index, e.target.value)}
                   onKeyDown={(e) => handleOtpKeyDown(index, e)}
-                  className="w-[50px] h-[55px] bg-[#F7F7FA] dark:bg-gray-800 rounded-xl text-center text-[20px] font-bold text-[#333333] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#4A85F6] border-none"
+                  className="w-[50px] h-[55px] bg-muted rounded-xl text-center text-[20px] font-bold text-foreground focus:outline-none focus:ring-2 focus:ring-[#4A85F6] border-none"
                 />
               ))}
             </div>
@@ -202,7 +202,7 @@ export function ChangeEmailFlow({ onBack, onComplete, currentEmail }: ChangeEmai
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
                 autoComplete="current-password"
-                className="w-full bg-[#F7F7FA] dark:bg-gray-800 border-none rounded-xl p-4 text-[14px] text-[#333333] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#4A85F6]"
+                className="w-full bg-muted border-none rounded-xl p-4 text-[14px] text-foreground focus:outline-none focus:ring-2 focus:ring-[#4A85F6]"
                 placeholder="••••••••"
               />
             </div>

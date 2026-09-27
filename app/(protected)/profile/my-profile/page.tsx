@@ -59,7 +59,7 @@ export default function MyProfilePage() {
   }
 
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 w-full min-h-full flex flex-col items-center p-8">
+    <div className="bg-card rounded-3xl shadow-sm border border-border w-full min-h-full flex flex-col items-center p-8">
       
       {/* Avatar Section */}
       <div className="relative mb-12 mt-4">
@@ -90,7 +90,7 @@ export default function MyProfilePage() {
               type="text"
               value={formData.fullName}
               onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-              className="w-full bg-[#F7F7FA] dark:bg-gray-800 border-none rounded-xl p-4 pr-12 text-[14px] font-medium text-[#333333] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#4A85F6]"
+              className="w-full bg-muted border-none rounded-xl p-4 pr-12 text-[14px] font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-[#4A85F6]"
             />
             <button className="absolute right-4 top-1/2 -translate-y-1/2 text-[#8C93A3] hover:text-[#333333] dark:hover:text-white transition-colors">
               <Edit2 className="w-4 h-4" />
@@ -108,7 +108,7 @@ export default function MyProfilePage() {
               type="text"
               value={formData.phone}
               disabled
-              className="w-full bg-[#F7F7FA] dark:bg-gray-800 border-none rounded-xl p-4 pr-12 text-[14px] font-medium text-[#333333] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#4A85F6] cursor-not-allowed"
+              className="w-full bg-muted border-none rounded-xl p-4 pr-12 text-[14px] font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-[#4A85F6] cursor-not-allowed"
             />
             <button
               onClick={(e) => {
@@ -135,7 +135,7 @@ export default function MyProfilePage() {
               type="email"
               value={formData.email}
               disabled
-              className="w-full bg-[#F7F7FA] dark:bg-gray-800 border-none rounded-xl p-4 pr-12 text-[14px] font-medium text-[#333333] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#4A85F6] cursor-not-allowed"
+              className="w-full bg-muted border-none rounded-xl p-4 pr-12 text-[14px] font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-[#4A85F6] cursor-not-allowed"
             />
             <button
               onClick={(e) => {
@@ -163,7 +163,7 @@ export default function MyProfilePage() {
               e.preventDefault();
               setFlow("PHONE");
             }}
-            className="w-full bg-[#F7F7FA] dark:bg-gray-800 hover:bg-[#EBEBEF] dark:hover:bg-gray-700 text-[#333333] dark:text-white py-4 rounded-xl text-[14px] font-bold transition-colors"
+            className="w-full bg-muted hover:bg-[#EBEBEF] dark:hover:bg-gray-700 text-foreground py-4 rounded-xl text-[14px] font-bold transition-colors"
           >
             Change Phone number
           </button>
@@ -172,7 +172,7 @@ export default function MyProfilePage() {
               e.preventDefault();
               setFlow("EMAIL");
             }}
-            className="w-full bg-[#F7F7FA] dark:bg-gray-800 hover:bg-[#EBEBEF] dark:hover:bg-gray-700 text-[#333333] dark:text-white py-4 rounded-xl text-[14px] font-bold transition-colors"
+            className="w-full bg-muted hover:bg-[#EBEBEF] dark:hover:bg-gray-700 text-foreground py-4 rounded-xl text-[14px] font-bold transition-colors"
           >
             Change Email address
           </button>
@@ -181,7 +181,7 @@ export default function MyProfilePage() {
               e.preventDefault();
               setFlow("PASSWORD");
             }}
-            className="w-full bg-[#F7F7FA] dark:bg-gray-800 hover:bg-[#EBEBEF] dark:hover:bg-gray-700 text-[#333333] dark:text-white py-4 rounded-xl text-[14px] font-bold transition-colors"
+            className="w-full bg-muted hover:bg-[#EBEBEF] dark:hover:bg-gray-700 text-foreground py-4 rounded-xl text-[14px] font-bold transition-colors"
           >
             Change Password
           </button>
@@ -189,10 +189,10 @@ export default function MyProfilePage() {
 
         {/* Footer Actions */}
         <div className="flex gap-4 pt-8">
-          <button className="flex-1 border border-gray-200 dark:border-gray-700 text-[#E94B4B] py-4 rounded-xl text-[14px] font-bold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+          <button className="flex-1 border border-border text-[#E94B4B] py-4 rounded-xl text-[14px] font-bold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
             Cancel
           </button>
-          <button className="flex-1 border border-gray-200 dark:border-gray-700 text-[#4A85F6] py-4 rounded-xl text-[14px] font-bold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+          <button className="flex-1 border border-border text-[#4A85F6] py-4 rounded-xl text-[14px] font-bold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
             Save
           </button>
         </div>

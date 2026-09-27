@@ -194,7 +194,7 @@ export const ProductReviews = ({ productId }: ProductReviewsProps) => {
       {/* Summary — only when a real aggregate exists. `ratingAvg` is null for
           effectively the whole catalog; nothing is invented to fill the gap. */}
       {reviews && reviews.ratingAvg !== null ? (
-        <div className="flex flex-wrap items-center gap-4 border border-gray-200 dark:border-gray-800 rounded-2xl p-6">
+        <div className="flex flex-wrap items-center gap-4 border border-border rounded-2xl p-6">
           <div className="text-4xl font-bold text-slate-800 dark:text-gray-100">
             {reviews.ratingAvg.toFixed(1)}
           </div>
@@ -212,7 +212,7 @@ export const ProductReviews = ({ productId }: ProductReviewsProps) => {
               return (
                 <div key={star} className="flex items-center gap-2 text-xs text-slate-500 dark:text-gray-400">
                   <span className="w-3 tabular-nums">{star}</span>
-                  <span className="flex-1 h-1.5 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                  <span className="flex-1 h-1.5 rounded-full bg-muted overflow-hidden">
                     <span className="block h-full bg-orange-400" style={{ width: `${pct}%` }} />
                   </span>
                   <span className="w-6 text-right tabular-nums">{count}</span>
@@ -224,7 +224,7 @@ export const ProductReviews = ({ productId }: ProductReviewsProps) => {
       ) : null}
 
       {/* Write path */}
-      <div className="border border-gray-200 dark:border-gray-800 rounded-2xl p-6">
+      <div className="border border-border rounded-2xl p-6">
         {mine === null ? (
           <p className="text-sm text-slate-500 dark:text-gray-400">Loading…</p>
         ) : mine.state === "signedOut" ? (
@@ -285,7 +285,7 @@ export const ProductReviews = ({ productId }: ProductReviewsProps) => {
               maxLength={REVIEW_TITLE_MAX}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Title (optional)"
-              className="w-full bg-[#F7F7FA] dark:bg-gray-800 border-none rounded-xl p-3 text-sm text-[#333333] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#4A85F6]"
+              className="w-full bg-muted border-none rounded-xl p-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-[#4A85F6]"
             />
 
             <textarea
@@ -294,7 +294,7 @@ export const ProductReviews = ({ productId }: ProductReviewsProps) => {
               onChange={(e) => setBody(e.target.value)}
               rows={4}
               placeholder="What was it like? (optional)"
-              className="w-full bg-[#F7F7FA] dark:bg-gray-800 border-none rounded-xl p-3 text-sm text-[#333333] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#4A85F6] resize-y"
+              className="w-full bg-muted border-none rounded-xl p-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-[#4A85F6] resize-y"
             />
 
             {/* The backend's sentence, verbatim — including the 403 a shopper
@@ -307,7 +307,7 @@ export const ProductReviews = ({ productId }: ProductReviewsProps) => {
               <button
                 onClick={handleSubmit}
                 disabled={saving || rating < 1}
-                className="bg-[#333333] dark:bg-white text-white dark:text-[#333333] px-6 py-2.5 rounded-lg text-sm font-bold transition-transform hover:-translate-y-0.5 disabled:opacity-50 disabled:hover:translate-y-0"
+                className="bg-primary text-primary-foreground px-6 py-2.5 rounded-lg text-sm font-bold transition-transform hover:-translate-y-0.5 disabled:opacity-50 disabled:hover:translate-y-0"
               >
                 {saving ? "Saving…" : mine?.state === "mine" ? "Save changes" : "Post review"}
               </button>
@@ -336,7 +336,7 @@ export const ProductReviews = ({ productId }: ProductReviewsProps) => {
       ) : (
         <div className="space-y-6">
           {reviews.items.map((review) => (
-            <div key={review.id} className="border-b border-gray-100 dark:border-gray-800 pb-6 last:border-0">
+            <div key={review.id} className="border-b border-border pb-6 last:border-0">
               <ReviewItem review={review} />
             </div>
           ))}

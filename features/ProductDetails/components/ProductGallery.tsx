@@ -36,7 +36,7 @@ export const ProductGallery = ({ images, activeIndex: externalIndex, onActiveInd
     <div className="flex flex-col gap-6">
       {/* Main Image */}
       <div 
-        className="relative aspect-square w-full rounded-2xl bg-slate-50 dark:bg-gray-900 flex items-center justify-center overflow-hidden group cursor-pointer"
+        className="relative aspect-square w-full rounded-2xl bg-card flex items-center justify-center overflow-hidden group cursor-pointer"
         onClick={() => {
           setZoomLevel(1);
           setIsZoomModalOpen(true);
@@ -82,7 +82,7 @@ export const ProductGallery = ({ images, activeIndex: externalIndex, onActiveInd
               key={i}
               onClick={() => setActiveIndex(i)}
               className={cn(
-                "relative aspect-square w-24 flex-shrink-0 rounded-xl overflow-hidden bg-slate-50 dark:bg-gray-900 border-2 transition-all duration-200",
+                "relative aspect-square w-24 flex-shrink-0 rounded-xl overflow-hidden bg-card border-2 transition-all duration-200",
                 i === activeIndex ? "border-slate-800 dark:border-gray-400" : "border-transparent hover:border-slate-200 dark:hover:border-gray-700"
               )}
             >
@@ -98,7 +98,7 @@ export const ProductGallery = ({ images, activeIndex: externalIndex, onActiveInd
 
         <button
           onClick={nextImage}
-          className="h-10 w-10 flex items-center justify-center rounded-full bg-slate-700 dark:bg-white hover:bg-slate-800 dark:hover:bg-gray-200 text-white dark:text-black transition-colors"
+          className="h-10 w-10 flex items-center justify-center rounded-full bg-primary hover:bg-primary-hover text-primary-foreground transition-colors"
           aria-label="Next image"
         >
           <ChevronRight className="w-5 h-5" />

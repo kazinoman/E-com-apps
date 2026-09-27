@@ -108,7 +108,7 @@ export function FilterSidebar({ className, categories = [] }: { className?: stri
 
       <Accordion type="multiple" defaultValue={["categories", "sort", "availability"]} className="w-full">
         {/* CATEGORIES */}
-        <AccordionItem value="categories" className="border-b border-gray-100 dark:border-zinc-800">
+        <AccordionItem value="categories" className="border-b border-border">
           <AccordionTrigger className="text-[15px] font-semibold hover:no-underline">
             Categories <span className="text-gray-400 font-normal ml-1 text-sm">({categories.length})</span>
           </AccordionTrigger>
@@ -167,7 +167,7 @@ export function FilterSidebar({ className, categories = [] }: { className?: stri
           </AccordionContent>
         </AccordionItem>
         {/* SORT BY */}
-        <AccordionItem value="sort" className="border-b border-gray-100 dark:border-zinc-800">
+        <AccordionItem value="sort" className="border-b border-border">
           <AccordionTrigger className="text-[15px] font-semibold hover:no-underline">Sort by</AccordionTrigger>
           <AccordionContent className="pt-1 pb-4">
             <RadioGroup value={getCurrentSort()} onValueChange={updateSort} className="gap-3">
@@ -192,7 +192,7 @@ export function FilterSidebar({ className, categories = [] }: { className?: stri
         </AccordionItem>
 
         {/* AVAILABILITY */}
-        <AccordionItem value="availability" className="border-b border-gray-100 dark:border-zinc-800">
+        <AccordionItem value="availability" className="border-b border-border">
           <AccordionTrigger className="text-[15px] font-semibold hover:no-underline">
             Availability <span className="text-gray-400 font-normal ml-1 text-sm">(2)</span>
           </AccordionTrigger>
@@ -213,7 +213,7 @@ export function FilterSidebar({ className, categories = [] }: { className?: stri
         </AccordionItem>
 
         {/* PRICE */}
-        <AccordionItem value="price" className="border-b border-gray-100 dark:border-zinc-800">
+        <AccordionItem value="price" className="border-b border-border">
           <AccordionTrigger className="text-[15px] font-semibold hover:no-underline">Price</AccordionTrigger>
           <AccordionContent className="pt-3 pb-4">
             <Slider
@@ -249,7 +249,7 @@ export function FilterSidebar({ className, categories = [] }: { className?: stri
         </AccordionItem>
 
         {/* RATINGS */}
-        <AccordionItem value="ratings" className="border-b border-gray-100 dark:border-zinc-800">
+        <AccordionItem value="ratings" className="border-b border-border">
           <AccordionTrigger className="text-[15px] font-semibold hover:no-underline">
             Ratings <span className="text-gray-400 font-normal ml-1 text-sm">(1)</span>
           </AccordionTrigger>

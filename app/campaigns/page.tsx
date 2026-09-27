@@ -81,7 +81,7 @@ export default async function CampaignsPage() {
       <Container className="-mt-10 relative z-10">
         {/* Benefit Pills */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
-          <div className="bg-white dark:bg-card rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-gray-800 flex items-center gap-4">
+          <div className="bg-card rounded-2xl p-4 shadow-sm border border-border flex items-center gap-4">
             <div className="w-10 h-10 rounded-full bg-[#E8F5E9] dark:bg-[#0A2F1A] flex items-center justify-center shrink-0">
               <Plane className="w-5 h-5 text-[#00A65A]" />
             </div>
@@ -90,7 +90,7 @@ export default async function CampaignsPage() {
               <p className="text-[11px] text-gray-500">Direct CN → BD in 4-7 Days</p>
             </div>
           </div>
-          <div className="bg-white dark:bg-card rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-gray-800 flex items-center gap-4">
+          <div className="bg-card rounded-2xl p-4 shadow-sm border border-border flex items-center gap-4">
             <div className="w-10 h-10 rounded-full bg-[#E3F2FD] dark:bg-[#0A1A2F] flex items-center justify-center shrink-0">
               <ShieldCheck className="w-5 h-5 text-[#3B82F6]" />
             </div>
@@ -99,7 +99,7 @@ export default async function CampaignsPage() {
               <p className="text-[11px] text-gray-500">Full Double-Money Guarantee</p>
             </div>
           </div>
-          <div className="bg-white dark:bg-card rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-gray-800 flex items-center gap-4">
+          <div className="bg-card rounded-2xl p-4 shadow-sm border border-border flex items-center gap-4">
             <div className="w-10 h-10 rounded-full bg-[#FFF3E0] dark:bg-[#2F1A0A] flex items-center justify-center shrink-0">
               <Banknote className="w-5 h-5 text-[#F59E0B]" />
             </div>
@@ -108,7 +108,7 @@ export default async function CampaignsPage() {
               <p className="text-[11px] text-gray-500">Extra 10% on bKash & Nagad</p>
             </div>
           </div>
-          <div className="bg-white dark:bg-card rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-gray-800 flex items-center gap-4">
+          <div className="bg-card rounded-2xl p-4 shadow-sm border border-border flex items-center gap-4">
             <div className="w-10 h-10 rounded-full bg-[#FCE4EC] dark:bg-[#2F0A1A] flex items-center justify-center shrink-0">
               <RefreshCcw className="w-5 h-5 text-[#EC4899]" />
             </div>
@@ -133,7 +133,7 @@ export default async function CampaignsPage() {
             </p>
           </div>
 
-          <div className="inline-flex items-center gap-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-full px-3 py-1.5 text-[12px] font-semibold text-gray-600 dark:text-gray-300 shadow-sm">
+          <div className="inline-flex items-center gap-2 bg-card border border-border rounded-full px-3 py-1.5 text-[12px] font-semibold text-gray-600 dark:text-gray-300 shadow-sm">
             <span className="w-2 h-2 rounded-full bg-[#00A65A]" />
             1,248 shoppers checking out now
           </div>
@@ -154,9 +154,9 @@ function CampaignListCard({ campaign }: { campaign: Campaign }) {
   const isDanger = campaign.stockLeft < 20;
 
   return (
-    <Link href={`/campaigns/${campaign.id}`} className="group bg-white dark:bg-card rounded-[24px] overflow-hidden border border-[#F0F0F0] dark:border-gray-800 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+    <Link href={`/campaigns/${campaign.id}`} className="group bg-card rounded-[24px] overflow-hidden border border-[#F0F0F0] dark:border-gray-800 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full">
       {/* Image Block */}
-      <div className="relative aspect-[16/9] w-full bg-gray-100 dark:bg-gray-900 overflow-hidden">
+      <div className="relative aspect-[16/9] w-full bg-muted overflow-hidden">
         <Image
           src={campaign.cardImage}
           alt={campaign.title}
@@ -205,7 +205,7 @@ function CampaignListCard({ campaign }: { campaign: Campaign }) {
         </p>
 
         {/* Featured Steal */}
-        <div className="border-t border-gray-100 dark:border-gray-800 pt-4 mb-5">
+        <div className="border-t border-border pt-4 mb-5">
           <span className="text-[10px] font-bold tracking-wider text-gray-400 uppercase mb-1 block">
             FEATURED STEAL
           </span>
@@ -224,7 +224,7 @@ function CampaignListCard({ campaign }: { campaign: Campaign }) {
               {isDanger ? `Only ${campaign.stockLeft} items left!` : `Just ${campaign.stockLeft} Units in Stock`}
             </span>
           </div>
-          <div className="h-1.5 w-full bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
+          <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
             <div
               className={cn(
                 "h-full rounded-full transition-all duration-1000",

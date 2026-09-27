@@ -43,10 +43,10 @@ function WishlistRow({
   const sold = formatSold(item.salesCount);
 
   return (
-    <div className="flex items-center gap-4 p-4 rounded-xl bg-[#F7F7FA] dark:bg-gray-800">
+    <div className="flex items-center gap-4 p-4 rounded-xl bg-muted">
       <Link
         href={`/products/${item.productId}`}
-        className="relative w-[84px] h-[84px] shrink-0 rounded-lg overflow-hidden bg-white dark:bg-gray-900"
+        className="relative w-[84px] h-[84px] shrink-0 rounded-lg overflow-hidden bg-card"
       >
         {item.imageUrl ? (
           <Image
@@ -62,7 +62,7 @@ function WishlistRow({
       <div className="flex-1 min-w-0">
         <Link
           href={`/products/${item.productId}`}
-          className="block text-[14px] font-bold text-[#333333] dark:text-white line-clamp-2 hover:text-[#4A85F6] transition-colors"
+          className="block text-[14px] font-bold text-foreground line-clamp-2 hover:text-[#4A85F6] transition-colors"
         >
           {item.title}
         </Link>
@@ -84,7 +84,7 @@ function WishlistRow({
         {/* A missing price is a missing price — no "—" standing in for a
             number the backend did not give us. */}
         {price ? (
-          <span className="text-[15px] font-bold text-[#333333] dark:text-white">{price}</span>
+          <span className="text-[15px] font-bold text-foreground">{price}</span>
         ) : null}
 
         <button
@@ -104,7 +104,7 @@ export default function WishlistPage() {
   const { wishlist, isPending, toggleWishlist } = useWishlist();
 
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 w-full min-h-full p-8">
+    <div className="bg-card rounded-3xl shadow-sm border border-border w-full min-h-full p-8">
       <div className="flex justify-between items-center mb-10">
         <h2 className="text-[14px] font-medium text-[#8C93A3]">
           {wishlist.length === 1 ? "1 saved product" : `${wishlist.length} saved products`}
@@ -113,7 +113,7 @@ export default function WishlistPage() {
 
       {wishlist.length === 0 ? (
         <div className="text-center py-16">
-          <p className="text-[15px] font-bold text-[#333333] dark:text-white mb-2">
+          <p className="text-[15px] font-bold text-foreground mb-2">
             Nothing saved yet
           </p>
           <p className="text-[13px] text-[#8C93A3] mb-6">

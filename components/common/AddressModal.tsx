@@ -47,7 +47,7 @@ interface AddressModalProps {
 const PHONE_RE = /^01\d{9}$/;
 
 const field =
-  "w-full bg-transparent border border-gray-200 dark:border-gray-700 rounded-lg p-3 text-[14px] text-[#333333] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#4A85F6]";
+  "w-full bg-transparent border border-border rounded-lg p-3 text-[14px] text-foreground focus:outline-none focus:ring-2 focus:ring-[#4A85F6]";
 const labelClass = "block text-[14px] font-semibold text-[#333333] dark:text-gray-300 mb-2";
 
 export function AddressModal({ isOpen, onClose, onSave, initialData }: AddressModalProps) {
@@ -89,9 +89,9 @@ export function AddressModal({ isOpen, onClose, onSave, initialData }: AddressMo
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-      <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl w-full max-w-[450px] max-h-[90vh] overflow-y-auto relative scrollbar-hide">
-        <div className="p-6 pb-4 text-center border-b border-gray-100 dark:border-gray-800 relative">
-          <h2 className="text-[17px] font-bold text-[#333333] dark:text-white">
+      <div className="bg-card rounded-2xl shadow-xl w-full max-w-[450px] max-h-[90vh] overflow-y-auto relative scrollbar-hide">
+        <div className="p-6 pb-4 text-center border-b border-border relative">
+          <h2 className="text-[17px] font-bold text-foreground">
             {initialData ? "Edit Address" : "New Address"}
           </h2>
           <button
@@ -103,7 +103,7 @@ export function AddressModal({ isOpen, onClose, onSave, initialData }: AddressMo
         </div>
 
         <div className="p-8 pt-6">
-          <h3 className="text-[20px] font-bold text-[#333333] dark:text-white mb-6 text-left">
+          <h3 className="text-[20px] font-bold text-foreground mb-6 text-left">
             {initialData ? "Update address details" : "Create new address"}
           </h3>
 
@@ -229,7 +229,7 @@ export function AddressModal({ isOpen, onClose, onSave, initialData }: AddressMo
               Use this as my default delivery address
             </label>
 
-            <hr className="border-gray-100 dark:border-gray-800 my-6" />
+            <hr className="border-border my-6" />
 
             <button
               onClick={handleSubmit}

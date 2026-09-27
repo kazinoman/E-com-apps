@@ -13,15 +13,15 @@ export function FreightCategoryModal({ isOpen, onClose }: FreightCategoryModalPr
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
       <div 
-        className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-[600px] relative animate-in fade-in zoom-in-95 duration-200 overflow-hidden border border-gray-100 dark:border-gray-800"
+        className="bg-card rounded-2xl shadow-2xl w-full max-w-[600px] relative animate-in fade-in zoom-in-95 duration-200 overflow-hidden border border-border"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="p-5 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-gray-50 dark:bg-gray-800/50">
+        <div className="p-5 border-b border-border flex justify-between items-center bg-muted/50">
           <h2 className="text-lg font-bold text-slate-800 dark:text-gray-100">Freight Category Details</h2>
           <button 
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-800 dark:text-gray-500 dark:hover:text-gray-200 transition-colors bg-white dark:bg-gray-800 p-1.5 rounded-full shadow-sm"
+            className="text-slate-400 hover:text-slate-800 dark:text-gray-500 dark:hover:text-gray-200 transition-colors bg-card p-1.5 rounded-full shadow-sm"
           >
             <X className="w-5 h-5" strokeWidth={2} />
           </button>

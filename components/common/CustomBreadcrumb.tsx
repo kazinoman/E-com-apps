@@ -60,7 +60,7 @@ export function CustomBreadcrumb({
                         </Link>
                       </BreadcrumbLink>
                     ) : (
-                      <BreadcrumbPage className="text-[14px] font-bold text-[#333333] dark:text-white">
+                      <BreadcrumbPage className="text-[14px] font-bold text-foreground">
                         {route.label}
                       </BreadcrumbPage>
                     )}

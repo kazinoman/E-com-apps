@@ -7,7 +7,7 @@ export default async function ActiveOrdersPage() {
   const orders = await getActiveOrders();
 
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 p-8 w-full min-h-full">
+    <div className="bg-card rounded-3xl shadow-sm border border-border p-8 w-full min-h-full">
       <OrderTabs />
       
       {orders.length === 0 ? (

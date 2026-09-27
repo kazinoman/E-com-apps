@@ -41,7 +41,7 @@ export default async function BrandsPage({
 
       <Container className="py-8 lg:py-12">
         <header className="mb-8">
-          <h1 className="text-[26px] lg:text-[32px] font-bold text-[#333333] dark:text-white">
+          <h1 className="text-[26px] lg:text-[32px] font-bold text-foreground">
             All brands
           </h1>
           <p className="text-[14px] text-[#999999] dark:text-gray-400 mt-1">
@@ -59,7 +59,7 @@ export default async function BrandsPage({
               <Link
                 key={brand.slug}
                 href={`/brands/${encodeURIComponent(brand.slug)}`}
-                className="group flex flex-col justify-between gap-2 bg-white dark:bg-zinc-900 border border-[#F0F0F0] dark:border-zinc-800 rounded-2xl px-4 py-4 hover:shadow-lg transition-shadow duration-300"
+                className="group flex flex-col justify-between gap-2 bg-background border border-[#F0F0F0] dark:border-zinc-800 rounded-2xl px-4 py-4 hover:shadow-lg transition-shadow duration-300"
               >
                 {/* Brands carry a slug, a name and a count — there is no logo
                     in the catalog, so none is drawn. */}

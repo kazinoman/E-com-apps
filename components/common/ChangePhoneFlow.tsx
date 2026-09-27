@@ -109,13 +109,13 @@ export function ChangePhoneFlow({ onBack, onComplete, currentPhone }: ChangePhon
   };
 
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 p-8 w-full min-h-full">
+    <div className="bg-card rounded-3xl shadow-sm border border-border p-8 w-full min-h-full">
       {/* Header */}
       <div className="flex items-center gap-4 mb-8">
         <button onClick={step === "REQUEST" ? onBack : () => setStep("REQUEST")} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
           <ChevronLeft className="w-5 h-5 text-[#333333] dark:text-gray-300" strokeWidth={2.5} />
         </button>
-        <h1 className="text-[18px] font-bold text-[#333333] dark:text-white flex-1 text-center">
+        <h1 className="text-[18px] font-bold text-foreground flex-1 text-center">
           {getHeaderTitle()}
         </h1>
         <div className="w-9" /> {/* Spacer */}
@@ -134,7 +134,7 @@ export function ChangePhoneFlow({ onBack, onComplete, currentPhone }: ChangePhon
               />
             </div>
 
-            <h3 className="text-[20px] font-bold text-[#333333] dark:text-white mb-2 text-left">Change your phone number</h3>
+            <h3 className="text-[20px] font-bold text-foreground mb-2 text-left">Change your phone number</h3>
             <p className="text-[13px] text-[#8C93A3] mb-8 text-left">
               We&apos;ll text a code to the new number to confirm it&apos;s yours.
               {currentPhone ? ` Your current number is ${currentPhone}.` : ""}
@@ -148,7 +148,7 @@ export function ChangePhoneFlow({ onBack, onComplete, currentPhone }: ChangePhon
                 type="tel"
                 value={newPhone}
                 onChange={(e) => setNewPhone(e.target.value)}
-                className="w-full bg-[#F7F7FA] dark:bg-gray-800 border-none rounded-xl p-4 text-[14px] text-[#333333] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#4A85F6]"
+                className="w-full bg-muted border-none rounded-xl p-4 text-[14px] text-foreground focus:outline-none focus:ring-2 focus:ring-[#4A85F6]"
                 placeholder="01XXXXXXXXX"
               />
             </div>
@@ -175,7 +175,7 @@ export function ChangePhoneFlow({ onBack, onComplete, currentPhone }: ChangePhon
               />
             </div>
 
-            <h3 className="text-[20px] font-bold text-[#333333] dark:text-white mb-2 text-left">Verify your phone number</h3>
+            <h3 className="text-[20px] font-bold text-foreground mb-2 text-left">Verify your phone number</h3>
             <p className="text-[13px] text-[#8C93A3] mb-8 text-left">We just sent a verification code to <span className="font-bold text-[#333333] dark:text-gray-300">{newPhone}</span></p>
 
             <div className="flex justify-between items-center mb-4 text-[13px]">
@@ -193,7 +193,7 @@ export function ChangePhoneFlow({ onBack, onComplete, currentPhone }: ChangePhon
                   value={digit}
                   onChange={(e) => handleOtpChange(index, e.target.value)}
                   onKeyDown={(e) => handleOtpKeyDown(index, e)}
-                  className="w-[50px] h-[55px] bg-[#F7F7FA] dark:bg-gray-800 rounded-xl text-center text-[20px] font-bold text-[#333333] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#4A85F6] border-none"
+                  className="w-[50px] h-[55px] bg-muted rounded-xl text-center text-[20px] font-bold text-foreground focus:outline-none focus:ring-2 focus:ring-[#4A85F6] border-none"
                 />
               ))}
             </div>
@@ -217,7 +217,7 @@ export function ChangePhoneFlow({ onBack, onComplete, currentPhone }: ChangePhon
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
                 autoComplete="current-password"
-                className="w-full bg-[#F7F7FA] dark:bg-gray-800 border-none rounded-xl p-4 text-[14px] text-[#333333] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#4A85F6]"
+                className="w-full bg-muted border-none rounded-xl p-4 text-[14px] text-foreground focus:outline-none focus:ring-2 focus:ring-[#4A85F6]"
                 placeholder="••••••••"
               />
             </div>
@@ -235,7 +235,7 @@ export function ChangePhoneFlow({ onBack, onComplete, currentPhone }: ChangePhon
         {/* Footer Actions */}
         <div className="flex justify-center items-center gap-4 text-[13px] font-bold text-[#8C93A3]">
           <button onClick={onBack} className="hover:text-[#4A85F6] transition-colors">Go back</button>
-          <div className="w-px h-3 bg-gray-300 dark:bg-gray-700"></div>
+          <div className="w-px h-3 bg-muted"></div>
           <button className="hover:text-[#4A85F6] transition-colors">Skip</button>
         </div>
       </div>

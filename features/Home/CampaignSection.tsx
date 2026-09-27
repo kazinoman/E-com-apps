@@ -19,7 +19,7 @@ export const CampaignSection = ({ campaigns }: CampaignSectionProps) => {
   if (!campaigns || campaigns.length === 0) return null;
 
   return (
-    <section className="bg-[#F8F9FA] dark:bg-[#0A0A0A] py-16">
+    <section className="bg-background py-16">
       <Container>
         {/* Banner Header */}
         <div className="flex flex-col lg:flex-row items-center justify-between gap-6 mb-10 bg-gradient-to-r from-[#1F080C] via-[#160508] to-[#120406] p-6 lg:p-8 rounded-[24px] border border-[#331118]">
@@ -74,9 +74,9 @@ function CampaignCard({ campaign }: { campaign: Campaign }) {
   const isDanger = campaign.stockLeft < 20;
 
   return (
-    <Link href={`/campaigns/${campaign.id}`} className="group bg-white dark:bg-card rounded-[24px] overflow-hidden border border-[#F0F0F0] dark:border-gray-800 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+    <Link href={`/campaigns/${campaign.id}`} className="group bg-card rounded-[24px] overflow-hidden border border-[#F0F0F0] dark:border-gray-800 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full">
       {/* Image Block */}
-      <div className="relative aspect-[4/3] w-full bg-gray-100 dark:bg-gray-900 overflow-hidden">
+      <div className="relative aspect-[4/3] w-full bg-muted overflow-hidden">
         <Image
           src={campaign.cardImage}
           alt={campaign.title}
@@ -121,14 +121,14 @@ function CampaignCard({ campaign }: { campaign: Campaign }) {
         </p>
 
         {/* Progress */}
-        <div className="bg-[#F8F9FA] dark:bg-[#1A1A1A] rounded-xl p-3 mb-6 border border-gray-100 dark:border-gray-800">
+        <div className="bg-[#F8F9FA] dark:bg-[#1A1A1A] rounded-xl p-3 mb-6 border border-border">
           <div className="flex items-center justify-between text-[12px] font-bold mb-2">
             <span className="text-[#1A1A1A] dark:text-gray-200">Sold: {campaign.soldPercentage}%</span>
             <span className={cn(isDanger ? "text-[#FF4747]" : "text-gray-500")}>
               {isDanger ? `Almost Gone!` : `Only ${campaign.stockLeft} left!`}
             </span>
           </div>
-          <div className="h-2 w-full bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
+          <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
             <div 
               className={cn(
                 "h-full rounded-full transition-all duration-1000",

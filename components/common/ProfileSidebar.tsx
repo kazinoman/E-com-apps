@@ -48,7 +48,7 @@ export function ProfileSidebar() {
         href={item.href}
         onClick={() => setAccordionValue("")}
         className={`flex items-center justify-between p-3.5 text-[14px] rounded-xl transition-all ${isActive
-          ? "bg-[#F7F7FA] dark:bg-gray-800 text-[#1C244B] dark:text-white font-semibold"
+          ? "bg-muted text-[#1C244B] dark:text-white font-semibold"
           : "text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-gray-700 dark:hover:text-gray-300 font-medium"
           }`}
       >
@@ -57,7 +57,7 @@ export function ProfileSidebar() {
           {item.name}
         </div>
         {isActive && (
-          <CheckCircle2 className="w-5 h-5 text-[#333333] dark:text-white fill-[#1C244B] dark:fill-white text-white dark:text-[#1C244B]" />
+          <CheckCircle2 className="w-5 h-5 text-foreground fill-[#1C244B] dark:fill-white text-white dark:text-[#1C244B]" />
         )}
       </Link>
     );
@@ -79,7 +79,7 @@ export function ProfileSidebar() {
             />
           </div>
           <div className="overflow-hidden">
-            <h3 className="text-[15px] font-bold text-[#333333] dark:text-white truncate">
+            <h3 className="text-[15px] font-bold text-foreground truncate">
               {user?.fullName || "Mr. Bilal Assad"}
             </h3>
           </div>
@@ -103,7 +103,7 @@ export function ProfileSidebar() {
           </div>
         </div>
 
-        <div className="pt-6 mt-8 border-t border-gray-100 dark:border-gray-800">
+        <div className="pt-6 mt-8 border-t border-border">
           {/* Logout Button */}
           <button
             onClick={logout}
@@ -127,7 +127,7 @@ export function ProfileSidebar() {
           collapsible
           value={accordionValue}
           onValueChange={setAccordionValue}
-          className="w-full bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800"
+          className="w-full bg-card rounded-2xl shadow-sm border border-border"
         >
           <AccordionItem value="mobile-menu" className="border-none">
             <AccordionTrigger className="px-5 py-4 hover:no-underline [&[data-state=open]]:border-b dark:[&[data-state=open]]:border-gray-800">
@@ -144,7 +144,7 @@ export function ProfileSidebar() {
       </div>
 
       {/* Desktop View: Regular Sidebar */}
-      <div className="hidden lg:block bg-white dark:bg-gray-900 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 h-full">
+      <div className="hidden lg:block bg-card rounded-3xl shadow-sm border border-border h-full">
         {renderMenuItems(false)}
       </div>
     </>

@@ -72,12 +72,12 @@ const SignUpForm = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-zinc-50 dark:bg-background font-sans p-4 py-8">
-      <div className="w-full max-w-125 bg-white dark:bg-gray-900 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 p-6 sm:p-8 relative flex flex-col items-center">
+      <div className="w-full max-w-125 bg-card rounded-3xl shadow-sm border border-border p-6 sm:p-8 relative flex flex-col items-center">
         
         <div className="w-full">
-          <h2 className="text-[20px] font-bold text-[#333333] dark:text-white mb-8 text-center">Sign up</h2>
+          <h2 className="text-[20px] font-bold text-foreground mb-8 text-center">Sign up</h2>
           
-          <h3 className="text-[22px] font-bold text-[#333333] dark:text-white mb-2">Sign up</h3>
+          <h3 className="text-[22px] font-bold text-foreground mb-2">Sign up</h3>
           <p className="text-[14px] text-[#8C93A3] mb-6 leading-relaxed">
             Please fill up the form to sign up!
           </p>
@@ -88,7 +88,7 @@ const SignUpForm = () => {
               <input 
                 type="text" 
                 placeholder="username" 
-                className="w-full bg-[#F8F9FA] dark:bg-gray-800 border border-transparent focus:border-[#4A85F6] focus:ring-1 focus:ring-[#4A85F6] rounded-xl px-4 py-3.5 text-[14px] outline-none text-[#333333] dark:text-white transition-all placeholder:text-[#8C93A3]"
+                className="w-full bg-[#F8F9FA] dark:bg-gray-800 border border-transparent focus:border-[#4A85F6] focus:ring-1 focus:ring-[#4A85F6] rounded-xl px-4 py-3.5 text-[14px] outline-none text-foreground transition-all placeholder:text-[#8C93A3]"
                 {...register("full_name")}
               />
               {errors.full_name && <p className="text-xs text-red-500 mt-1.5">{errors.full_name.message}</p>}
@@ -99,7 +99,7 @@ const SignUpForm = () => {
               <input 
                 type="email" 
                 placeholder="you@example.com" 
-                className="w-full bg-[#F8F9FA] dark:bg-gray-800 border border-transparent focus:border-[#4A85F6] focus:ring-1 focus:ring-[#4A85F6] rounded-xl px-4 py-3.5 text-[14px] outline-none text-[#333333] dark:text-white transition-all placeholder:text-[#8C93A3]"
+                className="w-full bg-[#F8F9FA] dark:bg-gray-800 border border-transparent focus:border-[#4A85F6] focus:ring-1 focus:ring-[#4A85F6] rounded-xl px-4 py-3.5 text-[14px] outline-none text-foreground transition-all placeholder:text-[#8C93A3]"
                 {...register("email")}
               />
               {errors.email && <p className="text-xs text-red-500 mt-1.5">{errors.email.message}</p>}
@@ -110,7 +110,7 @@ const SignUpForm = () => {
               <input 
                 type="text" 
                 placeholder="+880 - 1234567890" 
-                className="w-full bg-[#F8F9FA] dark:bg-gray-800 border border-transparent focus:border-[#4A85F6] focus:ring-1 focus:ring-[#4A85F6] rounded-xl px-4 py-3.5 text-[14px] outline-none text-[#333333] dark:text-white transition-all placeholder:text-[#8C93A3]"
+                className="w-full bg-[#F8F9FA] dark:bg-gray-800 border border-transparent focus:border-[#4A85F6] focus:ring-1 focus:ring-[#4A85F6] rounded-xl px-4 py-3.5 text-[14px] outline-none text-foreground transition-all placeholder:text-[#8C93A3]"
                 {...register("phone")}
               />
               {errors.phone && <p className="text-xs text-red-500 mt-1.5">{errors.phone.message}</p>}
@@ -122,7 +122,7 @@ const SignUpForm = () => {
                 <input 
                   type={showPassword ? "text" : "password"}
                   placeholder="Min. 8 characters" 
-                  className="w-full bg-[#F8F9FA] dark:bg-gray-800 border border-transparent focus:border-[#4A85F6] focus:ring-1 focus:ring-[#4A85F6] rounded-xl px-4 py-3.5 pr-12 text-[14px] outline-none text-[#333333] dark:text-white transition-all placeholder:text-[#8C93A3]"
+                  className="w-full bg-[#F8F9FA] dark:bg-gray-800 border border-transparent focus:border-[#4A85F6] focus:ring-1 focus:ring-[#4A85F6] rounded-xl px-4 py-3.5 pr-12 text-[14px] outline-none text-foreground transition-all placeholder:text-[#8C93A3]"
                   {...register("password")}
                 />
                 <button
@@ -142,7 +142,7 @@ const SignUpForm = () => {
                 <input 
                   type={showConfirmPassword ? "text" : "password"}
                   placeholder="Min. 8 characters" 
-                  className="w-full bg-[#F8F9FA] dark:bg-gray-800 border border-transparent focus:border-[#4A85F6] focus:ring-1 focus:ring-[#4A85F6] rounded-xl px-4 py-3.5 pr-12 text-[14px] outline-none text-[#333333] dark:text-white transition-all placeholder:text-[#8C93A3]"
+                  className="w-full bg-[#F8F9FA] dark:bg-gray-800 border border-transparent focus:border-[#4A85F6] focus:ring-1 focus:ring-[#4A85F6] rounded-xl px-4 py-3.5 pr-12 text-[14px] outline-none text-foreground transition-all placeholder:text-[#8C93A3]"
                   {...register("confirmPassword")}
                 />
                 <button
@@ -165,7 +165,7 @@ const SignUpForm = () => {
               />
               <div className="ml-2.5">
                 <label htmlFor="terms" className="text-[13px] text-[#8C93A3] font-medium cursor-pointer select-none leading-tight">
-                  By signing up, you agree to our <span className="text-[#333333] dark:text-white font-bold">Terms & conditions</span>
+                  By signing up, you agree to our <span className="text-foreground font-bold">Terms & conditions</span>
                 </label>
                 {errors.terms && <p className="text-xs text-red-500 mt-1">{errors.terms.message}</p>}
               </div>
@@ -184,7 +184,7 @@ const SignUpForm = () => {
             Already have an account ?{" "}
             <Link
               href="/login"
-              className="font-bold text-[#333333] dark:text-white hover:underline transition-colors"
+              className="font-bold text-foreground hover:underline transition-colors"
             >
               Sign in
             </Link>

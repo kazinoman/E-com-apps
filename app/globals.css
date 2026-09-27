@@ -62,33 +62,33 @@
    DARK MODE
    ========================================== */
 .dark {
-  /* Premium Deep Slate Theme */
-  --background: #020617; /* slate-950 */
-  --header-bg: #020617;
-  --footer-bg: #020617;
+  /* Warm Dark Stone Theme */
+  --background: #0C0A09; /* stone-950 */
+  --header-bg: #0C0A09;
+  --footer-bg: #0C0A09;
 
-  --foreground: #F8FAFC; /* slate-50 */
+  --foreground: #FAFAF9; /* stone-50 */
 
-  --card: #0F172A; /* slate-900 */
-  --card-foreground: #F8FAFC;
-  --popover: #0F172A;
-  --popover-foreground: #F8FAFC;
+  --card: #1C1917; /* stone-900 */
+  --card-foreground: #FAFAF9;
+  --popover: #1C1917;
+  --popover-foreground: #FAFAF9;
 
   /* Refined Brand Red for Dark Mode Contrast */
   --primary: #DC2626; /* red-600 */
   --primary-foreground: #FFFFFF;
   --primary-hover: #B91C1C; /* red-700 */
 
-  --secondary: #1E293B; /* slate-800 */
-  --secondary-foreground: #F8FAFC;
-  --muted: #1E293B;
-  --muted-foreground: #94A3B8; /* slate-400 */
-  --accent: #1E293B;
-  --accent-foreground: #F8FAFC;
+  --secondary: #292524; /* stone-800 */
+  --secondary-foreground: #FAFAF9;
+  --muted: #292524;
+  --muted-foreground: #A8A29E; /* stone-400 */
+  --accent: #292524;
+  --accent-foreground: #FAFAF9;
   
   --destructive: #7F1D1D;
-  --border: #1E293B;
-  --input: #1E293B;
+  --border: #292524;
+  --input: #292524;
   --ring: #DC2626;
 
   /* Charts & Sidebar */
@@ -97,13 +97,13 @@
   --chart-3: #F59E0B;
   --chart-4: #8B5CF6;
   --chart-5: #EC4899;
-  --sidebar: #0F172A;
-  --sidebar-foreground: #F8FAFC;
+  --sidebar: #1C1917;
+  --sidebar-foreground: #FAFAF9;
   --sidebar-primary: var(--primary);
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #1E293B;
-  --sidebar-accent-foreground: #F8FAFC;
-  --sidebar-border: #1E293B;
+  --sidebar-accent: #292524;
+  --sidebar-accent-foreground: #FAFAF9;
+  --sidebar-border: #292524;
   --sidebar-ring: #DC2626;
 }
 

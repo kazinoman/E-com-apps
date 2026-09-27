@@ -20,7 +20,7 @@ export function TrackOrderForm({ onTrack, isLoading }: TrackOrderFormProps) {
 
   return (
     <div className="w-full">
-      <h2 className="text-[22px] font-bold text-[#333333] dark:text-white mb-2">Track your order</h2>
+      <h2 className="text-[22px] font-bold text-foreground mb-2">Track your order</h2>
       <p className="text-[14px] text-[#8C93A3] mb-8 leading-relaxed">
         Enter your phone number and order id to get the latest update on your order status
       </p>
@@ -33,7 +33,7 @@ export function TrackOrderForm({ onTrack, isLoading }: TrackOrderFormProps) {
             placeholder="+880 - 1234567890" 
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            className="w-full bg-[#F8F9FA] dark:bg-gray-800 border border-transparent focus:border-[#4A85F6] focus:ring-1 focus:ring-[#4A85F6] rounded-xl px-4 py-3.5 text-[14px] outline-none text-[#333333] dark:text-white transition-all placeholder:text-[#8C93A3]"
+            className="w-full bg-[#F8F9FA] dark:bg-gray-800 border border-transparent focus:border-[#4A85F6] focus:ring-1 focus:ring-[#4A85F6] rounded-xl px-4 py-3.5 text-[14px] outline-none text-foreground transition-all placeholder:text-[#8C93A3]"
           />
         </div>
 
@@ -44,7 +44,7 @@ export function TrackOrderForm({ onTrack, isLoading }: TrackOrderFormProps) {
             placeholder="e.g. #123456789" 
             value={orderId}
             onChange={(e) => setOrderId(e.target.value)}
-            className="w-full bg-[#F8F9FA] dark:bg-gray-800 border border-transparent focus:border-[#4A85F6] focus:ring-1 focus:ring-[#4A85F6] rounded-xl px-4 py-3.5 text-[14px] outline-none text-[#333333] dark:text-white transition-all placeholder:text-[#8C93A3]"
+            className="w-full bg-[#F8F9FA] dark:bg-gray-800 border border-transparent focus:border-[#4A85F6] focus:ring-1 focus:ring-[#4A85F6] rounded-xl px-4 py-3.5 text-[14px] outline-none text-foreground transition-all placeholder:text-[#8C93A3]"
           />
         </div>
 
@@ -58,7 +58,7 @@ export function TrackOrderForm({ onTrack, isLoading }: TrackOrderFormProps) {
       </form>
 
       <div className="text-center mt-8 text-[13px] text-[#8C93A3]">
-        Facing some difficulties, please visit <Link href="/contact" className="font-bold text-[#333333] dark:text-white hover:underline">Contact us</Link> page.
+        Facing some difficulties, please visit <Link href="/contact" className="font-bold text-foreground hover:underline">Contact us</Link> page.
       </div>
     </div>
   );
