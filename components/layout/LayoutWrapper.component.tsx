@@ -7,6 +7,7 @@ import { Footer } from "./Footer.component";
 import { StoreFeatures } from "@/components/common/StoreFeatures";
 import { CustomBreadcrumb } from "@/components/common/CustomBreadcrumb";
 import { ScrollToTop } from "@/components/common/ScrollToTop";
+import { WhatsAppButton } from "@/components/common/WhatsAppButton";
 
 export default function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -64,6 +65,7 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
       <main className="flex-1 flex flex-col">{children}</main>
       {!hideLayout && <StoreFeatures />}
       {!hideLayout && <Footer />}
+      <WhatsAppButton />
     </>
   );
 }
