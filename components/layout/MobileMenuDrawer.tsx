@@ -9,6 +9,10 @@ import { ThemeToggle } from '../common/ThemeToggleButton';
 import { logoutAction } from '@/server/actions/logout.action';
 import { toast } from 'sonner';
 
+import { fetchCategories } from "@/services/category.service";
+import type { Category } from "@/lib/types/category";
+import { useEffect } from "react";
+
 interface MobileMenuDrawerProps {
   isOpen: boolean;
   onClose: () => void;
@@ -19,7 +23,15 @@ export function MobileMenuDrawer({ isOpen, onClose, navLinks }: MobileMenuDrawer
   const { user, setUser } = useAuth();
   const [isPending, startTransition] = useTransition();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
+  const [categories, setCategories] = useState<Category[]>([]);
   const router = useRouter();
+
+  useEffect(() => {
+    if (isOpen && categories.length === 0) {
+      fetchCategories().then(setCategories);
+    }
+  }, [isOpen, categories.length]);
 
   const handleLogout = () => {
     startTransition(async () => {
@@ -35,14 +47,14 @@ export function MobileMenuDrawer({ isOpen, onClose, navLinks }: MobileMenuDrawer
     <>
       {/* Backdrop */}
       {isOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 z-[100] animate-in fade-in duration-300" 
-          onClick={onClose} 
+        <div
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[100] animate-in fade-in duration-300"
+          onClick={onClose}
         />
       )}
-      
+
       {/* Drawer Panel */}
-      <div 
+      <div
         className={cn(
           "fixed top-0 left-0 h-full w-[85%] max-w-[320px] bg-background z-[100] shadow-2xl transition-transform duration-300 flex flex-col",
           isOpen ? "translate-x-0" : "-translate-x-full"
@@ -53,8 +65,8 @@ export function MobileMenuDrawer({ isOpen, onClose, navLinks }: MobileMenuDrawer
           <span className="text-2xl font-black tracking-tight text-foreground">Zaag</span>
           <div className="flex items-center gap-4">
             <ThemeToggle />
-            <button 
-              onClick={onClose} 
+            <button
+              onClick={onClose}
               className="p-1.5 hover:bg-secondary rounded-full transition-colors text-muted-foreground hover:text-foreground"
             >
               <X size={24} strokeWidth={1.5} />
@@ -68,26 +80,62 @@ export function MobileMenuDrawer({ isOpen, onClose, navLinks }: MobileMenuDrawer
             Menu
           </div>
           <ul className="flex flex-col">
-            {navLinks.map((link, idx) => (
-              <li key={idx}>
-                <Link 
-                  href={link.href} 
-                  onClick={onClose} 
-                  className="flex items-center justify-between px-6 py-3.5 text-[15px] font-medium text-foreground hover:bg-secondary/50 hover:text-primary transition-colors"
-                >
-                  {link.name}
-                  <ChevronRight size={16} className="text-muted-foreground/50" />
-                </Link>
-              </li>
-            ))}
+            {navLinks.map((link, idx) => {
+              if (link.name === "All Categories") {
+                return (
+                  <li key={idx} className="flex flex-col">
+                    <button
+                      onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
+                      className="flex items-center justify-between px-6 py-3.5 text-[15px] font-medium text-foreground hover:bg-secondary/50 hover:text-primary transition-colors"
+                    >
+                      {link.name}
+                      <ChevronDown
+                        size={16}
+                        className={cn(
+                          "text-muted-foreground/50 transition-transform duration-200",
+                          isCategoriesOpen ? "rotate-180" : ""
+                        )}
+                      />
+                    </button>
+                    {isCategoriesOpen && (
+                      <div className="bg-secondary/10 flex flex-col py-2 px-6 overflow-y-auto max-h-[40vh]">
+                        {categories.map((cat) => (
+                          <Link
+                            key={cat.id}
+                            href={`/search?category=${encodeURIComponent(cat.id)}`}
+                            onClick={onClose}
+                            className="py-2.5 px-4 text-[14px] text-muted-foreground hover:text-primary transition-colors border-l-2 border-transparent hover:border-primary"
+                          >
+                            {cat.name}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </li>
+                );
+              }
+
+              return (
+                <li key={idx}>
+                  <Link
+                    href={link.href}
+                    onClick={onClose}
+                    className="flex items-center justify-between px-6 py-3.5 text-[15px] font-medium text-foreground hover:bg-secondary/50 hover:text-primary transition-colors"
+                  >
+                    {link.name}
+                    <ChevronRight size={16} className="text-muted-foreground/50" />
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </nav>
-        
+
         {/* Footer / User actions */}
         <div className="border-t border-border bg-secondary/20 relative">
           {user ? (
             <>
-              <button 
+              <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 className="w-full flex items-center justify-between px-6 py-4 hover:bg-secondary/40 transition-colors text-left"
               >
@@ -100,17 +148,17 @@ export function MobileMenuDrawer({ isOpen, onClose, navLinks }: MobileMenuDrawer
                     <span className="text-xs text-muted-foreground truncate">{user.email}</span>
                   </div>
                 </div>
-                
+
                 <div className={cn(
                   "p-2 rounded-full transition-colors shrink-0",
                   isDropdownOpen && "bg-secondary/80"
                 )}>
-                  <ChevronDown 
-                    size={20} 
+                  <ChevronDown
+                    size={20}
                     className={cn(
-                      "text-muted-foreground transition-transform duration-200", 
+                      "text-muted-foreground transition-transform duration-200",
                       isDropdownOpen ? "rotate-180" : ""
-                    )} 
+                    )}
                   />
                 </div>
               </button>
@@ -118,13 +166,13 @@ export function MobileMenuDrawer({ isOpen, onClose, navLinks }: MobileMenuDrawer
               {/* Floating Dropdown Menu */}
               {isDropdownOpen && (
                 <>
-                  <div 
-                    className="fixed inset-0 z-40" 
-                    onClick={() => setIsDropdownOpen(false)} 
+                  <div
+                    className="fixed inset-0 z-40"
+                    onClick={() => setIsDropdownOpen(false)}
                   />
                   <div className="absolute bottom-full left-4 right-4 mb-2 bg-card border border-border rounded-lg shadow-xl overflow-hidden z-50 animate-in fade-in slide-in-from-bottom-2 duration-200">
-                    <Link 
-                      href={PageUrls.profile} 
+                    <Link
+                      href={PageUrls.profile}
                       onClick={onClose}
                       className="flex items-center gap-3 px-4 py-3 hover:bg-secondary/60 transition-colors text-sm font-medium text-foreground"
                     >
@@ -132,7 +180,7 @@ export function MobileMenuDrawer({ isOpen, onClose, navLinks }: MobileMenuDrawer
                       My Profile
                     </Link>
                     <div className="h-px bg-border/50 w-full" />
-                    <button 
+                    <button
                       onClick={handleLogout}
                       disabled={isPending}
                       className="flex items-center gap-3 px-4 py-3 hover:bg-secondary/60 transition-colors text-sm font-medium text-destructive w-full text-left"
@@ -146,16 +194,16 @@ export function MobileMenuDrawer({ isOpen, onClose, navLinks }: MobileMenuDrawer
             </>
           ) : (
             <div className="flex flex-col gap-3 p-6">
-              <Link 
-                href={PageUrls.login} 
-                onClick={onClose} 
+              <Link
+                href={PageUrls.login}
+                onClick={onClose}
                 className="w-full text-center bg-primary text-primary-foreground py-2.5 rounded-lg text-[15px] font-semibold shadow-sm hover:bg-primary/90 transition-all active:scale-[0.98]"
               >
                 Sign In
               </Link>
-              <Link 
-                href={PageUrls.signup} 
-                onClick={onClose} 
+              <Link
+                href={PageUrls.signup}
+                onClick={onClose}
                 className="w-full text-center bg-background border border-border text-foreground py-2.5 rounded-lg text-[15px] font-semibold hover:bg-secondary transition-all active:scale-[0.98]"
               >
                 Create Account

@@ -28,6 +28,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+import { FAQSection } from "@/features/Home/FAQSection";
+
 export default async function Home() {
   const [sections, sliderImages, terms] = await Promise.all([
     fetchHomeSections(),
@@ -104,6 +106,8 @@ export default async function Home() {
             )
           ))}
         </Container>
+
+        <FAQSection />
       </main>
     </div>
   );

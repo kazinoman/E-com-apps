@@ -211,8 +211,17 @@ export function Header() {
         )}
       </header>
 
+      {/* Backdrop for Mobile Search */}
+      {isMobileSearchOpen && (
+        <div 
+          className="md:hidden fixed inset-0 top-16 bg-black/40 backdrop-blur-sm z-40 animate-in fade-in duration-200"
+          onClick={() => setIsMobileSearchOpen(false)}
+        />
+      )}
+
+
       {/* Mobile Bottom Nav */}
-      <nav className="md:hidden fixed bottom-0 left-0 w-full bg-background border-t border-[#EAE4E3] dark:border-gray-800 flex items-center justify-around h-[68px] pb-safe z-50 px-2">
+      <nav className="md:hidden fixed bottom-0 left-0 w-full bg-background/85 backdrop-blur-[2px] border-t border-[#EAE4E3] dark:border-gray-800 flex items-center justify-around h-[68px] pb-safe z-50 px-2">
         <button
           onClick={() => router.push("/")}
           className={cn(
