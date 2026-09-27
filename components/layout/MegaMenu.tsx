@@ -42,7 +42,7 @@ export const MegaMenu = () => {
         onMouseEnter={() => setActiveHover("all")}
         onMouseLeave={() => setActiveHover(null)}
       >
-        <button className="flex items-center gap-2 bg-[#F0F2F5] dark:bg-gray-900 text-[#333333] dark:text-gray-200 px-5 py-2.5 rounded-md font-medium text-[14px] transition-colors hover:bg-white dark:hover:bg-gray-800">
+        <button className="flex items-center gap-2 bg-[#F0F2F5] dark:bg-gray-900 text-[#333333] dark:text-gray-200 px-5 py-2.5 rounded-md font-medium text-[15px] transition-colors hover:bg-white dark:hover:bg-gray-800">
           <Grid className="w-4 h-4" />
           All Categories
           <ChevronDown className="w-4 h-4 text-gray-500 dark:text-gray-400" />
@@ -89,7 +89,7 @@ export const MegaMenu = () => {
           >
             <button
               onClick={() => handleCategoryClick(cat.id)}
-              className="flex items-center gap-1.5 text-[14px] text-[#B3B3B3] hover:text-white font-medium transition-colors"
+              className="flex items-center gap-1.5 text-[15px] text-[#B3B3B3] hover:text-white font-medium transition-colors"
             >
               {cat.name}
               <ChevronDown className="w-3.5 h-3.5 opacity-70" />

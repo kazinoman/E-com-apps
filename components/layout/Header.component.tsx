@@ -96,8 +96,8 @@ export function Header() {
           <div className="flex items-center gap-6">
             <ThemeToggle />
 
-            <button 
-              onClick={() => router.push("/cart")} 
+            <button
+              onClick={() => router.push("/cart")}
               className="relative text-foreground"
             >
               <ShoppingCart size={24} strokeWidth={1.5} />
@@ -107,9 +107,11 @@ export function Header() {
                 </span>
               )}
             </button>
-            
+
             {user && (
-              <button className="text-[#6B6565] hover:text-foreground transition-colors">
+              <button
+                className="text-[#6B6565] hover:text-foreground transition-colors cursor-pointer"
+                onClick={() => router.push("/profile/wishlist")}>
                 <Heart size={24} strokeWidth={1.5} />
               </button>
             )}
@@ -118,13 +120,18 @@ export function Header() {
               <div className="w-24 h-8 bg-secondary animate-pulse rounded" />
             ) : (
               <div className="flex items-center gap-2 text-[15px] font-medium text-[#6B6565]">
-                <User size={24} strokeWidth={1.5} />
                 {user ? (
-                  <Link href={PageUrls.profile} className="hover:text-foreground transition-colors">
-                    {user.fullName}
+                  <Link href={PageUrls.profile} className="flex items-center gap-2 hover:text-foreground transition-colors group">
+                    <img 
+                      src={user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.fullName)}&background=F3F4F6&color=374151&rounded=true`} 
+                      alt={user.fullName}
+                      className="w-7 h-7 rounded-full object-cover border border-gray-200 dark:border-gray-700 group-hover:border-gray-400 transition-colors"
+                    />
+                    <span>{user.fullName}</span>
                   </Link>
                 ) : (
                   <div className="flex items-center gap-1.5">
+                    <User size={24} strokeWidth={1.5} />
                     <Link href={PageUrls.login} className="hover:text-foreground transition-colors">Sign in</Link>
                     <span className="text-[#EAE4E3]">|</span>
                     <Link href={PageUrls.signup} className="hover:text-foreground transition-colors">Sign up</Link>
@@ -194,14 +201,14 @@ export function Header() {
                 placeholder="Search Product Name..."
                 className="w-full h-[40px] pl-10 pr-10 bg-[#F6F7F9] dark:bg-secondary/50 border border-transparent rounded-lg focus:outline-none focus:ring-1 focus:ring-primary text-[14px] text-foreground"
               />
-              <button 
+              <button
                 title="Search by Image (Coming Soon)"
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
               >
                 <Camera size={18} strokeWidth={1.5} />
               </button>
             </div>
-            <button 
+            <button
               onClick={() => setIsMobileSearchOpen(false)}
               className="text-foreground p-1 hover:bg-secondary rounded-full transition-colors"
             >
@@ -213,7 +220,7 @@ export function Header() {
 
       {/* Backdrop for Mobile Search */}
       {isMobileSearchOpen && (
-        <div 
+        <div
           className="md:hidden fixed inset-0 top-16 bg-black/40 backdrop-blur-sm z-40 animate-in fade-in duration-200"
           onClick={() => setIsMobileSearchOpen(false)}
         />
@@ -233,7 +240,7 @@ export function Header() {
           <span className="text-[12px] font-medium">Home</span>
         </button>
 
-        <button 
+        <button
           onClick={() => router.push("/cart")}
           className={cn(
             "flex flex-col items-center justify-center gap-1 w-[72px] py-1.5 rounded-xl transition-all duration-200",
@@ -252,7 +259,7 @@ export function Header() {
         </button>
 
         {user && (
-          <button 
+          <button
             onClick={() => router.push("/profile/wishlist")}
             className={cn(
               "max-[400px]:hidden flex flex-col items-center justify-center gap-1 w-[72px] py-1.5 rounded-xl transition-all duration-200",
@@ -264,7 +271,7 @@ export function Header() {
           </button>
         )}
 
-        <button 
+        <button
           onClick={() => router.push("/track-order")}
           className={cn(
             "flex flex-col items-center justify-center gap-1 w-[72px] py-1.5 rounded-xl transition-all duration-200",
@@ -298,10 +305,10 @@ export function Header() {
         </button>
       </nav>
 
-      <MobileMenuDrawer 
-        isOpen={isMobileMenuOpen} 
-        onClose={() => setIsMobileMenuOpen(false)} 
-        navLinks={navLinks} 
+      <MobileMenuDrawer
+        isOpen={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
+        navLinks={navLinks}
       />
     </>
   );
