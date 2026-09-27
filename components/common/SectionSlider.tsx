@@ -46,7 +46,7 @@ export function SectionSlider({
   };
 
   return (
-    <div className={cn("w-full py-8", className)}>
+    <div className={cn("w-full py-4", className)}>
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl md:text-[22px] font-bold text-gray-900 dark:text-gray-100">
