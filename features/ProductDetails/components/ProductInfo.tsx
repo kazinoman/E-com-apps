@@ -83,8 +83,8 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect, ad
   const isWished = isInWishlist(product.id);
 
   const handleAddToCart = () => {
-    if (quantity < 3) {
-      toast.info("Please select at least 3 items. We require a minimum quantity of 3 to process an order. Thank you!", {
+    if (quantity < moq) {
+      toast.info(`Please select at least ${moq} items. We require a minimum quantity of ${moq} to process an order. Thank you!`, {
         className: "!bg-blue-50 dark:!bg-blue-950 !text-blue-700 dark:!text-blue-300 !border-blue-200 dark:!border-blue-800"
       });
       return;
@@ -200,9 +200,27 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect, ad
             >
               <Minus className="w-4 h-4" />
             </button>
-            <span className="w-10 text-center font-medium text-slate-800 dark:text-gray-200">
-              {quantity}
-            </span>
+            <input
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              value={quantity === 0 ? '' : quantity}
+              onChange={(e) => {
+                const val = e.target.value;
+                if (val === '') {
+                  setQuantity(0);
+                  return;
+                }
+                const num = parseInt(val, 10);
+                if (!isNaN(num)) {
+                  setQuantity(num);
+                }
+              }}
+              onBlur={() => {
+                if (quantity < moq) setQuantity(moq);
+              }}
+              className="w-12 text-center font-medium text-slate-800 dark:text-gray-200 bg-white dark:bg-gray-900 border border-slate-300 dark:border-gray-600 rounded-md mx-1 py-1 focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
+            />
             <button
               onClick={increaseQuantity}
               aria-label="Increase quantity"

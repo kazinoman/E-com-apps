@@ -88,5 +88,22 @@ const PLACEHOLDER_SLIDES: SlideData[] = [
 ];
 
 export async function fetchSliderImages(): Promise<SlideData[]> {
+  try {
+    const res = await api.get('/api/v1/banners');
+    const banners = res.data?.data || res.data || [];
+    if (banners.length > 0) {
+      return banners.map((b: any) => ({
+        id: b.id,
+        title: b.title || "Banner",
+        linkText: "Shop now",
+        linkUrl: b.link || "#",
+        image: b.image_url || b.imageUrl,
+        backgroundColor: "bg-[#111111]",
+      }));
+    }
+  } catch (error) {
+    console.error("Error fetching banners:", error);
+  }
   return PLACEHOLDER_SLIDES;
 }
+

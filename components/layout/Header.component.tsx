@@ -212,12 +212,12 @@ export function Header() {
       </header>
 
       {/* Mobile Bottom Nav */}
-      <nav className="md:hidden fixed bottom-0 left-0 w-full bg-background border-t border-[#EAE4E3] flex items-center justify-around h-[68px] pb-safe z-50">
+      <nav className="md:hidden fixed bottom-0 left-0 w-full bg-background border-t border-[#EAE4E3] dark:border-gray-800 flex items-center justify-around h-[68px] pb-safe z-50 px-2">
         <button
           onClick={() => router.push("/")}
           className={cn(
-            "flex flex-col items-center gap-1 transition-colors",
-            pathname === "/" ? "text-primary" : "text-[#6B6565] hover:text-foreground"
+            "flex flex-col items-center justify-center gap-1 w-[72px] py-1.5 rounded-xl transition-all duration-200",
+            pathname === "/" ? "text-primary bg-primary/10 dark:bg-primary/20" : "text-muted-foreground hover:text-foreground hover:bg-secondary/50 dark:hover:bg-secondary/20"
           )}
         >
           <HomeIcon size={22} strokeWidth={1.5} />
@@ -226,7 +226,10 @@ export function Header() {
 
         <button 
           onClick={() => router.push("/cart")}
-          className="flex flex-col items-center gap-1 text-[#6B6565] hover:text-foreground transition-colors"
+          className={cn(
+            "flex flex-col items-center justify-center gap-1 w-[72px] py-1.5 rounded-xl transition-all duration-200",
+            pathname === "/cart" ? "text-primary bg-primary/10 dark:bg-primary/20" : "text-muted-foreground hover:text-foreground hover:bg-secondary/50 dark:hover:bg-secondary/20"
+          )}
         >
           <div className="relative">
             <ShoppingBag size={22} strokeWidth={1.5} />
@@ -240,7 +243,13 @@ export function Header() {
         </button>
 
         {user && (
-          <button className="flex flex-col items-center gap-1 text-[#6B6565] hover:text-foreground transition-colors relative">
+          <button 
+            onClick={() => router.push("/profile/wishlist")}
+            className={cn(
+              "max-[400px]:hidden flex flex-col items-center justify-center gap-1 w-[72px] py-1.5 rounded-xl transition-all duration-200",
+              pathname === "/profile/wishlist" ? "text-primary bg-primary/10 dark:bg-primary/20" : "text-muted-foreground hover:text-foreground hover:bg-secondary/50 dark:hover:bg-secondary/20"
+            )}
+          >
             <Heart size={22} strokeWidth={1.5} />
             <span className="text-[12px] font-medium">Wishlist</span>
           </button>
@@ -249,8 +258,8 @@ export function Header() {
         <button 
           onClick={() => router.push("/track-order")}
           className={cn(
-            "flex flex-col items-center gap-1 transition-colors",
-            pathname === "/track-order" ? "text-primary" : "text-[#6B6565] hover:text-foreground"
+            "flex flex-col items-center justify-center gap-1 w-[72px] py-1.5 rounded-xl transition-all duration-200",
+            pathname === "/track-order" ? "text-primary bg-primary/10 dark:bg-primary/20" : "text-muted-foreground hover:text-foreground hover:bg-secondary/50 dark:hover:bg-secondary/20"
           )}
         >
           <svg className="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -269,10 +278,10 @@ export function Header() {
         </button>
 
         <button
-          onClick={() => router.push(user ? PageUrls.profile : PageUrls.login)}
+          onClick={() => router.push(user ? PageUrls.profile : `/login?redirect=${encodeURIComponent(PageUrls.profile)}`)}
           className={cn(
-            "flex flex-col items-center gap-1 transition-colors",
-            pathname === PageUrls.profile ? "text-primary" : "text-[#6B6565] hover:text-foreground"
+            "flex flex-col items-center justify-center gap-1 w-[72px] py-1.5 rounded-xl transition-all duration-200",
+            pathname === PageUrls.profile || (pathname.startsWith("/profile") && pathname !== "/profile/wishlist") ? "text-primary bg-primary/10 dark:bg-primary/20" : "text-muted-foreground hover:text-foreground hover:bg-secondary/50 dark:hover:bg-secondary/20"
           )}
         >
           <User size={22} strokeWidth={1.5} />

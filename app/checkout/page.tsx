@@ -359,14 +359,18 @@ export default function CheckoutPage() {
 
               <div className="space-y-4">
                 {cart.map((item) => (
-                  <div key={item.id} className="flex justify-between items-start">
-                    <div>
-                      <p className="text-[14px] font-medium text-gray-800 dark:text-gray-200">{item.title}</p>
+                  <div key={item.id} className="flex justify-between items-start gap-4">
+                    <div className="min-w-0 flex-1">
+                      <p className="text-[14px] font-medium text-gray-800 dark:text-gray-200 line-clamp-2" title={item.title}>
+                        {item.title}
+                      </p>
                       <p className="text-[13px] text-[#8C93A3] mt-1">
                         {item.quantity} × {taka(item.unitPriceBdt)}
                       </p>
                     </div>
-                    <span className="text-[14px] font-medium">{taka(item.lineTotalBdt)}</span>
+                    <span className="text-[14px] font-medium whitespace-nowrap shrink-0">
+                      {taka(item.lineTotalBdt)}
+                    </span>
                   </div>
                 ))}
               </div>

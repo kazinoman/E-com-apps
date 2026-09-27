@@ -27,7 +27,7 @@ export const MegaMenu = () => {
 
   const handleSubcategoryClick = (categoryId: string, subcategoryId: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    router.push(`/search?category=${encodeURIComponent(subcategoryId)}`);
+    router.push(`/search?subCategory=${encodeURIComponent(subcategoryId)}`);
     setActiveHover(null);
   };
 
@@ -37,7 +37,7 @@ export const MegaMenu = () => {
   return (
     <div className="flex items-center gap-4 lg:gap-8 relative z-50">
       {/* All Categories Trigger */}
-      <div 
+      <div
         className="relative group"
         onMouseEnter={() => setActiveHover("all")}
         onMouseLeave={() => setActiveHover(null)}
@@ -54,7 +54,7 @@ export const MegaMenu = () => {
             <div className="grid grid-cols-4 xl:grid-cols-5 gap-x-8 gap-y-8">
               {categories.map((cat) => (
                 <div key={cat.id} className="flex flex-col">
-                  <button 
+                  <button
                     onClick={() => handleCategoryClick(cat.id)}
                     className="font-bold text-[15px] text-[#1A1A1A] dark:text-gray-200 text-left hover:bg-gray-100 dark:hover:bg-gray-900 hover:text-black dark:hover:text-white px-2 py-1.5 -ml-2 rounded-md mb-1 transition-all"
                   >
@@ -81,13 +81,13 @@ export const MegaMenu = () => {
       {/* Inline Categories */}
       <nav className="hidden lg:flex items-center gap-6">
         {visibleCategories.map((cat) => (
-          <div 
-            key={cat.id} 
+          <div
+            key={cat.id}
             className="relative py-4" // padding to create hover bridge
             onMouseEnter={() => setActiveHover(cat.id)}
             onMouseLeave={() => setActiveHover(null)}
           >
-            <button 
+            <button
               onClick={() => handleCategoryClick(cat.id)}
               className="flex items-center gap-1.5 text-[14px] text-[#B3B3B3] hover:text-white font-medium transition-colors"
             >
