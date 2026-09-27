@@ -109,14 +109,7 @@ export function OrderDetailsClient({ order, backUrl = "/profile/orders/active", 
                     <div className="text-[13px] font-bold text-[#333333] dark:text-white whitespace-nowrap">
                       {taka(item.lineTotalBdt)}
                     </div>
-                    {canReview && (
-                      <Link
-                        href={`/products/${item.productId}?tab=reviews`}
-                        className="text-[12px] font-bold text-[#4A85F6] hover:underline whitespace-nowrap"
-                      >
-                        Write a review
-                      </Link>
-                    )}
+
                   </div>
                 </div>
               ))}

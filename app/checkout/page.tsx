@@ -255,7 +255,7 @@ export default function CheckoutPage() {
                     </div>
                   </div>
                 ))}
-                <Link href="/profile/address" className="inline-block text-[13px] font-semibold text-[#4A85F6] hover:underline">
+                <Link href="/profile/address?redirect=/checkout" className="inline-block text-[13px] font-semibold text-[#4A85F6] hover:underline">
                   Manage addresses
                 </Link>
               </div>
@@ -415,13 +415,13 @@ export default function CheckoutPage() {
             <div className="mb-8">
               <label className="block text-[14px] text-[#1C244B] dark:text-white mb-2 font-medium">Order note</label>
               <textarea
-                className="w-full h-24 p-4 text-[14px] bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl focus:outline-none focus:ring-1 focus:ring-primary resize-none placeholder:text-[#8C93A3]"
+                className="w-full h-32 p-4 text-[14px] bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl focus:outline-none focus:ring-1 focus:ring-primary resize-none placeholder:text-[#8C93A3]"
                 placeholder="Write your order instructions here..."
-                maxLength={500}
+                maxLength={1500}
                 value={orderNote}
                 onChange={(e) => setOrderNote(e.target.value)}
               />
-              <p className="text-[12px] text-[#8C93A3] mt-2">{orderNote.length} / 500 characters</p>
+              <p className="text-[12px] text-[#8C93A3] mt-2">{orderNote.length} / 1500 characters</p>
             </div>
 
             <div className="flex flex-col items-center gap-4 mb-12 w-full">

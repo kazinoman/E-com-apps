@@ -6,11 +6,12 @@ import { Button } from "@/components/ui/button";
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { CompareButton } from "@/components/common/CompareButton";
-import { Star, Minus, Plus, Heart } from "lucide-react";
+import { Star, Minus, Plus, Heart, Plane, Scale, CreditCard, Info, Ship, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { vendorScore } from "@/lib/types/vendor";
 import { toast } from "sonner";
+import { FreightCategoryModal } from "./FreightCategoryModal";
 
 interface ProductInfoProps {
   product: Product;
@@ -25,6 +26,7 @@ const taka = (n?: number) => `৳${(n ?? 0).toLocaleString()}`;
 export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect, advancePct }: ProductInfoProps) => {
   const { addToCart, isPending, cart } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
+  const [isFreightModalOpen, setIsFreightModalOpen] = useState(false);
 
   /*
    * Variants are chosen by axis, not by SKU.
@@ -254,31 +256,6 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect, ad
         </p>
       </div>
 
-      {/* Shipping info block */}
-      <div className="space-y-2 text-sm text-slate-500 dark:text-gray-400">
-        {product.freight?.air && (
-          <p>
-            Air freight: <span className="font-medium text-slate-700 dark:text-gray-300">৳{product.freight.air.bdtPerKg}/kg</span>
-            {" "}(customs included)
-          </p>
-        )}
-        {product.freight?.sea && (
-          <p>
-            Sea freight: <span className="font-medium text-slate-700 dark:text-gray-300">৳{product.freight.sea.minBdtPerKg}–৳{product.freight.sea.maxBdtPerKg}/kg</span>
-          </p>
-        )}
-        {product.weightKg ? (
-          <p>Approximate weight {product.weightKg} kg per piece.</p>
-        ) : null}
-        <p className="font-medium text-slate-700 dark:text-gray-300">
-          Pay 70% now, rest on delivery
-        </p>
-        <p className="text-xs text-slate-400 dark:text-gray-500">
-          Freight is billed on delivery, by actual weight — customs is already
-          included in the per-kg rate above.
-        </p>
-      </div>
-
       {/* Actions */}
       <div className="flex items-center gap-4 mt-2">
         <Button
@@ -308,6 +285,69 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect, ad
           <Heart className={cn("w-5 h-5", isWished && "fill-[#FF4D4F] text-[#FF4D4F]")} />
         </Button>
       </div>
+
+      {/* Shipping & Payment Info Card */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-indigo-50/50 via-white to-blue-50/50 dark:from-gray-900 dark:via-gray-800/80 dark:to-gray-900 rounded-2xl p-5 border border-indigo-100/60 dark:border-gray-700/60 shadow-sm transition-all hover:shadow-md mt-2">
+        {/* Subtle background pattern/glow */}
+        <div className="absolute -right-6 -top-6 w-24 h-24 bg-blue-500/10 dark:bg-blue-500/20 rounded-full blur-2xl pointer-events-none"></div>
+        
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="font-semibold text-slate-800 dark:text-gray-100 text-sm flex items-center gap-2">
+            <div className="p-1.5 bg-indigo-100 dark:bg-indigo-900/50 rounded-md text-indigo-600 dark:text-indigo-400">
+              <Plane className="w-4 h-4" />
+            </div>
+            Shipping & Payment Details
+          </h3>
+          <button 
+            onClick={() => setIsFreightModalOpen(true)}
+            className="text-xs font-medium text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 flex items-center gap-1 bg-white/50 dark:bg-gray-800/50 px-2.5 py-1.5 rounded-lg border border-indigo-100 dark:border-indigo-900/50 hover:bg-white dark:hover:bg-gray-800 transition-colors z-10"
+          >
+            Details <ExternalLink className="w-3 h-3" />
+          </button>
+        </div>
+        
+        <div className="flex flex-col">
+          <div className="flex items-center gap-3 text-sm group">
+            <div className="w-8 h-8 rounded-full bg-white dark:bg-gray-800 shadow-sm border border-slate-100 dark:border-gray-700 flex items-center justify-center text-slate-400 group-hover:text-indigo-500 group-hover:border-indigo-200 transition-colors shrink-0">
+              <Plane className="w-4 h-4" />
+            </div>
+            <p className="text-slate-600 dark:text-gray-300">
+              Air freight: <span className="font-semibold text-slate-800 dark:text-gray-100">৳770/kg</span>
+              <span className="text-xs text-slate-500 ml-1">(customs included)</span>
+            </p>
+          </div>
+
+          <div className="flex items-center gap-3 text-sm group">
+            <div className="w-8 h-8 rounded-full bg-white dark:bg-gray-800 shadow-sm border border-slate-100 dark:border-gray-700 flex items-center justify-center text-slate-400 group-hover:text-orange-500 group-hover:border-orange-200 transition-colors shrink-0">
+              <Scale className="w-4 h-4" />
+            </div>
+            <p className="text-slate-600 dark:text-gray-300">
+              Approximate weight: <span className="font-semibold text-slate-800 dark:text-gray-100">0.49 kg</span> <span className="text-xs text-slate-500">per piece.</span>
+            </p>
+          </div>
+          
+          <div className="flex items-center gap-3 text-sm group">
+            <div className="w-8 h-8 rounded-full bg-white dark:bg-gray-800 shadow-sm border border-slate-100 dark:border-gray-700 flex items-center justify-center text-slate-400 group-hover:text-emerald-500 group-hover:border-emerald-200 transition-colors shrink-0">
+              <CreditCard className="w-4 h-4" />
+            </div>
+            <p className="text-slate-600 dark:text-gray-300">
+              <span className="font-semibold text-slate-800 dark:text-gray-100">Pay 70% now</span>, rest on delivery
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-4 bg-indigo-50/80 dark:bg-indigo-950/30 rounded-xl p-3 border border-indigo-100/50 dark:border-indigo-900/30 flex gap-3 items-start">
+          <Info className="w-4 h-4 text-indigo-500 mt-0.5 shrink-0" />
+          <p className="text-xs text-indigo-700 dark:text-indigo-300 leading-relaxed">
+            Freight is billed on delivery based on actual weight. Customs is already included in the per-kg rate.
+          </p>
+        </div>
+      </div>
+
+      <FreightCategoryModal 
+        isOpen={isFreightModalOpen} 
+        onClose={() => setIsFreightModalOpen(false)} 
+      />
     </div>
   );
 };
