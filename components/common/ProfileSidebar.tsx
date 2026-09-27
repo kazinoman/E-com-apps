@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { User, MapPin, Heart, Crosshair, ClipboardList, Package, LogOut, Menu, CheckCircle2 } from "lucide-react";
+import { User, MapPin, Heart, Crosshair, ClipboardList, Package, LogOut, Menu, CheckCircle2, AlertCircle } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -18,6 +18,7 @@ const accountItems = [
   { name: "My Account", href: "/profile/my-profile", icon: User },
   { name: "My Address", href: "/profile/address", icon: MapPin },
   { name: "My Wishlists", href: "/profile/wishlist", icon: Heart },
+  { name: "Complaints", href: "/profile/complain", icon: AlertCircle },
 ];
 
 const orderItems = [
