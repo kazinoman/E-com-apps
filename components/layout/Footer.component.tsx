@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
+import { Mail, Phone, MapPin } from "lucide-react";
 import { Container } from "../common/Container";
 
 export function Footer() {
@@ -13,6 +14,31 @@ export function Footer() {
           <Link href="/" className="text-3xl font-black text-white tracking-tight">
             XYZ
           </Link>
+
+          <ul className="flex flex-col gap-3 text-[13px] text-[#A6A6A6] leading-relaxed">
+            <li>
+              78, Innovation Tower (Level 6), Tech Valley Road,<br />
+              Sector - 9, Genesis City
+            </li>
+            <li>
+              <a href="mailto:hello@xyz-ecommerce.com" className="flex items-center gap-3 hover:text-white transition-colors">
+                <Mail size={16} className="text-white" />
+                hello@xyz-ecommerce.com
+              </a>
+            </li>
+            <li>
+              <a href="tel:+8801900000000" className="flex items-center gap-3 hover:text-white transition-colors">
+                <Phone size={16} className="text-white" />
+                01900000000
+              </a>
+            </li>
+            <li>
+              <button className="flex items-center gap-3 hover:text-white transition-colors text-left w-full">
+                <MapPin size={16} className="text-white" />
+                Find us on map
+              </button>
+            </li>
+          </ul>
 
           <div className="flex flex-col gap-3">
             <span className="text-[13px] text-gray-300">Follow us on social media</span>
