@@ -19,9 +19,9 @@ export default async function CampaignDetailPage({ params }: { params: Promise<{
   return (
     <div className="bg-zinc-50 dark:bg-background min-h-screen pb-20">
       {/* Hero Banner */}
-      <div className="bg-gradient-to-br from-[#2D141C] to-[#120B0F] pt-6 pb-20 border-b border-white/5 relative overflow-hidden">
+      <div className="bg-[#181c24] pt-6 pb-20 border-b border-white/5 relative overflow-hidden">
         {/* Abstract graphic overlay (optional) */}
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-[#FF4747]/10 to-transparent pointer-events-none" />
+        <div className="absolute top-0 right-0 w-2/3 h-full bg-gradient-to-l from-[#FF4B2B]/40 via-[#FF4B2B]/10 to-transparent pointer-events-none" />
 
         <Container className="relative z-10">
           {/* <CustomBreadcrumb
@@ -33,14 +33,14 @@ export default async function CampaignDetailPage({ params }: { params: Promise<{
           // className="text-white/60 hover:text-white"
           /> */}
 
-          <div className="mt-8 flex flex-col lg:flex-row lg:items-start justify-between gap-10">
+          <div className="mt-8 flex flex-col lg:flex-row lg:items-center justify-between gap-10">
             {/* Left Content */}
             <div className="flex-1 max-w-3xl">
               <div className="flex items-center gap-3 mb-5">
-                <div className="inline-flex items-center gap-1.5 bg-[#FF4747] text-white px-2.5 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase">
+                <div className="inline-flex items-center gap-1.5 bg-[#FF4B2B] text-white px-2.5 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase">
                   <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" /> FLASH DROP • 48H CLEARANCE
                 </div>
-                <div className="inline-flex items-center gap-1.5 border border-[#00A65A]/50 bg-[#00A65A]/10 text-[#00A65A] px-2.5 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase">
+                <div className="inline-flex items-center gap-1.5 border border-[#00C566]/50 bg-[#E8FAF0]/10 text-[#00C566] px-2.5 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase">
                   <ShieldCheck className="w-3 h-3" /> Overseas Factory Direct
                 </div>
               </div>
@@ -60,7 +60,7 @@ export default async function CampaignDetailPage({ params }: { params: Promise<{
                   <span className="text-sm text-white/60">Curated Lots</span>
                 </div>
                 <div className="w-1 h-1 rounded-full bg-white/20 hidden sm:block" />
-                <div className="flex items-center gap-2 text-[#FF4747]">
+                <div className="flex items-center gap-2 text-[#FF4B2B]">
                   <span className="text-[18px] font-bold">{campaign.tags[0] || "Up to 65% OFF"}</span>
                   <span className="text-sm text-white/60">Limited Margin</span>
                 </div>
@@ -70,7 +70,7 @@ export default async function CampaignDetailPage({ params }: { params: Promise<{
                   <span className="text-sm text-white/60">Min. Cart Size</span>
                 </div>
                 <div className="w-1 h-1 rounded-full bg-white/20 hidden lg:block" />
-                <div className="flex items-center gap-2 text-[#00A65A]">
+                <div className="flex items-center gap-2 text-[#00C566]">
                   <Plane className="w-4 h-4" />
                   <span className="text-sm font-semibold">Free Air Delivery &gt; ৳3,000</span>
                 </div>
@@ -78,19 +78,19 @@ export default async function CampaignDetailPage({ params }: { params: Promise<{
             </div>
 
             {/* Right Timer Box */}
-            <div className="bg-[#1F1417]/80 backdrop-blur-md border border-white/10 rounded-2xl p-6 lg:w-[380px] shadow-2xl">
+            <div className="bg-transparent backdrop-blur-md border border-white/10 rounded-2xl p-6 lg:w-[380px] shadow-2xl">
               <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-2 text-[#FF4747] font-bold text-[13px] tracking-widest uppercase">
+                <div className="flex items-center gap-2 text-[#FF4B2B] font-bold text-[13px] tracking-widest uppercase">
                   <Flame className="w-4 h-4" /> SALE ENDS IN
                 </div>
-                <div className="flex items-center gap-1.5 text-[#FF4747] text-[11px] font-bold">
-                  <Flame className="w-3 h-3 fill-[#FF4747]" /> {campaign.soldPercentage}% Claimed
+                <div className="flex items-center gap-1.5 text-[#FF4B2B] text-[11px] font-bold">
+                  <Flame className="w-3 h-3 fill-[#FF4B2B]" /> {campaign.soldPercentage}% Claimed
                 </div>
               </div>
 
               <CountdownTimer targetDate={campaign.endDate} variant="detail" className="mb-6 justify-between" />
 
-              <div className="flex items-center justify-between text-[11px] font-bold tracking-wider text-[#00A65A] uppercase">
+              <div className="flex items-center justify-between text-[11px] font-bold tracking-wider text-[#00C566] uppercase">
                 <span className="inline-flex items-center gap-1.5"><Ticket className="w-3 h-3" /> Vouchers Auto-Applied</span>
                 <span className="inline-flex items-center gap-1.5 text-white/60"><ShieldCheck className="w-3 h-3" /> Stock Locked on Add</span>
               </div>
