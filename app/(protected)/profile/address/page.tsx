@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { Edit2, Trash2 } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { AddressModal } from "@/components/common/AddressModal";
 import { ConfirmModal } from "@/components/common/ConfirmModal";
 import { getAddresses, updateAddress, addAddress, deleteAddress, setDefaultAddress } from "@/services/profile.service";
@@ -25,12 +26,16 @@ type Address = {
 const formatAddress = (a: Address) =>
   [a.line1, a.line2, a.area, a.city, a.district, a.postalCode].filter(Boolean).join(", ");
 
-export default function AddressPage() {
+function AddressPageContent() {
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingAddress, setEditingAddress] = useState<Address | null>(null);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+  
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectUrl = searchParams.get("redirect") || searchParams.get("next");
 
   const fetchAddresses = async () => {
     try {
@@ -71,12 +76,19 @@ export default function AddressPage() {
     }
     await fetchAddresses();
     setEditingAddress(null);
+    
+    if (redirectUrl && !editingAddress) {
+      router.push(redirectUrl);
+    }
   };
 
   const handleSetDefault = async (id: string) => {
     try {
       await setDefaultAddress(id);
       await fetchAddresses();
+      if (redirectUrl) {
+        router.push(redirectUrl);
+      }
     } catch {
       toast.error("Could not set that as your default address");
     }
@@ -226,5 +238,13 @@ export default function AddressPage() {
         onClose={() => setDeleteConfirmId(null)}
       />
     </div>
+  );
+}
+
+export default function AddressPage() {
+  return (
+    <Suspense fallback={<div className="p-8 text-center">Loading...</div>}>
+      <AddressPageContent />
+    </Suspense>
   );
 }

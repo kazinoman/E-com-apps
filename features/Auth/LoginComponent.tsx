@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -20,6 +20,8 @@ import { useCart } from "@/contexts/CartContext";
 
 const LoginComponent = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectUrl = searchParams.get("redirect") || searchParams.get("next") || "/";
 
   const { setUser } = useAuth();
   const { refresh: refreshWishlist } = useWishlist();
@@ -63,7 +65,7 @@ const LoginComponent = () => {
           refreshCart()
         ]);
 
-        router.push("/");
+        router.push(redirectUrl);
       } catch (error) {
         toast.error("An unexpected error occurred. Please try again later.");
       }

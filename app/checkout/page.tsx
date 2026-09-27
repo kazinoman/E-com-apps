@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useCart } from "@/contexts/CartContext";
+import { useAuth } from "@/contexts/UserInfoContext";
 import { Container } from "@/components/common/Container";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -46,6 +47,7 @@ function formatAddress(a: Address) {
 
 export default function CheckoutPage() {
   const { cart, cartTotal, total, advancePct, advanceDueBdt, belowMinimum, minOrderBdt, cartItemCount, refresh } = useCart();
+  const { isLogin } = useAuth();
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -186,8 +188,32 @@ export default function CheckoutPage() {
             </div>
 
             {addressesLoading ? (
-              <div className="flex items-center gap-2 text-[14px] text-[#8C93A3]">
-                <Loader2 className="w-4 h-4 animate-spin" /> Loading your addresses…
+              <div className="space-y-3">
+                {[1, 2].map((i) => (
+                  <div
+                    key={i}
+                    className="flex items-start gap-3 p-4 rounded-xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900/50 animate-pulse"
+                  >
+                    <div className="w-4 h-4 mt-1 rounded-full bg-gray-200 dark:bg-gray-700 shrink-0"></div>
+                    <div className="w-full text-left">
+                      <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2 mb-2.5"></div>
+                      <div className="h-3 bg-gray-100 dark:bg-gray-800 rounded w-full mb-1.5"></div>
+                      <div className="h-3 bg-gray-100 dark:bg-gray-800 rounded w-4/5"></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : !isLogin ? (
+              <div className="rounded-md border border-dashed border-gray-300 dark:border-gray-700 p-6 text-center">
+                <p className="text-[14px] text-[#8C93A3] mb-4">
+                  You need to login to select a delivery address.
+                </p>
+                <Link
+                  href="/login?redirect=/checkout"
+                  className="inline-block bg-[#333333] hover:bg-black text-white px-5 py-2.5 rounded-lg text-[13px] font-bold transition-colors"
+                >
+                  Login to continue
+                </Link>
               </div>
             ) : addresses.length === 0 ? (
               <div className="rounded-md border border-dashed border-gray-300 dark:border-gray-700 p-6 text-center">
@@ -195,7 +221,7 @@ export default function CheckoutPage() {
                   You have no saved addresses yet. Add one to place this order.
                 </p>
                 <Link
-                  href="/profile/address"
+                  href="/profile/address?redirect=/checkout"
                   className="inline-block bg-[#333333] hover:bg-black text-white px-5 py-2.5 rounded-lg text-[13px] font-bold transition-colors"
                 >
                   Add an address
