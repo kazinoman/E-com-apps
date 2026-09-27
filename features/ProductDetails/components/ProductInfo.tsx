@@ -23,7 +23,7 @@ interface ProductInfoProps {
 const taka = (n?: number) => `৳${(n ?? 0).toLocaleString()}`;
 
 export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect, advancePct }: ProductInfoProps) => {
-  const { addToCart, isPending } = useCart();
+  const { addToCart, isPending, cart } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
 
   /*
@@ -83,8 +83,15 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect, ad
   const isWished = isInWishlist(product.id);
 
   const handleAddToCart = () => {
-    if (quantity < moq) {
-      toast.info(`Please select at least ${moq} items. We require a minimum quantity of ${moq} to process an order. Thank you!`, {
+    const minQty = Math.max(3, moq);
+    const existingItem = cart.find(
+      (item) => item.productId === String(product.id) && item.skuExternalId === (selectedSku?.skuId ?? null)
+    );
+    const existingQty = existingItem ? existingItem.quantity : 0;
+    const newTotal = existingQty + quantity;
+
+    if (newTotal < minQty) {
+      toast.info(`Please select at least ${minQty} items to add to cart. Thank you!`, {
         className: "!bg-blue-50 dark:!bg-blue-950 !text-blue-700 dark:!text-blue-300 !border-blue-200 dark:!border-blue-800"
       });
       return;
@@ -264,7 +271,7 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect, ad
           <p>Approximate weight {product.weightKg} kg per piece.</p>
         ) : null}
         <p className="font-medium text-slate-700 dark:text-gray-300">
-          Pay {Math.round(advancePct * 100)}% now, rest on delivery
+          Pay 70% now, rest on delivery
         </p>
         <p className="text-xs text-slate-400 dark:text-gray-500">
           Freight is billed on delivery, by actual weight — customs is already

@@ -16,8 +16,38 @@ export default function HomeLoading() {
              <div className="flex-1 w-full h-48 md:h-64 bg-gray-300 dark:bg-gray-700 rounded-full blur-xl"></div>
           </div>
         </div>
+
+        {/* Campaign Section Skeleton */}
+        <section className="bg-[#F8F9FA] dark:bg-[#0A0A0A] py-16">
+          <Container>
+            {/* Banner Header Skeleton */}
+            <div className="flex flex-col lg:flex-row items-center justify-between gap-6 mb-10 bg-gray-100 dark:bg-[#111111] p-6 lg:p-8 rounded-[24px] animate-pulse border border-gray-200 dark:border-gray-800">
+              <div className="flex flex-col md:flex-row items-center gap-6 lg:gap-10 w-full lg:w-auto">
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 rounded-2xl bg-gray-200 dark:bg-gray-800 shrink-0"></div>
+                  <div className="flex flex-col gap-2">
+                    <div className="w-32 h-3 bg-gray-200 dark:bg-gray-800 rounded"></div>
+                    <div className="w-40 h-8 bg-gray-200 dark:bg-gray-800 rounded"></div>
+                  </div>
+                </div>
+                <div className="hidden md:block w-64 h-4 bg-gray-200 dark:bg-gray-800 rounded"></div>
+              </div>
+              <div className="flex items-center gap-6">
+                <div className="w-48 h-10 bg-gray-200 dark:bg-gray-800 rounded-full"></div>
+                <div className="w-28 h-12 bg-gray-200 dark:bg-gray-800 rounded-full shrink-0"></div>
+              </div>
+            </div>
+
+            {/* Campaign Cards Grid Skeleton */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+               {[1, 2, 3].map((i) => (
+                  <div key={i} className={`h-[420px] w-full bg-gray-100 dark:bg-[#111111] rounded-[24px] animate-pulse border border-gray-200 dark:border-gray-800 ${i === 3 ? 'hidden lg:block' : ''} ${i === 2 ? 'hidden md:block' : ''}`}></div>
+               ))}
+            </div>
+          </Container>
+        </section>
         
-        <Container className="mt-12 space-y-12 flex flex-col">
+        <Container className="mt-6 space-y-12 flex flex-col">
           {/* Create 4 Skeleton Sections */}
           {[1, 2, 3, 4].map((sectionIndex) => (
             <section key={sectionIndex} className="w-full flex flex-col gap-6">
