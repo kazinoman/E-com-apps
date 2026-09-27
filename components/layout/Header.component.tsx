@@ -3,7 +3,7 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { useDebounce } from "@/hooks/useDebounce";
-import { User, ShoppingBag, Menu, Search, Heart, ArrowRightLeft, SlidersHorizontal, Home as HomeIcon, ShoppingCart, Camera, X } from "lucide-react";
+import { User, ShoppingBag, Menu, Search, Heart, ArrowRightLeft, SlidersHorizontal, Home as HomeIcon, ShoppingCart, Camera, X, CircleUser } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/UserInfoContext";
 import { CartButton } from "../common/CartButton";
@@ -69,7 +69,7 @@ export function Header() {
         <Container className="h-[80px] flex items-center justify-between gap-8">
           {/* Logo */}
           <button onClick={() => router.push("/")} className="text-4xl font-black text-foreground tracking-tight">
-            Zaag
+            XYZ
           </button>
 
           {/* Search Bar */}
@@ -98,9 +98,9 @@ export function Header() {
 
             <button
               onClick={() => router.push("/cart")}
-              className="relative text-foreground"
+              className="relative text-foreground hover:text-primary transition-colors"
             >
-              <ShoppingCart size={24} strokeWidth={1.5} />
+              <ShoppingBag size={24} strokeWidth={1.5} />
               {cartItemCount > 0 && (
                 <span className="absolute -top-1.5 -right-2 flex h-[18px] w-[18px] items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
                   {cartItemCount > 99 ? "99+" : cartItemCount}
@@ -131,7 +131,7 @@ export function Header() {
                   </Link>
                 ) : (
                   <div className="flex items-center gap-1.5">
-                    <User size={24} strokeWidth={1.5} />
+                    <CircleUser size={24} strokeWidth={1.5} className="text-[#6B6565]" />
                     <Link href={PageUrls.login} className="hover:text-foreground transition-colors">Sign in</Link>
                     <span className="text-[#EAE4E3]">|</span>
                     <Link href={PageUrls.signup} className="hover:text-foreground transition-colors">Sign up</Link>
@@ -172,7 +172,7 @@ export function Header() {
               onClick={() => router.push(PageUrls.home)}
               className="text-2xl font-black text-foreground tracking-tight absolute left-1/2 -translate-x-1/2"
             >
-              Zaag
+              XYZ
             </button>
 
             <div className="flex items-center gap-3">

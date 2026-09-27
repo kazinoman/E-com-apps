@@ -11,7 +11,7 @@ export function Footer() {
         {/* Column 1: Branding and Newsletter */}
         <div className="flex flex-col gap-6 col-span-2">
           <Link href="/" className="text-3xl font-black text-white tracking-tight">
-            Zaag
+            XYZ
           </Link>
 
           <div className="flex flex-col gap-3">
@@ -108,7 +108,7 @@ export function Footer() {
 
       <div className="border-t border-[#474747] dark:border-slate-800 pt-6 text-center">
         <p className="text-[12px] text-[#A6A6A6]">
-          Copyright 2023 by Zaag Sys LTD.
+          Copyright 2023 by XYZ Sys LTD.
         </p>
       </div>
     </footer>

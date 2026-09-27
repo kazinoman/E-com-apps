@@ -62,7 +62,7 @@ export function MobileMenuDrawer({ isOpen, onClose, navLinks }: MobileMenuDrawer
       >
         {/* Header */}
         <div className="flex items-center justify-between p-4 px-6 border-b border-border">
-          <span className="text-2xl font-black tracking-tight text-foreground">Zaag</span>
+          <span className="text-2xl font-black tracking-tight text-foreground">XYZ</span>
           <div className="flex items-center gap-4">
             <ThemeToggle />
             <button
