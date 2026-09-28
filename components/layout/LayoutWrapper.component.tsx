@@ -8,6 +8,7 @@ import { StoreFeatures } from "@/components/common/StoreFeatures";
 import { CustomBreadcrumb } from "@/components/common/CustomBreadcrumb";
 import { ScrollToTop } from "@/components/common/ScrollToTop";
 import { WhatsAppButton } from "@/components/common/WhatsAppButton";
+import { cn } from "@/lib/utils";
 
 export default function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -62,7 +63,16 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
       {showBreadcrumb && (
         <CustomBreadcrumb routes={breadcrumbRoutes} />
       )}
-      <main className="flex-1 flex flex-col">{children}</main>
+      {/*
+       * The mobile bottom nav (Header.component.tsx) is `fixed bottom-0`,
+       * 68px tall plus safe-area inset — content doesn't know it's there.
+       * Reserve that space here so the last row of any page (cart's
+       * Checkout button, a product grid's last card) isn't rendered behind
+       * it. Desktop has no such nav, so this is mobile-only.
+       */}
+      <main className={cn("flex-1 flex flex-col", !hideLayout && "pb-[calc(68px+env(safe-area-inset-bottom))] md:pb-0")}>
+        {children}
+      </main>
       {!hideLayout && <StoreFeatures />}
       {!hideLayout && <Footer />}
       <WhatsAppButton />
