@@ -93,9 +93,7 @@ export default async function Home() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <main className="flex flex-1 w-full flex-col dark:bg-background">
-          {/* No hero until the merchant can set one (HYDRA 3e1d1569) — an empty
-            slider beats stock photography standing in for merchandising. */}
-          <HeroSlider />
+          <HeroSlider slides={sliderImages} />
 
           <CampaignSection campaigns={campaigns} />
 
