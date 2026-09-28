@@ -3,7 +3,7 @@ import { z } from "zod";
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export const loginSchema = z.object({
-  email: z.string().trim().min(1, "Phone number or email is required"),
+  phone: z.string().trim().min(1, "Phone number is required"),
   password: z.string().min(6, "Password must be at least 6 characters"),
   remember: z.boolean().optional(),
 });

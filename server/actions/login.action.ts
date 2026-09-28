@@ -4,9 +4,9 @@ import { auth } from "@/lib/api/apiUrls";
 import { api } from "@/lib/api/axios";
 import { relaySessionCookie } from "@/lib/session-cookie";
 
-export async function login({ email, password }: { email: string; password: string }) {
+export async function login({ phone, password }: { phone: string; password: string }) {
   try {
-    const response = await api.post(auth.login, { email, password });
+    const response = await api.post(auth.login, { phone, password });
 
     // A Server Action is one of the few places that can set a cookie on the
     // browser, so the backend's session cookie is relayed here rather than in

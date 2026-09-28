@@ -38,7 +38,7 @@ const LoginComponent = () => {
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: "",
+      phone: "",
       password: "",
       remember: true,
     },
@@ -100,9 +100,9 @@ const LoginComponent = () => {
                 type="text"
                 placeholder="+880 - 1234567890"
                 className="w-full bg-[#F8F9FA] dark:bg-gray-800 border border-transparent focus:border-[#4A85F6] focus:ring-1 focus:ring-[#4A85F6] rounded-xl px-4 py-3.5 text-[14px] outline-none text-foreground transition-all placeholder:text-[#8C93A3]"
-                {...register("email")}
+                {...register("phone")}
               />
-              {errors.email && <p className="text-xs text-red-500 mt-1.5">{errors.email.message}</p>}
+              {errors.phone && <p className="text-xs text-red-500 mt-1.5">{errors.phone.message}</p>}
             </div>
 
             <div>
