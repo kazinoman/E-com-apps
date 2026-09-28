@@ -34,6 +34,15 @@ const nextConfig: NextConfig = {
         port: "",
         pathname: "/**",
       },
+      // 1688.com also serves some catalog images from its own CDN host
+      // (global-img-cdn.1688.com) rather than alicdn.com — same failure mode
+      // if not allowlisted (found live 2026-09-29: PDP images 400ing).
+      {
+        protocol: "https",
+        hostname: "**.1688.com",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
 };
