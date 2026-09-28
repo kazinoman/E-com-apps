@@ -78,6 +78,13 @@ api.interceptors.request.use(async (config) => {
 api.interceptors.request.use((config) => {
   if (config.data !== undefined) {
     config.data = snakeizeDeep(config.data);
+  } else {
+    // The instance default sets Content-Type: application/json on every
+    // request, but a bodyless POST (e.g. logout, order cancel) then sends
+    // that header with zero bytes of body — Fastify's JSON parser refuses
+    // that combination outright (FST_ERR_CTP_EMPTY_JSON_BODY, surfaced as a
+    // 500). Drop the header when there is genuinely no body to send.
+    delete config.headers["Content-Type"];
   }
   if (config.params !== undefined) {
     config.params = snakeizeDeep(config.params);
