@@ -14,6 +14,7 @@ interface CancelOrderCardProps {
 export function CancelOrderCard({ order }: CancelOrderCardProps) {
   const router = useRouter();
   const [isCancelling, setIsCancelling] = useState(false);
+  const [confirming, setConfirming] = useState(false);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -42,10 +43,11 @@ export function CancelOrderCard({ order }: CancelOrderCardProps) {
   const totalItems = order.items.reduce((acc, item) => acc + item.quantity, 0);
 
   const handleCancel = async () => {
-    if (!window.confirm("Are you sure you want to cancel this order? This action cannot be undone.")) {
+    if (!confirming) {
+      setConfirming(true);
       return;
     }
-    
+
     setIsCancelling(true);
     const result = await cancelOrder(order.id);
     
@@ -91,12 +93,21 @@ export function CancelOrderCard({ order }: CancelOrderCardProps) {
             <div className="text-[18px] font-black text-foreground">
               {taka(order.grandTotalBdt)}
             </div>
+            {confirming && (
+              <button
+                onClick={() => setConfirming(false)}
+                disabled={isCancelling}
+                className="px-4 py-1.5 bg-muted text-[13px] font-bold rounded-md hover:bg-gray-200 transition-colors disabled:opacity-50"
+              >
+                Keep order
+              </button>
+            )}
             <button
               onClick={handleCancel}
               disabled={isCancelling}
               className="px-4 py-1.5 bg-[#FEE2E2] text-[#EF4444] text-[13px] font-bold rounded-md hover:bg-red-200 transition-colors disabled:opacity-50"
             >
-              {isCancelling ? "Cancelling..." : "Cancel"}
+              {isCancelling ? "Cancelling..." : confirming ? "Confirm cancel" : "Cancel"}
             </button>
           </div>
         </div>
