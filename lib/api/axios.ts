@@ -23,7 +23,7 @@ import { RELAYED_COOKIES } from "../session-cookie";
  * this app must therefore run somewhere else — use `next dev -p 3001`.
  */
 const API_BASE =
-  process.env.NEXT_PUBLIC_API_BASE ?? "http://127.0.0.1:3000/api/v1";
+  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://127.0.0.1:3000/api/v1";
 
 export const api = axios.create({
   baseURL: API_BASE,

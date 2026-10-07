@@ -57,9 +57,9 @@ export function Header() {
   }, [debouncedSearchTerm, searchTerm, pathname, router, searchParams]);
 
   const navLinks = [
-    { name: "Home", href: "/" },
+    { name: "Home", href: "/", icon: null },
     { name: "All Categories", href: "#" },
-    { name: "Track order", href: "#" },
+    { name: "Track order", href: "/track-order", icon: null },
   ];
 
   return (

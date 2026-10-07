@@ -3,11 +3,10 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Star, Heart, Package, ShoppingCart, Loader2 } from "lucide-react";
+import { Star, Heart, Package, Truck } from "lucide-react";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { useCart } from "@/contexts/CartContext";
 import { useAuth } from "@/contexts/UserInfoContext";
-import { CompareButton } from "@/components/common/CompareButton";
 import { cn } from "@/lib/utils";
 import { categoryLabel, type ProductCardData } from "@/schemas/product";
 
@@ -60,13 +59,13 @@ export function ProductCard({
   // grid card. The backend resolves that to the product's own base price
   // (see CartService.resolveProduct), never a guess. Floor at the real MOQ,
   // same number the badge above already shows, never a hardcoded 1.
-  const handleAddToCart = async (e: React.MouseEvent) => {
-    e.preventDefault();
-    if (isAdding || inStock === false) return;
-    setIsAdding(true);
-    await addToCart(id, moq && moq > 1 ? moq : 1, null);
-    setIsAdding(false);
-  };
+  // const handleAddToCart = async (e: React.MouseEvent) => {
+  //   e.preventDefault();
+  //   if (isAdding || inStock === false) return;
+  //   setIsAdding(true);
+  //   await addToCart(id, moq && moq > 1 ? moq : 1, null);
+  //   setIsAdding(false);
+  // };
 
   const formatSold = (value: number | null) => {
     if (!value) return "0 sold";
@@ -89,7 +88,7 @@ export function ProductCard({
   return (
     <Link
       href={`/products/${id}`}
-      className="group flex flex-col h-full w-full min-w-[200px] bg-card border border-[#F0F0F0] dark:border-border rounded-2xl p-2.5 hover:shadow-lg transition-shadow duration-300"
+      className="group flex flex-col h-full w-full min-w-[140px] md:min-w-[200px] bg-card border border-[#F0F0F0] dark:border-border rounded-2xl p-2.5 hover:shadow-lg transition-shadow duration-300"
     >
       {/* Image Container */}
       <div className="relative w-full aspect-[4/4] bg-[#F6F6F9] dark:bg-background rounded-md flex items-center justify-center overflow-hidden">
@@ -145,29 +144,37 @@ export function ProductCard({
       <div className="pt-2 pb-2 flex flex-col flex-grow justify-between gap-1">
         <div className="space-y-1">
           {label && (
-            <span className="text-[12px] text-[#999999] dark:text-gray-400 font-medium tracking-wide uppercase">{label}</span>
+            <span className="text-[12px] text-[#999999] dark:text-gray-400 font-medium tracking-wide uppercase block truncate w-full">
+              {label}
+            </span>
           )}
           <h3 className="font-semibold text-[14px] leading-snug text-[#333333] dark:text-gray-100 line-clamp-2 min-h-[40px]">
             {title}
           </h3>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2 mt-0.5">
-          <div className="flex items-center gap-1 text-[12px] font-semibold text-[#555555] dark:text-gray-300">
-            {ratingAvg ?? 0} <Star className="w-3 h-3 fill-[#FFB800] text-[#FFB800]" />
+        <div className="flex flex-col gap-1.5 mt-1">
+          <div className="flex items-center text-[11px] text-[#777777] dark:text-gray-400">
+            <div className="flex items-center gap-1 font-semibold text-[#333333] dark:text-gray-200">
+              <Star className="w-3 h-3 fill-[#FFB800] text-[#FFB800]" />
+              <span>{ratingAvg ?? 0}</span>
+            </div>
+            <span className="mx-2 w-1 h-1 rounded-full bg-[#D1D5DB] dark:bg-zinc-600"></span>
+            <span>{sold}</span>
           </div>
-          <span className="text-[11px] text-[#999999] border-l border-[#EAE4E3] dark:border-zinc-700 pl-2">
-            {sold}
-          </span>
-          <span className="text-[10px] font-semibold text-[#00C566] bg-[#00C566]/10 px-1.5 py-0.5 rounded tracking-wide">
-            {shippingTime || "Delivery 15-20d"}
-          </span>
-          {hasMoq && (
-            <span className="flex items-center gap-1 text-[11px] text-[#999999] border-l border-[#EAE4E3] dark:border-zinc-700 pl-2">
-              <Package className="w-3 h-3 shrink-0" />
-              MOQ&nbsp;{moq}
+
+          <div className="flex flex-wrap items-center gap-1.5">
+            <span className="flex items-center gap-1 text-[9.5px] font-medium text-[#00C566] bg-[#00C566]/10 px-1.5 py-0.5 rounded tracking-wide uppercase whitespace-nowrap">
+              <Truck className="w-3 h-3 shrink-0" />
+              {shippingTime ? shippingTime.replace("CN to BD", "").trim() : "15-20 Days"}
             </span>
-          )}
+            {hasMoq && (
+              <span className="flex items-center gap-1 text-[9.5px] font-medium text-[#666666] dark:text-gray-300 bg-[#F5F5F5] dark:bg-zinc-800 px-1.5 py-0.5 rounded tracking-wide whitespace-nowrap">
+                <Package className="w-3 h-3 shrink-0" />
+                MOQ&nbsp;{moq}
+              </span>
+            )}
+          </div>
         </div>
 
         <div className="flex items-end justify-between mt-2">

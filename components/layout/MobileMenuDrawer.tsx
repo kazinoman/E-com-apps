@@ -16,7 +16,7 @@ import { useEffect } from "react";
 interface MobileMenuDrawerProps {
   isOpen: boolean;
   onClose: () => void;
-  navLinks: { name: string; href: string }[];
+  navLinks: { name: string; href: string; icon?: React.ReactNode }[];
 }
 
 export function MobileMenuDrawer({ isOpen, onClose, navLinks }: MobileMenuDrawerProps) {
@@ -123,7 +123,11 @@ export function MobileMenuDrawer({ isOpen, onClose, navLinks }: MobileMenuDrawer
                     className="flex items-center justify-between px-6 py-3.5 text-[15px] font-medium text-foreground hover:bg-secondary/50 hover:text-primary transition-colors"
                   >
                     {link.name}
-                    <ChevronRight size={16} className="text-muted-foreground/50" />
+                    {link.icon !== undefined ? (
+                      link.icon
+                    ) : (
+                      <ChevronRight size={16} className="text-muted-foreground/50" />
+                    )}
                   </Link>
                 </li>
               );

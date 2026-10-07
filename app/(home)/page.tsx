@@ -32,85 +32,85 @@ import { CampaignSection } from "@/features/Home/CampaignSection";
 import { fetchCampaigns } from "@/services/campaign.service";
 
 export default async function Home() {
-    const [sections, sliderImages, terms, campaigns] = await Promise.all([
-      fetchHomeSections(),
-      fetchSliderImages(),
-      fetchCheckoutTerms(),
-      fetchCampaigns()
-    ]);
+  const [sections, sliderImages, terms, campaigns] = await Promise.all([
+    fetchHomeSections(),
+    fetchSliderImages(),
+    fetchCheckoutTerms(),
+    fetchCampaigns()
+  ]);
 
-    const { shippingDaysMin: min, shippingDaysMax: max } = terms;
-    const shippingTime = typeof min === "number" && typeof max === "number"
-      && Number.isInteger(min) && Number.isInteger(max) && min >= 0 && max >= min
-      ? `CN to BD ${min === max ? min : `${min}-${max}`} days` : null;
+  const { shippingDaysMin: min, shippingDaysMax: max } = terms;
+  const shippingTime = typeof min === "number" && typeof max === "number"
+    && Number.isInteger(min) && Number.isInteger(max) && min >= 0 && max >= min
+    ? `CN to BD ${min === max ? min : `${min}-${max}`} days` : null;
 
-    const allProducts = sections.flatMap((section) => section.products);
-    const uniqueProducts = Array.from(new Map(allProducts.map(p => [p.id, p])).values());
+  const allProducts = sections.flatMap((section) => section.products);
+  const uniqueProducts = Array.from(new Map(allProducts.map(p => [p.id, p])).values());
 
-    const jsonLd = {
-      "@context": "https://schema.org",
-      "@type": "ItemList",
-      "itemListElement": uniqueProducts.map((product, index) => ({
-        "@type": "ListItem",
-        "position": index + 1,
-        "url": `https://zaag.com/product/${product.id}`,
-        // Only facts the catalog actually holds. No brand (there is none on a
-        // card) and no aggregateRating unless the product has real reviews —
-        // Google penalises invented review markup, and it would be invented.
-        "item": {
-          "@type": "Product",
-          "name": product.title,
-          "image": product.imageUrl ?? undefined,
-          "category": product.category ?? undefined,
-          "offers": {
-            "@type": "Offer",
-            "price": product.price.bdt,
-            "priceCurrency": "BDT",
-            ...(product.inStock != null ? {
-              "availability": product.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
-            } : {})
-          },
-          ...(product.ratingAvg !== null && product.ratingCount
-            ? {
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": product.ratingAvg,
-                "bestRating": "5",
-                "worstRating": "1",
-                "ratingCount": product.ratingCount
-              }
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": uniqueProducts.map((product, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "url": `https://zaag.com/product/${product.id}`,
+      // Only facts the catalog actually holds. No brand (there is none on a
+      // card) and no aggregateRating unless the product has real reviews —
+      // Google penalises invented review markup, and it would be invented.
+      "item": {
+        "@type": "Product",
+        "name": product.title,
+        "image": product.imageUrl ?? undefined,
+        "category": product.category ?? undefined,
+        "offers": {
+          "@type": "Offer",
+          "price": product.price.bdt,
+          "priceCurrency": "BDT",
+          ...(product.inStock != null ? {
+            "availability": product.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+          } : {})
+        },
+        ...(product.ratingAvg !== null && product.ratingCount
+          ? {
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": product.ratingAvg,
+              "bestRating": "5",
+              "worstRating": "1",
+              "ratingCount": product.ratingCount
             }
-            : {})
-        }
-      }))
-    };
+          }
+          : {})
+      }
+    }))
+  };
 
-    return (
-      <div className="flex flex-col flex-1 bg-zinc-50 font-sans dark:bg-background pb-20">
-        {/* JSON-LD Structured Data for SEO */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-        <main className="flex flex-1 w-full flex-col dark:bg-background">
-          <HeroSlider slides={sliderImages} />
+  return (
+    <div className="flex flex-col flex-1 bg-zinc-50 font-sans dark:bg-background pb-20">
+      {/* JSON-LD Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <main className="flex flex-1 w-full flex-col dark:bg-background">
+        <HeroSlider slides={sliderImages} />
 
-          <CampaignSection campaigns={campaigns} />
+        <CampaignSection campaigns={campaigns} />
 
-          <Container className="mt-6 space-y-2 flex flex-col">
-            {sections.map((section) => (
-              section.products.length > 0 && (
-                <SectionSlider key={section.id} title={section.title}>
-                  {section.products.map((item) => (
-                    <ProductCard key={item.id} {...item} shippingTime={shippingTime} />
-                  ))}
-                </SectionSlider>
-              )
-            ))}
-          </Container>
+        <Container className="mt-6 space-y-2 flex flex-col">
+          {sections.map((section) => (
+            section.products.length > 0 && (
+              <SectionSlider key={section.id} title={section.title} category={section.category}>
+                {section.products.map((item) => (
+                  <ProductCard key={item.id} {...item} shippingTime={shippingTime} />
+                ))}
+              </SectionSlider>
+            )
+          ))}
+        </Container>
 
-          <FAQSection />
-        </main>
-      </div>
-    );
-  }
+        <FAQSection />
+      </main>
+    </div>
+  );
+}

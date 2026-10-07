@@ -8,6 +8,7 @@ import type { SlideData } from "@/features/Home/SliderComponent";
 export interface HomeSection {
   id: string;
   title: string;
+  category?: string;
   products: ProductCardProps[];
 }
 
@@ -39,6 +40,7 @@ export async function fetchHomeSections(): Promise<HomeSection[]> {
   return Promise.all(HOME_RAILS.map(async ({ id, title, params }) => ({
     id,
     title,
+    category: "category" in params ? params.category : undefined,
     products: await fetchProducts({ pageSize: 8, ...params }),
   })));
 }

@@ -30,7 +30,7 @@ FAQAccordionTrigger.displayName = "FAQAccordionTrigger";
 
 export const FAQSection = () => {
   return (
-    <Container className="my-16 pb-8">
+    <Container className="mt-12 mb-6 md:my-16 pb-2 md:pb-8">
       <div className="max-w-4xl mx-auto space-y-10">
         <div className="text-center space-y-4">
           <h2 className="text-2xl md:text-3xl font-extrabold text-foreground tracking-tight">
