@@ -10,12 +10,12 @@ interface ProductTabsProps {
   similarProducts: ProductCardData[];
 }
 
-type TabType = "Similar product" | "Specifications" | "Description" | "Reviews";
+type TabType = "Specifications" | "Description" | "Reviews";
 
 export const ProductTabs = ({ product, similarProducts }: ProductTabsProps) => {
-  const [activeTab, setActiveTab] = useState<TabType>("Similar product");
+  const [activeTab, setActiveTab] = useState<TabType>("Specifications");
 
-  const tabs: TabType[] = ["Similar product", "Specifications", "Description", "Reviews"];
+  const tabs: TabType[] = ["Specifications", "Description", "Reviews"];
 
   /*
    * `?tab=reviews` opens this tab directly — that is the target of the "write a
@@ -30,7 +30,7 @@ export const ProductTabs = ({ product, similarProducts }: ProductTabsProps) => {
   }, []);
 
   return (
-    <div className="mt-16 border-t border-border pt-10">
+    <div className="mt-16 pt-10">
       {/* Tabs Header */}
       <div className="flex gap-8 border-b border-border">
         {tabs.map((tab) => (
@@ -51,22 +51,6 @@ export const ProductTabs = ({ product, similarProducts }: ProductTabsProps) => {
 
       {/* Tabs Content */}
       <div className="py-8">
-        {activeTab === "Similar product" && (
-          <div className="grid grid-cols-1 min-[450px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
-            {similarProducts.length > 0 ? (
-              similarProducts.slice(0, 15).map((p) => (
-                <div key={p.id} className="w-full max-w-[280px] mx-auto min-[450px]:mx-0">
-                  <ProductCard {...p} />
-                </div>
-              ))
-            ) : (
-              <p className="col-span-full text-gray-500 dark:text-gray-400 text-center py-10">
-                No similar products found.
-              </p>
-            )}
-          </div>
-        )}
-
         {activeTab === "Specifications" && (
           <div className="w-full">
             <h3 className="text-lg font-semibold mb-6 dark:text-gray-100">Specifications</h3>

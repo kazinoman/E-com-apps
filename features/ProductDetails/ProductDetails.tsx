@@ -6,6 +6,7 @@ import { ProductGallery } from "./components/ProductGallery";
 import { ProductInfo } from "./components/ProductInfo";
 import { ProductTabs } from "./components/ProductTabs";
 import { Container } from "@/components/common/Container";
+import { ProductCard } from "@/components/common/ProductCard";
 
 interface ProductDetailsProps {
   product: Product;
@@ -66,6 +67,19 @@ export const ProductDetails = ({ product, similarProducts = [], advancePct }: Pr
       </div>
 
       <ProductTabs product={product} similarProducts={similarProducts} />
+
+      {similarProducts && similarProducts.length > 0 && (
+        <div className="mt-8 pt-8">
+          <h2 className="text-xl font-bold mb-6 text-slate-800 dark:text-gray-100">Similar Products</h2>
+          <div className="grid grid-cols-1 min-[450px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
+            {similarProducts.slice(0, 15).map((p) => (
+              <div key={p.id} className="w-full max-w-[280px] mx-auto min-[450px]:mx-0">
+                <ProductCard {...p} />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </Container>
   );
 };
