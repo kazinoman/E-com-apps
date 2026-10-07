@@ -64,7 +64,18 @@ export function FilterSidebar({ className, categories = [] }: { className?: stri
     Number(searchParams.get("priceMax") || 10000)
   ]);
 
-  const [expandedCats, setExpandedCats] = useState<string[]>(categories.map(c => c.value));
+  const [expandedCats, setExpandedCats] = useState<string[]>(() => {
+    const initial: string[] = [];
+    const catParam = searchParams.get("category");
+    const subParam = searchParams.get("subCategory");
+    categories.forEach(cat => {
+      if (cat.value === catParam || (subParam && cat.children?.some(sub => sub.value === subParam))) {
+        initial.push(cat.value);
+      }
+    });
+    return initial;
+  });
+
   const toggleCat = (val: string, e: React.MouseEvent) => {
     e.preventDefault();
     setExpandedCats((prev) =>
@@ -106,7 +117,7 @@ export function FilterSidebar({ className, categories = [] }: { className?: stri
         </button>
       </div>
 
-      <Accordion type="multiple" defaultValue={["categories", "sort", "availability"]} className="w-full">
+      <Accordion type="multiple" defaultValue={["categories", "sort"]} className="w-full">
         {/* CATEGORIES */}
         <AccordionItem value="categories" className="border-b border-border">
           <AccordionTrigger className="text-[15px] font-semibold hover:no-underline">
@@ -117,7 +128,7 @@ export function FilterSidebar({ className, categories = [] }: { className?: stri
               <div className="flex flex-col space-y-3">
                 {categories.map((cat) => {
                   const isChecked = currentCategory === cat.value;
-                  const isExpanded = expandedCats.includes(cat.value) || isChecked;
+                  const isExpanded = expandedCats.includes(cat.value);
                   return (
                     <div key={cat.value} className="flex flex-col space-y-2">
                       <div className="flex items-center justify-between">
@@ -130,6 +141,7 @@ export function FilterSidebar({ className, categories = [] }: { className?: stri
                               const newParams = new URLSearchParams(searchParams.toString());
                               if (checked) {
                                 newParams.set("category", cat.value);
+                                setExpandedCats(prev => prev.includes(cat.value) ? prev : [...prev, cat.value]);
                               } else {
                                 newParams.delete("category");
                               }
