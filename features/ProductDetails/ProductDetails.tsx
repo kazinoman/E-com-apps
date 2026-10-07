@@ -29,7 +29,6 @@ export const ProductDetails = ({ product, similarProducts = [], advancePct }: Pr
     }
   };
 
-  console.log({ product })
   /*
    * The gallery is the product's own images. A selected SKU usually has its
    * own photo, and when it is one of the product images we jump to it rather
@@ -60,7 +59,7 @@ export const ProductDetails = ({ product, similarProducts = [], advancePct }: Pr
   const currentActiveIndex = activeImageIndex >= displayImages.length ? 0 : activeImageIndex;
 
   return (
-    <Container className=" py-16">
+    <Container className="py-4 md:py-16">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-20">
         {/* Left Column: Gallery */}
         <div className="w-full">

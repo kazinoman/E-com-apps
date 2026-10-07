@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { CompareButton } from "@/components/common/CompareButton";
-import { Star, Minus, Plus, Heart, Plane, Scale, CreditCard, Info, ExternalLink, MessageCircle, Link as LinkIcon, Store } from "lucide-react";
+import { Star, Minus, Plus, Heart, Plane, Scale, CreditCard, Info, ExternalLink, MessageCircle, Link as LinkIcon, Store, Ship, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { vendorScore } from "@/lib/types/vendor";
@@ -46,6 +46,7 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect, ad
    */
   const [choice, setChoice] = useState<Record<string, string>>({});
   const [internalSku, setInternalSku] = useState<Sku | undefined>(undefined);
+  const [shippingMethod, setShippingMethod] = useState<'air' | 'sea'>('air');
   const selectedSku = externalSku ?? internalSku;
 
   const resolveSku = (next: Record<string, string>): Sku | undefined => {
@@ -349,8 +350,9 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect, ad
         <Button
           onClick={handleAddToCart}
           disabled={isPending || needsChoice || outOfStock}
-          className="flex-2 bg-primary hover:bg-primary/90 text-primary-foreground h-11 md:h-14 rounded-lg md:rounded-xl font-bold text-sm md:text-lg shadow-sm"
+          className="flex-2 bg-black hover:bg-zinc-800 text-white h-11 md:h-14 rounded-lg md:rounded-xl font-bold text-sm md:text-lg shadow-sm flex items-center justify-center gap-2"
         >
+          <ShoppingCart className="w-5 h-5 md:w-6 md:h-6" />
           {outOfStock ? "Out of stock" : needsChoice ? "Choose an option" : "Add to cart"}
         </Button>
         <Button
@@ -386,53 +388,105 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect, ad
         <div className="flex items-center justify-between mb-4">
           <h3 className="font-semibold text-slate-800 dark:text-gray-100 text-sm flex items-center gap-2">
             <div className="p-1.5 bg-indigo-100 dark:bg-indigo-900/50 rounded-md text-indigo-600 dark:text-indigo-400">
-              <Plane className="w-4 h-4" />
+              {shippingMethod === 'air' ? <Plane className="w-4 h-4" /> : <Ship className="w-4 h-4" />}
             </div>
             Shipping & Payment Details
           </h3>
+          {shippingMethod === 'air' && (
+            <button
+              onClick={() => setIsFreightModalOpen(true)}
+              className="text-xs font-medium text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 flex items-center gap-1 bg-card px-2.5 py-1.5 rounded-lg border border-indigo-100 dark:border-indigo-900/50 hover:bg-white dark:hover:bg-gray-800 transition-colors z-10"
+            >
+              Details <ExternalLink className="w-3 h-3" />
+            </button>
+          )}
+        </div>
+
+        {/* Shipping Method Tabs */}
+        <div className="flex bg-slate-100/80 dark:bg-gray-800/80 p-1 rounded-xl mb-4 relative z-10">
           <button
-            onClick={() => setIsFreightModalOpen(true)}
-            className="text-xs font-medium text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 flex items-center gap-1 bg-card px-2.5 py-1.5 rounded-lg border border-indigo-100 dark:border-indigo-900/50 hover:bg-white dark:hover:bg-gray-800 transition-colors z-10"
+            onClick={() => setShippingMethod('air')}
+            className={cn(
+              "group flex-1 flex items-center justify-center gap-2 py-2 text-sm font-medium rounded-lg transition-all duration-300",
+              shippingMethod === 'air'
+                ? "bg-white dark:bg-gray-700 text-indigo-600 dark:text-indigo-400 shadow-sm"
+                : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-gray-700/50"
+            )}
           >
-            Details <ExternalLink className="w-3 h-3" />
+            <Plane className={cn("w-4 h-4 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 hover:animate-pulse", shippingMethod === 'air' && "text-indigo-500")} />
+            By Air
+          </button>
+          <button
+            onClick={() => setShippingMethod('sea')}
+            className={cn(
+              "group flex-1 flex items-center justify-center gap-2 py-2 text-sm font-medium rounded-lg transition-all duration-300",
+              shippingMethod === 'sea'
+                ? "bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-sm"
+                : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-gray-700/50"
+            )}
+          >
+            <Ship className={cn("w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-rotate-6 hover:animate-pulse", shippingMethod === 'sea' && "text-blue-500")} />
+            By Sea
           </button>
         </div>
 
-        <div className="flex flex-col">
-          <div className="flex items-center gap-3 text-sm group">
-            <div className="w-8 h-8 rounded-full bg-card shadow-sm border border-slate-100 dark:border-gray-700 flex items-center justify-center text-slate-400 group-hover:text-indigo-500 group-hover:border-indigo-200 transition-colors shrink-0">
-              <Plane className="w-4 h-4" />
-            </div>
-            <p className="text-slate-600 dark:text-gray-300">
-              Air freight: <span className="font-semibold text-slate-800 dark:text-gray-100">৳770/kg</span>
-              <span className="text-xs text-slate-500 ml-1">(customs included)</span>
-            </p>
-          </div>
+        <div className="flex flex-col min-h-[140px] transition-all">
+          {shippingMethod === 'air' ? (
+            <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
+              <div className="flex items-center gap-3 text-sm group">
+                <div className="w-8 h-8 rounded-full bg-card shadow-sm border border-slate-100 dark:border-gray-700 flex items-center justify-center text-slate-400 group-hover:text-indigo-500 group-hover:border-indigo-200 transition-colors shrink-0">
+                  <Plane className="w-4 h-4 group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform duration-300" />
+                </div>
+                <p className="text-slate-600 dark:text-gray-300">
+                  Air freight: <span className="font-semibold text-slate-800 dark:text-gray-100">৳770/kg</span>
+                  <span className="text-xs text-slate-500 ml-1">(customs included)</span>
+                </p>
+              </div>
 
-          <div className="flex items-center gap-3 text-sm group">
-            <div className="w-8 h-8 rounded-full bg-card shadow-sm border border-slate-100 dark:border-gray-700 flex items-center justify-center text-slate-400 group-hover:text-orange-500 group-hover:border-orange-200 transition-colors shrink-0">
-              <Scale className="w-4 h-4" />
-            </div>
-            <p className="text-slate-600 dark:text-gray-300">
-              Approximate weight: <span className="font-semibold text-slate-800 dark:text-gray-100">0.49 kg</span> <span className="text-xs text-slate-500">per piece.</span>
-            </p>
-          </div>
+              <div className="flex items-center gap-3 text-sm group mt-3">
+                <div className="w-8 h-8 rounded-full bg-card shadow-sm border border-slate-100 dark:border-gray-700 flex items-center justify-center text-slate-400 group-hover:text-orange-500 group-hover:border-orange-200 transition-colors shrink-0">
+                  <Scale className="w-4 h-4" />
+                </div>
+                <p className="text-slate-600 dark:text-gray-300">
+                  Approximate weight: <span className="font-semibold text-slate-800 dark:text-gray-100">0.49 kg</span> <span className="text-xs text-slate-500">per piece.</span>
+                </p>
+              </div>
 
-          <div className="flex items-center gap-3 text-sm group">
-            <div className="w-8 h-8 rounded-full bg-card shadow-sm border border-slate-100 dark:border-gray-700 flex items-center justify-center text-slate-400 group-hover:text-emerald-500 group-hover:border-emerald-200 transition-colors shrink-0">
-              <CreditCard className="w-4 h-4" />
+              <div className="flex items-center gap-3 text-sm group mt-3">
+                <div className="w-8 h-8 rounded-full bg-card shadow-sm border border-slate-100 dark:border-gray-700 flex items-center justify-center text-slate-400 group-hover:text-emerald-500 group-hover:border-emerald-200 transition-colors shrink-0">
+                  <CreditCard className="w-4 h-4" />
+                </div>
+                <p className="text-slate-600 dark:text-gray-300">
+                  <span className="font-semibold text-slate-800 dark:text-gray-100">Pay 70% now</span>, rest on delivery
+                </p>
+              </div>
+              
+              <div className="mt-4 bg-indigo-50/80 dark:bg-indigo-950/30 rounded-xl p-3 border border-indigo-100/50 dark:border-indigo-900/30 flex gap-3 items-start">
+                <Info className="w-4 h-4 text-indigo-500 mt-0.5 shrink-0" />
+                <p className="text-xs text-indigo-700 dark:text-indigo-300 leading-relaxed">
+                  Freight is billed on delivery based on actual weight. Customs is already included in the per-kg rate.
+                </p>
+              </div>
             </div>
-            <p className="text-slate-600 dark:text-gray-300">
-              <span className="font-semibold text-slate-800 dark:text-gray-100">Pay 70% now</span>, rest on delivery
-            </p>
-          </div>
-        </div>
-
-        <div className="mt-4 bg-indigo-50/80 dark:bg-indigo-950/30 rounded-xl p-3 border border-indigo-100/50 dark:border-indigo-900/30 flex gap-3 items-start">
-          <Info className="w-4 h-4 text-indigo-500 mt-0.5 shrink-0" />
-          <p className="text-xs text-indigo-700 dark:text-indigo-300 leading-relaxed">
-            Freight is billed on delivery based on actual weight. Customs is already included in the per-kg rate.
-          </p>
+          ) : (
+            <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
+              <div className="flex items-center gap-3 text-sm group">
+                <div className="w-8 h-8 rounded-full bg-card shadow-sm border border-slate-100 dark:border-gray-700 flex items-center justify-center text-slate-400 group-hover:text-blue-500 group-hover:border-blue-200 transition-colors shrink-0">
+                  <Ship className="w-4 h-4 group-hover:-rotate-12 transition-transform duration-300" />
+                </div>
+                <p className="text-slate-600 dark:text-gray-300">
+                  শিপিং চার্জ <span className="font-semibold text-slate-800 dark:text-gray-100">৳120/Kg</span> থেকে শুরু
+                </p>
+              </div>
+              
+              <div className="mt-4 bg-blue-50/80 dark:bg-blue-950/30 rounded-xl p-4 border border-blue-100/50 dark:border-blue-900/30 flex gap-3 items-start">
+                <Info className="w-5 h-5 text-blue-500 mt-0.5 shrink-0" />
+                <p className="text-sm text-blue-700 dark:text-blue-300 leading-relaxed">
+                  অর্ডার প্লেস করার পর আমাদের একজন প্রতিনিধি আপনার সঙ্গে যোগাযোগ করবেন এবং উক্ত প্রোডাক্টটি সি শিপমেন্টের মাধ্যমে আনা যাবে কি না এবং শিপিং চার্জ কত হবে, সে বিষয়ে নিশ্চিত করবেন। নিশ্চিত হওয়ার আগে কোনো ধরনের পেমেন্ট করা থেকে বিরত থাকুন।
+                </p>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
