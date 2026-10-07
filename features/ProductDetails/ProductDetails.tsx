@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { primaryImage, type Product, type ProductCardData, type Sku } from "@/schemas/product";
 import { ProductGallery } from "./components/ProductGallery";
 import { ProductInfo } from "./components/ProductInfo";
@@ -18,7 +19,17 @@ interface ProductDetailsProps {
 export const ProductDetails = ({ product, similarProducts = [], advancePct }: ProductDetailsProps) => {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [selectedSku, setSelectedSku] = useState<Sku | undefined>(undefined);
+  const router = useRouter();
 
+  const handleShowMoreSimilar = () => {
+    if (product.category) {
+      router.push(`/search?subCategory=${encodeURIComponent(product.category)}`);
+    } else {
+      router.push('/search');
+    }
+  };
+
+  console.log({ product })
   /*
    * The gallery is the product's own images. A selected SKU usually has its
    * own photo, and when it is one of the product images we jump to it rather
@@ -69,15 +80,26 @@ export const ProductDetails = ({ product, similarProducts = [], advancePct }: Pr
       <ProductTabs product={product} similarProducts={similarProducts} />
 
       {similarProducts && similarProducts.length > 0 && (
-        <div className="mt-8 pt-8">
-          <h2 className="text-xl font-bold mb-6 text-slate-800 dark:text-gray-100">Similar Products</h2>
-          <div className="grid grid-cols-1 min-[450px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
+        <div className="mt-12 pt-8 border-t border-slate-100 dark:border-gray-800">
+          <h2 className="text-2xl font-bold mb-8 text-slate-900 dark:text-gray-50">Similar Products</h2>
+          <div className="grid grid-cols-2 min-[450px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
             {similarProducts.slice(0, 15).map((p) => (
               <div key={p.id} className="w-full max-w-[280px] mx-auto min-[450px]:mx-0">
                 <ProductCard {...p} />
               </div>
             ))}
           </div>
+
+          {similarProducts.length >= 15 && (
+            <div className="mt-10 flex justify-center">
+              <button
+                onClick={handleShowMoreSimilar}
+                className="px-10 py-4 text-base md:text-lg font-semibold text-slate-700 dark:text-gray-200 bg-white dark:bg-gray-900 border-2 border-slate-200 dark:border-gray-700 rounded-xl shadow-sm hover:bg-slate-50 dark:hover:bg-gray-800 hover:border-slate-300 dark:hover:border-gray-600 hover:text-slate-900 dark:hover:text-white transition-all duration-200"
+              >
+                Show More Products
+              </button>
+            </div>
+          )}
         </div>
       )}
     </Container>

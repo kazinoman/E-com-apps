@@ -18,15 +18,17 @@ export interface Campaign {
   products: ProductCardProps[];
 }
 
-// Ensure fetch uses absolute URL when invoked from Server Components
-const getBaseUrl = () => {
-  if (typeof window !== "undefined") return ""; // browser should use relative url
-  return process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3001";
-};
+// Ensure fetch uses relative URL for client side, and bypass fetch entirely on server side
+// since absolute URL from NEXT_PUBLIC_API_BASE_URL points to the external API, not the Next.js API.
+import { getDummyCampaigns } from "@/lib/dummy/campaigns";
 
 export async function fetchCampaigns(): Promise<Campaign[]> {
   try {
-    const res = await fetch(`${getBaseUrl()}/api/campaigns`, {
+    if (typeof window === "undefined") {
+      return getDummyCampaigns();
+    }
+
+    const res = await fetch(`/api/campaigns`, {
       cache: "no-store"
     });
 
@@ -44,7 +46,12 @@ export async function fetchCampaigns(): Promise<Campaign[]> {
 
 export async function fetchCampaignById(id: string): Promise<Campaign | null> {
   try {
-    const res = await fetch(`${getBaseUrl()}/api/campaigns/${id}`, {
+    if (typeof window === "undefined") {
+      const campaigns = getDummyCampaigns();
+      return campaigns.find(c => c.id === id) || null;
+    }
+
+    const res = await fetch(`/api/campaigns/${id}`, {
       next: { revalidate: 60 }
     });
 

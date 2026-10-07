@@ -151,7 +151,7 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect, ad
     <div className="flex flex-col gap-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-slate-800 dark:text-gray-100 leading-tight">
+        <h1 className="text-lg md:text-xl lg:text-3xl font-bold text-slate-800 dark:text-gray-100 leading-tight">
           {product.title}
         </h1>
         {(product.ratingAvg !== null || product.salesCount) && (
@@ -171,35 +171,46 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect, ad
       {/* Variant axes */}
       {product.variantAxes.map((axis) => (
         <div key={axis.axis} className="space-y-3">
-          <p className="text-sm font-medium text-slate-500 dark:text-gray-400">
-            {axis.axis}
-            {choice[axis.axis] ? (
-              <span className="text-slate-800 dark:text-gray-200"> : {choice[axis.axis]}</span>
-            ) : null}
-          </p>
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-semibold text-slate-800 dark:text-gray-200">{axis.axis}</span>
+            {choice[axis.axis] && (
+              <>
+                <span className="text-slate-300 dark:text-gray-600">|</span>
+                <span className="text-sm font-medium text-primary">{choice[axis.axis]}</span>
+              </>
+            )}
+          </div>
+          <div className="flex flex-wrap items-center gap-3">
             {axis.values.map((v) => {
               const active = choice[axis.axis] === v.value;
+              const hasImage = !!v.imageUrl;
               return (
                 <button
                   key={v.value}
                   onClick={() => pick(axis.axis, v.value)}
                   title={v.value}
                   className={cn(
-                    "flex items-center gap-2 p-1.5 rounded-xl border-2 transition-all duration-200 bg-card",
-                    active
-                      ? "border-slate-800 dark:border-gray-200 ring-1 ring-slate-800 dark:ring-gray-200"
-                      : "border-slate-200 dark:border-gray-700 hover:border-slate-300 dark:hover:border-gray-600",
+                    "relative overflow-hidden transition-all duration-200",
+                    hasImage
+                      ? cn(
+                        "w-14 h-14 md:w-16 md:h-16 rounded-xl",
+                        active
+                          ? "ring-2 ring-primary ring-offset-2 dark:ring-offset-gray-900"
+                          : "ring-1 ring-slate-200 dark:ring-gray-700 hover:ring-slate-400 dark:hover:ring-gray-500"
+                      )
+                      : cn(
+                        "px-4 py-2 rounded-xl border text-sm md:text-base font-medium",
+                        active
+                          ? "border-primary bg-primary/5 text-primary"
+                          : "border-slate-200 dark:border-gray-700 text-slate-700 dark:text-gray-300 hover:border-slate-300 dark:hover:border-gray-600 bg-card"
+                      )
                   )}
                 >
-                  {v.imageUrl && (
-                    <span className="relative w-9 h-9 rounded-lg overflow-hidden bg-card block">
-                      <Image src={v.imageUrl} alt={v.value} fill className="object-cover" />
-                    </span>
+                  {hasImage && v.imageUrl ? (
+                    <Image src={v.imageUrl as string} alt={v.value} fill className="object-cover" />
+                  ) : (
+                    <span className="max-w-[12rem] truncate block">{v.value}</span>
                   )}
-                  <span className="text-xs font-medium text-slate-700 dark:text-gray-200 px-1 max-w-[9rem] truncate">
-                    {v.value}
-                  </span>
                 </button>
               );
             })}
@@ -232,7 +243,7 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect, ad
 
       {/* Pricing & Quantity Block */}
       <div className="flex flex-col gap-6">
-        
+
         {/* Price and Share */}
         <div className="flex items-start justify-between">
           <div>
@@ -242,29 +253,29 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect, ad
               <span className="text-sm font-medium text-slate-500 dark:text-gray-400">/ piece</span>
             </div>
           </div>
-          
+
           <div className="flex items-center gap-1.5">
-             <button onClick={handleShareFacebook} aria-label="Share on Facebook" className="w-9 h-9 md:w-10 md:h-10 rounded-full flex items-center justify-center bg-slate-100 dark:bg-gray-800 text-slate-600 dark:text-gray-400 hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-blue-900/30 dark:hover:text-blue-400 transition-colors">
-               <MdFacebook className="w-4 h-4 md:w-5 md:h-5" />
-             </button>
-             <button onClick={handleShareWhatsApp} aria-label="Share on WhatsApp" className="w-9 h-9 md:w-10 md:h-10 rounded-full flex items-center justify-center bg-slate-100 dark:bg-gray-800 text-slate-600 dark:text-gray-400 hover:bg-green-50 hover:text-green-600 dark:hover:bg-green-900/30 dark:hover:text-green-400 transition-colors">
-               <MdWhatsapp className="w-4 h-4 md:w-5 md:h-5" />
-             </button>
-             <button onClick={handleCopyLink} aria-label="Copy link" className="w-9 h-9 md:w-10 md:h-10 rounded-full flex items-center justify-center bg-slate-100 dark:bg-gray-800 text-slate-600 dark:text-gray-400 hover:bg-slate-200 dark:hover:bg-gray-700 hover:text-slate-900 dark:hover:text-white transition-colors">
-               <MdCopyAll className="w-4 h-4 md:w-5 md:h-5" />
-             </button>
+            <button onClick={handleShareFacebook} aria-label="Share on Facebook" className="w-9 h-9 md:w-10 md:h-10 rounded-full flex items-center justify-center bg-slate-100 dark:bg-gray-800 text-slate-600 dark:text-gray-400 hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-blue-900/30 dark:hover:text-blue-400 transition-colors">
+              <MdFacebook className="w-4 h-4 md:w-5 md:h-5" />
+            </button>
+            <button onClick={handleShareWhatsApp} aria-label="Share on WhatsApp" className="w-9 h-9 md:w-10 md:h-10 rounded-full flex items-center justify-center bg-slate-100 dark:bg-gray-800 text-slate-600 dark:text-gray-400 hover:bg-green-50 hover:text-green-600 dark:hover:bg-green-900/30 dark:hover:text-green-400 transition-colors">
+              <MdWhatsapp className="w-4 h-4 md:w-5 md:h-5" />
+            </button>
+            <button onClick={handleCopyLink} aria-label="Copy link" className="w-9 h-9 md:w-10 md:h-10 rounded-full flex items-center justify-center bg-slate-100 dark:bg-gray-800 text-slate-600 dark:text-gray-400 hover:bg-slate-200 dark:hover:bg-gray-700 hover:text-slate-900 dark:hover:text-white transition-colors">
+              <MdCopyAll className="w-4 h-4 md:w-5 md:h-5" />
+            </button>
           </div>
         </div>
 
         {/* Quantity & Total Row */}
         <div className="flex flex-col sm:flex-row sm:items-end gap-5 bg-slate-50 dark:bg-gray-800/40 p-4 md:p-5 rounded-2xl border border-slate-100 dark:border-gray-800">
-          
+
           <div className="flex-1">
             <p className="text-sm font-semibold text-slate-700 dark:text-gray-300 mb-2">Quantity</p>
             <div className="flex items-center w-fit bg-white dark:bg-gray-900 rounded-xl border border-slate-200 dark:border-gray-700 overflow-hidden shadow-sm">
-              <button 
-                onClick={decreaseQuantity} 
-                disabled={quantity <= moq} 
+              <button
+                onClick={decreaseQuantity}
+                disabled={quantity <= moq}
                 aria-label="Decrease quantity"
                 className="w-11 h-11 flex items-center justify-center text-slate-600 dark:text-gray-400 hover:bg-slate-50 dark:hover:bg-gray-800 transition-colors disabled:opacity-40"
               >
@@ -291,19 +302,31 @@ export const ProductInfo = ({ product, selectedSku: externalSku, onSkuSelect, ad
                 }}
                 className="w-16 h-11 text-center font-bold text-lg text-slate-900 dark:text-white bg-transparent border-x border-slate-200 dark:border-gray-700 focus:outline-none focus:ring-0"
               />
-              <button 
-                onClick={increaseQuantity} 
+              <button
+                onClick={increaseQuantity}
                 aria-label="Increase quantity"
                 className="w-11 h-11 flex items-center justify-center text-slate-600 dark:text-gray-400 hover:bg-slate-50 dark:hover:bg-gray-800 transition-colors"
               >
                 <Plus className="w-4 h-4" />
               </button>
             </div>
-            {product.moq ? (
-              <p className="text-xs font-medium text-slate-500 dark:text-gray-400 mt-2">
-                Min. order: {product.moq} pieces
-              </p>
-            ) : null}
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2">
+              {product.moq ? (
+                <p className="text-xs font-medium text-slate-500 dark:text-gray-400">
+                  Min. order: {product.moq} pieces
+                </p>
+              ) : null}
+              {!needsChoice && (() => {
+                const stock = selectedSku ? (selectedSku.stock ?? 0) : product.skus.reduce((acc, sku) => acc + (sku.stock ?? 0), 0);
+                return stock > 0 ? (
+                  <p className="text-xs font-medium text-emerald-600 dark:text-emerald-400">
+                    Available: {stock.toLocaleString()} pieces
+                  </p>
+                ) : (
+                  <p className="text-xs font-medium text-red-500">Out of stock</p>
+                );
+              })()}
+            </div>
           </div>
 
           <div className="sm:text-right border-t border-slate-200 dark:border-gray-700 sm:border-t-0 pt-4 sm:pt-0">

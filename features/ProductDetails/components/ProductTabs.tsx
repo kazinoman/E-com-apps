@@ -3,31 +3,17 @@
 import { useEffect, useState } from "react";
 import type { Product, ProductCardData } from "@/schemas/product";
 import { ProductCard } from "@/components/common/ProductCard";
-import { ProductReviews } from "./ProductReviews";
-
 interface ProductTabsProps {
   product: Product;
   similarProducts: ProductCardData[];
 }
 
-type TabType = "Specifications" | "Description" | "Reviews";
+type TabType = "Specifications" | "Description";
 
 export const ProductTabs = ({ product, similarProducts }: ProductTabsProps) => {
   const [activeTab, setActiveTab] = useState<TabType>("Specifications");
 
-  const tabs: TabType[] = ["Specifications", "Description", "Reviews"];
-
-  /*
-   * `?tab=reviews` opens this tab directly — that is the target of the "write a
-   * review" link on an order. Read from `window.location` in an effect rather
-   * than with `useSearchParams`, which would force the whole PDP out of static
-   * rendering unless it were wrapped in a Suspense boundary.
-   */
-  useEffect(() => {
-    if (new URLSearchParams(window.location.search).get("tab") === "reviews") {
-      setActiveTab("Reviews");
-    }
-  }, []);
+  const tabs: TabType[] = ["Specifications", "Description"];
 
   return (
     <div className="mt-16 pt-10">
@@ -37,9 +23,8 @@ export const ProductTabs = ({ product, similarProducts }: ProductTabsProps) => {
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`pb-4 text-sm md:text-base font-medium transition-colors relative ${
-              activeTab === tab ? "text-gray-900 dark:text-gray-100" : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
-            }`}
+            className={`pb-4 text-sm md:text-base font-medium transition-colors relative ${activeTab === tab ? "text-gray-900 dark:text-gray-100" : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+              }`}
           >
             {tab}
             {activeTab === tab && (
@@ -95,8 +80,6 @@ export const ProductTabs = ({ product, similarProducts }: ProductTabsProps) => {
             )}
           </div>
         )}
-
-        {activeTab === "Reviews" && <ProductReviews productId={product.id} />}
 
       </div>
     </div>

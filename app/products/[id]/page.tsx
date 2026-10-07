@@ -1,7 +1,38 @@
+import type { Metadata } from 'next';
 import { getProductById, getSimilarProducts } from "@/services/product.service";
+import { primaryImage } from "@/schemas/product";
 import { fetchCheckoutTerms } from "@/services/checkout-terms.service";
 import { ProductDetails } from "@/features/ProductDetails/ProductDetails";
 import { notFound } from "next/navigation";
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  const product = await getProductById(id);
+  if (!product) return {};
+
+  const cleanDescription = product.descriptionHtml
+    ? product.descriptionHtml.replace(/<[^>]*>?/gm, '').substring(0, 160).trim()
+    : `Buy ${product.title} at best price.`;
+
+  const imageUrl = primaryImage(product);
+
+  return {
+    title: product.title,
+    description: cleanDescription,
+    openGraph: {
+      title: product.title,
+      description: cleanDescription,
+      images: imageUrl ? [imageUrl] : [],
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: product.title,
+      description: cleanDescription,
+      images: imageUrl ? [imageUrl] : [],
+    },
+  };
+}
 
 export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;

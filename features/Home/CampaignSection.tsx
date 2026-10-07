@@ -123,7 +123,7 @@ function CampaignCard({ campaign }: { campaign: Campaign }) {
         {/* Progress */}
         <div className="bg-[#F8F9FA] dark:bg-[#1A1A1A] rounded-xl p-3 mb-6 border border-border">
           <div className="flex items-center justify-between text-[12px] font-bold mb-2">
-            <span className="text-[#1A1A1A] dark:text-gray-200">Sold: {campaign.soldPercentage}%</span>
+            <span className="text-[#1A1A1A] dark:text-gray-200">Sold: {campaign.soldPercentage}k products</span>
             <span className={cn(isDanger ? "text-[#FF4747]" : "text-gray-500")}>
               {isDanger ? `Almost Gone!` : `Only ${campaign.stockLeft} left!`}
             </span>
