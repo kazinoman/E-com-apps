@@ -22,14 +22,14 @@ export const CampaignSection = ({ campaigns }: CampaignSectionProps) => {
     <section className="bg-background py-16">
       <Container>
         {/* Banner Header */}
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-6 mb-10 bg-gradient-to-r from-[#1F080C] via-[#160508] to-[#120406] p-6 lg:p-8 rounded-[24px] border border-[#331118]">
-          <div className="flex flex-col md:flex-row items-center gap-6 lg:gap-10">
+        <div className="flex flex-col lg:flex-row items-center lg:items-center justify-between gap-6 md:gap-8 mb-10 bg-gradient-to-r from-[#1F080C] via-[#160508] to-[#120406] p-5 sm:p-6 lg:p-8 rounded-[24px] border border-[#331118]">
+          <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6 lg:gap-10 w-full lg:w-auto text-center md:text-left">
             {/* Left Title Area */}
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col md:flex-row items-center gap-4">
               <div className="w-14 h-14 rounded-2xl bg-[#FF0033] shadow-[0_0_20px_rgba(255,0,51,0.4)] flex items-center justify-center shrink-0">
                 <Zap className="w-7 h-7 text-white fill-white" />
               </div>
-              <div className="flex flex-col">
+              <div className="flex flex-col items-center md:items-start">
                 <span className="text-gray-400 text-[11px] font-bold tracking-widest uppercase mb-1">
                   LIMITED TIME - UP TO 70% OFF
                 </span>
@@ -45,15 +45,12 @@ export const CampaignSection = ({ campaigns }: CampaignSectionProps) => {
             </p>
           </div>
 
-          <div className="flex items-center gap-6">
-            <div className="flex items-center gap-3">
-              <span className="text-gray-400 text-[11px] font-bold tracking-widest uppercase hidden sm:block">
-                ENDS IN
-              </span>
-              <CountdownTimer targetDate={campaigns[0].endDate} variant="home" />
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-5 sm:gap-6 w-full lg:w-auto border-t border-gray-800/50 lg:border-t-0 pt-5 lg:pt-0">
+            <div className="flex flex-col sm:flex-row items-center w-full">
+              <CountdownTimer targetDate={campaigns[0].endDate} variant="home" className="w-full" />
             </div>
             
-            <Link href="/campaigns" className="bg-[#FFD4DF] text-[#1A0006] hover:bg-[#FFC2D1] px-5 py-3 rounded-full text-[14px] font-bold inline-flex items-center gap-2 transition-colors shrink-0">
+            <Link href="/campaigns" className="bg-[#FFD4DF] text-[#1A0006] hover:bg-[#FFC2D1] px-6 py-3 rounded-full text-[14px] font-bold flex items-center justify-center gap-2 transition-colors w-full sm:w-auto shrink-0">
               View all <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
