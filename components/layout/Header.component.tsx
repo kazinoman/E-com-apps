@@ -25,7 +25,7 @@ export function Header() {
   const [searchTerm, setSearchTerm] = useState(searchParams?.get("title") || "");
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+  const debouncedSearchTerm = useDebounce(searchTerm, 2000);
   const isTyping = useRef(false);
 
   useEffect(() => {
@@ -45,6 +45,7 @@ export function Header() {
           newParams.set("title", debouncedSearchTerm.trim());
           newParams.set("page", "1");
           router.push(`/search?${newParams.toString()}`);
+          setIsMobileSearchOpen(false);
         } else {
           newParams.delete("title");
           if (pathname === "/search") {
@@ -122,8 +123,8 @@ export function Header() {
               <div className="flex items-center gap-2 text-[15px] font-medium text-[#6B6565]">
                 {user ? (
                   <Link href={PageUrls.profile} className="flex items-center gap-2 hover:text-foreground transition-colors group">
-                    <img 
-                      src={user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.fullName)}&background=F3F4F6&color=374151&rounded=true`} 
+                    <img
+                      src={user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.fullName)}&background=F3F4F6&color=374151&rounded=true`}
                       alt={user.fullName}
                       className="w-7 h-7 rounded-full object-cover border border-border group-hover:border-gray-400 transition-colors"
                     />
@@ -233,41 +234,41 @@ export function Header() {
           onClick={() => router.push("/")}
           className={cn(
             "flex flex-col items-center justify-center gap-1 w-[72px] py-1.5 rounded-xl transition-all duration-200",
-            pathname === "/" ? "text-primary bg-primary/10 dark:bg-primary/20" : "text-muted-foreground hover:text-foreground hover:bg-secondary/50 dark:hover:bg-secondary/20"
+            pathname === "/" ? "text-primary bg-primary/5 dark:bg-primary/20" : "text-muted-foreground hover:text-foreground hover:bg-secondary/50 dark:hover:bg-secondary/20"
           )}
         >
-          <HomeIcon size={22} strokeWidth={1.5} />
-          <span className="text-[12px] font-medium">Home</span>
+          <HomeIcon size={18} strokeWidth={1.5} />
+          <span className="text-[10px] font-medium">Home</span>
         </button>
 
         <button
           onClick={() => router.push("/cart")}
           className={cn(
             "flex flex-col items-center justify-center gap-1 w-[72px] py-1.5 rounded-xl transition-all duration-200",
-            pathname === "/cart" ? "text-primary bg-primary/10 dark:bg-primary/20" : "text-muted-foreground hover:text-foreground hover:bg-secondary/50 dark:hover:bg-secondary/20"
+            pathname === "/cart" ? "text-primary bg-primary/5 dark:bg-primary/20" : "text-muted-foreground hover:text-foreground hover:bg-secondary/50 dark:hover:bg-secondary/20"
           )}
         >
           <div className="relative">
-            <ShoppingBag size={22} strokeWidth={1.5} />
+            <ShoppingBag size={18} strokeWidth={1.5} />
             {cartItemCount > 0 && (
               <span className="absolute -right-2 -top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[9px] font-bold text-primary-foreground">
                 {cartItemCount > 99 ? "99+" : cartItemCount}
               </span>
             )}
           </div>
-          <span className="text-[12px] font-medium">Cart</span>
+          <span className="text-[10px] font-medium">Cart</span>
         </button>
 
         {user && (
           <button
             onClick={() => router.push("/profile/wishlist")}
             className={cn(
-              "max-[400px]:hidden flex flex-col items-center justify-center gap-1 w-[72px] py-1.5 rounded-xl transition-all duration-200",
-              pathname === "/profile/wishlist" ? "text-primary bg-primary/10 dark:bg-primary/20" : "text-muted-foreground hover:text-foreground hover:bg-secondary/50 dark:hover:bg-secondary/20"
+              " flex flex-col items-center justify-center gap-1 w-[72px] py-1.5 rounded-xl transition-all duration-200",
+              pathname === "/profile/wishlist" ? "text-primary bg-primary/5 dark:bg-primary/20" : "text-muted-foreground hover:text-foreground hover:bg-secondary/50 dark:hover:bg-secondary/20"
             )}
           >
-            <Heart size={22} strokeWidth={1.5} />
-            <span className="text-[12px] font-medium">Wishlist</span>
+            <Heart size={18} strokeWidth={1.5} />
+            <span className="text-[10px] font-medium">Wishlist</span>
           </button>
         )}
 
@@ -275,10 +276,10 @@ export function Header() {
           onClick={() => router.push("/track-order")}
           className={cn(
             "flex flex-col items-center justify-center gap-1 w-[72px] py-1.5 rounded-xl transition-all duration-200",
-            pathname === "/track-order" ? "text-primary bg-primary/10 dark:bg-primary/20" : "text-muted-foreground hover:text-foreground hover:bg-secondary/50 dark:hover:bg-secondary/20"
+            pathname === "/track-order" ? "text-primary bg-primary/5 dark:bg-primary/20" : "text-muted-foreground hover:text-foreground hover:bg-secondary/50 dark:hover:bg-secondary/20"
           )}
         >
-          <svg className="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <svg className="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
             <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
             <line x1="16" y1="2" x2="16" y2="6"></line>
             <line x1="8" y1="2" x2="8" y2="6"></line>
@@ -290,18 +291,18 @@ export function Header() {
             <path d="M12 18h.01"></path>
             <path d="M16 18h.01"></path>
           </svg>
-          <span className="text-[12px] font-medium">Track</span>
+          <span className="text-[10px] font-medium">Track</span>
         </button>
 
         <button
           onClick={() => router.push(user ? PageUrls.profile : `/login?redirect=${encodeURIComponent(PageUrls.profile)}`)}
           className={cn(
             "flex flex-col items-center justify-center gap-1 w-[72px] py-1.5 rounded-xl transition-all duration-200",
-            pathname === PageUrls.profile || (pathname.startsWith("/profile") && pathname !== "/profile/wishlist") ? "text-primary bg-primary/10 dark:bg-primary/20" : "text-muted-foreground hover:text-foreground hover:bg-secondary/50 dark:hover:bg-secondary/20"
+            pathname === PageUrls.profile || (pathname.startsWith("/profile") && pathname !== "/profile/wishlist") ? "text-primary bg-primary/5 dark:bg-primary/20" : "text-muted-foreground hover:text-foreground hover:bg-secondary/50 dark:hover:bg-secondary/20"
           )}
         >
-          <User size={22} strokeWidth={1.5} />
-          <span className="text-[12px] font-medium">Profile</span>
+          <User size={18} strokeWidth={1.5} />
+          <span className="text-[10px] font-medium">Profile</span>
         </button>
       </nav>
 

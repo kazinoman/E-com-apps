@@ -3,13 +3,14 @@ import { ProductCard } from "@/components/common/ProductCard";
 import { FilterSidebar } from "@/features/Search/FilterSidebar";
 import { ActiveFilters } from "@/features/Search/ActiveFilters";
 import { FilterDrawer } from "@/features/Search/FilterDrawer";
+import { MobileSortDropdown } from "@/features/Search/MobileSortDropdown";
 import { InfiniteProductGrid } from "@/features/Search/InfiniteProductGrid";
 import { Container } from "@/components/common/Container";
 
 export default async function SearchPage({ searchParams }: { searchParams: any }) {
   // Wait for searchParams to be resolved (Next 15 compatibility standard)
   const params = await searchParams;
-  
+
   const query: SearchParams = {
     category: params.category,
     subCategory: params.subCategory,
@@ -29,7 +30,7 @@ export default async function SearchPage({ searchParams }: { searchParams: any }
     searchProducts(query),
     fetchCategories()
   ]);
-  
+
   const products = response?.data || [];
   const total = response?.meta?.pagination?.total || 0;
 
@@ -39,20 +40,23 @@ export default async function SearchPage({ searchParams }: { searchParams: any }
       <Container className="py-2 lg:py-8 flex flex-col lg:flex-row gap-2 lg:gap-8">
         {/* Mobile & Tablet Header & Drawer */}
         <div className="lg:hidden flex justify-between items-center mb-0">
-          <h1 className="text-xl font-bold">Search Results</h1>
-          <FilterDrawer categories={categories} />
+          <h1 className="text-sm md:text-xl font-bold">Search Results</h1>
+          <div className="flex items-center gap-2">
+            <FilterDrawer categories={categories} />
+            <MobileSortDropdown />
+          </div>
         </div>
 
         {/* Desktop Sidebar */}
         <aside className="hidden lg:block w-60 shrink-0 sticky top-0 max-h-screen overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none pr-1 pb-10">
-           <FilterSidebar categories={categories} />
+          <FilterSidebar categories={categories} />
         </aside>
 
         {/* Main Content */}
         <div className="flex-1 min-w-0">
           <ActiveFilters total={total} />
-          
-          <InfiniteProductGrid 
+
+          <InfiniteProductGrid
             key={JSON.stringify(query)}
             initialProducts={products}
             initialTotalPages={response?.meta?.pagination?.totalPages || 1}

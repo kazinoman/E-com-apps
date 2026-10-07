@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { X, ChevronRight } from "lucide-react";
 
@@ -9,6 +9,29 @@ export function ActiveFilters({ total }: { total: number }) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
+
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!scrollRef.current) return;
+    setIsDragging(true);
+    setStartX(e.pageX - scrollRef.current.offsetLeft);
+    setScrollLeft(scrollRef.current.scrollLeft);
+  };
+
+  const handleMouseLeave = () => setIsDragging(false);
+  const handleMouseUp = () => setIsDragging(false);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !scrollRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = (x - startX) * 1.5; 
+    scrollRef.current.scrollLeft = scrollLeft - walk;
+  };
 
   const searchQuery = searchParams.get("search") || searchParams.get("title") || searchParams.get("category") || "All Products";
 
@@ -20,24 +43,24 @@ export function ActiveFilters({ total }: { total: number }) {
 
   const getActiveFilters = () => {
     const filters: { key: string; label: string; value: string }[] = [];
-    
+
     if (searchParams.get("search")) filters.push({ key: "search", label: "search", value: searchParams.get("search")! });
     if (searchParams.get("title")) filters.push({ key: "title", label: "title", value: searchParams.get("title")! });
     if (searchParams.get("category")) filters.push({ key: "category", label: "category", value: searchParams.get("category")! });
     if (searchParams.get("subCategory")) filters.push({ key: "subCategory", label: "subcategory", value: searchParams.get("subCategory")! });
-    
+
     // Sort logic
     const sort = searchParams.get("sort");
     if (sort) filters.push({ key: "sort", label: "sort by", value: sort });
-    
+
     // Price logic
     const min = searchParams.get("priceMin");
     const max = searchParams.get("priceMax");
     if (min || max) {
-      filters.push({ 
-        key: "price", 
-        label: "price", 
-        value: `$${min || 0} - $${max || "Max"}` 
+      filters.push({
+        key: "price",
+        label: "price",
+        value: `$${min || 0} - $${max || "Max"}`
       });
     }
 
@@ -50,19 +73,26 @@ export function ActiveFilters({ total }: { total: number }) {
 
   return (
     <div className="flex flex-row items-center justify-between gap-4 sticky top-0 z-20 bg-zinc-50 dark:bg-background pt-1 pb-2 lg:pb-3 -mt-1 border-b border-transparent">
-      
+
       <div className="flex-1 min-w-0">
         {activeFilters.length > 0 && (
-          <ScrollArea className="w-full whitespace-nowrap">
-            <div className="flex w-max space-x-2">
+          <div 
+            ref={scrollRef}
+            onMouseDown={handleMouseDown}
+            onMouseLeave={handleMouseLeave}
+            onMouseUp={handleMouseUp}
+            onMouseMove={handleMouseMove}
+            className={`w-full overflow-x-auto pb-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none ${isDragging ? 'cursor-grabbing select-none' : 'cursor-grab'}`}
+          >
+            <div className="flex w-max space-x-2 pr-4">
               {activeFilters.map((filter, index) => (
-                <div 
-                  key={index} 
+                <div
+                  key={index}
                   className="flex items-center gap-1.5 px-3 py-1.5 text-[13px] border border-border rounded-lg bg-background"
                 >
                   <span className="text-[#888888] dark:text-gray-400">{filter.label} :</span>
                   <span className="font-semibold text-[#333333] dark:text-gray-200">{filter.value}</span>
-                  <button 
+                  <button
                     onClick={() => {
                       if (filter.key === "price") {
                         const newParams = new URLSearchParams(searchParams.toString());
@@ -90,8 +120,7 @@ export function ActiveFilters({ total }: { total: number }) {
                 </button>
               )}
             </div>
-            <ScrollBar orientation="horizontal" className="h-0 hidden" />
-          </ScrollArea>
+          </div>
         )}
       </div>
 

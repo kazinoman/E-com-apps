@@ -19,7 +19,7 @@ export function InfiniteProductGrid({
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(initialTotalPages > 1);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const loaderRef = useRef<HTMLDivElement>(null);
   const isIntersecting = useIntersectionObserver(loaderRef, { rootMargin: '200px' });
 
@@ -39,7 +39,7 @@ export function InfiniteProductGrid({
   const loadMoreProducts = async () => {
     setIsLoading(true);
     const nextPage = page + 1;
-    
+
     try {
       const res = await searchProducts({ ...queryParams, page: nextPage });
       if (res && res.data) {
@@ -68,9 +68,9 @@ export function InfiniteProductGrid({
 
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mt-3 lg:mt-6">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 gap-y-4 md:gap-4 mt-3 lg:mt-6">
         {products.map((p, i) => <ProductCard key={`${p.id}-${i}`} {...p} />)}
-        
+
         {isLoading && (
           <>
             <ProductSkeleton />
@@ -80,7 +80,7 @@ export function InfiniteProductGrid({
           </>
         )}
       </div>
-      
+
       {/* Invisible element to trigger intersection observer early */}
       {hasMore && <div ref={loaderRef} className="h-10 w-full mt-4" />}
     </>
