@@ -46,8 +46,8 @@ export function SectionSlider({
     640: { slidesPerView: 2.5, spaceBetween: 0 }, // 16px gap (0 + 16)
     768: { slidesPerView: 4, spaceBetween: 4 },   // 20px gap (4 + 16)
     1024: { slidesPerView: 5, spaceBetween: 8 },  // 24px gap (8 + 16)
-    1280: { slidesPerView: 6, spaceBetween: 8 },  // 24px gap (8 + 16)
-    1440: { slidesPerView: 7, spaceBetween: 8 },  // 24px gap (8 + 16)
+    1280: { slidesPerView: 5, spaceBetween: 8 },  // 24px gap (8 + 16)
+    1440: { slidesPerView: 5, spaceBetween: 8 },  // 24px gap (8 + 16)
   };
 
   return (

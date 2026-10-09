@@ -6,23 +6,27 @@ import { CartItemList } from "./components/CartItemList";
 import { CartSummary } from "./components/CartSummary";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export const CartPage = () => {
   const { cart, cartItemCount } = useCart();
 
   return (
-    <main className="min-h-screen py-12 bg-background transition-colors">
+    <main className="md:min-h-screen py-12 bg-background transition-colors">
       <Container>
-        <h1 className="text-2xl font-bold text-[#1C244B] dark:text-white mb-8">
-          My cart <span className="text-[#6B7280] dark:text-gray-400 font-normal text-xl">({cartItemCount} Items)</span>
+        <h1 className={cn(
+          "font-bold text-[#1C244B] dark:text-white transition-all",
+          cart.length === 0 ? "text-xl mb-4" : "text-2xl mb-8"
+        )}>
+          My cart <span className={cn("text-[#6B7280] dark:text-gray-400 font-normal", cart.length === 0 ? "text-base" : "text-xl")}>({cartItemCount} Items)</span>
         </h1>
 
         {cart.length === 0 ? (
-          <div className="flex flex-col items-center justify-center p-12 bg-card rounded-xl border border-border shadow-sm text-center space-y-6 transition-colors">
-            <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100">Your cart is empty</h2>
-            <p className="text-gray-500 dark:text-gray-400 max-w-md">Looks like you haven't added anything to your cart yet. Discover great products on our store.</p>
+          <div className="flex flex-col items-center justify-center p-8 bg-card rounded-xl border border-border shadow-sm text-center space-y-4 transition-colors">
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100">Your cart is empty</h2>
+            <p className="text-sm text-gray-500 dark:text-gray-400 max-w-sm">Looks like you haven't added anything to your cart yet. Discover great products on our store.</p>
             <Link href="/">
-              <Button variant={"default"} className="text-white px-8 h-12 text-base font-medium">
+              <Button variant={"default"} className="text-white px-6 h-10 text-sm font-medium mt-2">
                 START SHOPPING
               </Button>
             </Link>
