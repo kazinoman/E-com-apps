@@ -91,7 +91,7 @@ const PLACEHOLDER_SLIDES: SlideData[] = [
 
 export async function fetchSliderImages(): Promise<SlideData[]> {
   try {
-    const res = await api.get('/api/v1/banners');
+    const res = await api.get('/banners');
     const banners = res.data?.data || res.data || [];
     if (banners.length > 0) {
       return banners.map((b: any) => ({
